@@ -7,6 +7,7 @@ import {
   canonicalizationDecisions,
   controlledValues,
   controlledVocabularies,
+  deliveryIntents,
   evidence,
   facilities,
   fileAssets,
@@ -35,6 +36,12 @@ import {
 import { getDb } from "./db";
 import {
   canAccessWorkspace,
+  canAcknowledgePurchaseOrder,
+  canApprovePurchaseOrder,
+  canCreateDeliveryIntent,
+  canTransitionDeliveryIntent,
+  canTransitionPurchaseOrder,
+  canViewPurchaseOrder,
   createEntityWajenziId,
   createWajenziId,
   determineCanonicalOutcome,
@@ -373,6 +380,26 @@ async function authorizedProject(db: Db, context: WorkspaceContext, projectEntit
   return project;
 }
 
+async function projectMembershipFor(db: Db, context: WorkspaceContext, projectId: number) {
+  if (context.membership.workspaceRole === "registry_steward") return undefined;
+  return first(db.select().from(projectMemberships).where(and(eq(projectMemberships.projectId, projectId), eq(projectMemberships.workspaceMemberId, context.membership.id), eq(projectMemberships.status, "active"))).limit(1));
+}
+
+async function canActOnPurchaseOrder(db: Db, context: WorkspaceContext, order: typeof purchaseOrders.$inferSelect, action: "approve" | "issue" | "cancel") {
+  const membership = await projectMembershipFor(db, context, order.projectId);
+  if (!canApprovePurchaseOrder(context.membership.workspaceRole, membership?.projectRole)) throw new Error(`Your active workspace and project role cannot ${action} this purchase order.`);
+}
+
+async function canCoordinateDelivery(db: Db, context: WorkspaceContext, order: typeof purchaseOrders.$inferSelect) {
+  if (context.membership.workspaceRole === "supplier") {
+    if (context.membership.organizationEntityId !== order.supplierOrganizationEntityId) throw new Error("Supplier members can coordinate delivery intent only for their own organization’s acknowledged order.");
+    return "supplier" as const;
+  }
+  await authorizedProject(db, context, (await first(db.select().from(projects).where(eq(projects.id, order.projectId)).limit(1)))?.entityId ?? 0);
+  if (!canAccessWorkspace(context.membership.workspaceRole, "project_write")) throw new Error("Your workspace role cannot coordinate a delivery intent.");
+  return "buyer" as const;
+}
+
 export async function createProcurementRequest(user: User, input: { projectEntityId: number; title: string; notes?: string; needBy?: Date; closingAt?: Date; lines: Array<{ canonicalProductEntityId?: number | null; canonicalVariantEntityId?: number | null; requestedDescription: string; quantity: number; unitOfMeasure: string; targetUnit?: string }>; supplierOrganizationEntityIds: number[] }) {
   const db = await requireDb();
   const context = await getWorkspaceContext(user);
@@ -471,6 +498,87 @@ export async function createPurchaseOrderDraft(user: User, input: { supplierQuot
   await db.insert(purchaseOrders).values({ workspaceId: context.workspace.id, projectId: rfq.projectId, procurementRequestId: rfq.id, supplierQuoteId: quote.id, wajenziId, buyerOrganizationEntityId: context.membership.organizationEntityId ?? null, supplierOrganizationEntityId: quote.supplierOrganizationEntityId, status: "pending_approval", notes: input.notes?.trim() || null, createdByUserId: user.id });
   await ensureAudit(db, { workspaceId: context.workspace.id, actorUserId: user.id, eventType: "PURCHASE_ORDER_APPROVAL_REQUESTED", rationale: "Created a pending-approval purchase-order draft from a submitted supplier quote. No order was issued, paid, or dispatched.", relatedEntityIds: [] });
   return { wajenziId, status: "pending_approval" as const };
+}
+
+export async function listPurchaseOrders(user: User) {
+  const db = await requireDb();
+  const context = await getWorkspaceContext(user);
+  const allOrders = await db.select().from(purchaseOrders).where(eq(purchaseOrders.workspaceId, context.workspace.id)).orderBy(desc(purchaseOrders.createdAt));
+  const withMembership = await Promise.all(allOrders.map(async order => ({ order, membership: await projectMembershipFor(db, context, order.projectId) })));
+  const visible = withMembership.filter(({ order, membership }) => canViewPurchaseOrder(context.membership.workspaceRole, { isActiveProjectMember: Boolean(membership), isNamedSupplier: context.membership.organizationEntityId === order.supplierOrganizationEntityId })).map(item => item.order);
+  return Promise.all(visible.map(async order => {
+    const [rfq, quote, supplier, buyer, project, deliveryRows] = await Promise.all([
+      first(db.select().from(procurementRequests).where(eq(procurementRequests.id, order.procurementRequestId)).limit(1)),
+      first(db.select().from(supplierQuotes).where(eq(supplierQuotes.id, order.supplierQuoteId)).limit(1)),
+      first(db.select().from(registryEntities).where(eq(registryEntities.id, order.supplierOrganizationEntityId)).limit(1)),
+      order.buyerOrganizationEntityId ? first(db.select().from(registryEntities).where(eq(registryEntities.id, order.buyerOrganizationEntityId)).limit(1)) : undefined,
+      first(db.select().from(projects).where(eq(projects.id, order.projectId)).limit(1)),
+      db.select().from(deliveryIntents).where(eq(deliveryIntents.purchaseOrderId, order.id)).orderBy(desc(deliveryIntents.createdAt)),
+    ]);
+    const [projectEntity, quoteLines] = await Promise.all([project ? first(db.select().from(registryEntities).where(eq(registryEntities.id, project.entityId)).limit(1)) : undefined, quote ? db.select().from(supplierQuoteLines).where(eq(supplierQuoteLines.supplierQuoteId, quote.id)) : []]);
+    return { ...order, rfq, quote, quoteLines, supplierName: supplier?.canonicalName, buyerName: buyer?.canonicalName, projectEntity, deliveries: deliveryRows };
+  }));
+}
+
+export async function approvePurchaseOrder(user: User, input: { purchaseOrderId: number; note: string }) {
+  const db = await requireDb();
+  const context = await getWorkspaceContext(user);
+  const order = await first(db.select().from(purchaseOrders).where(and(eq(purchaseOrders.id, input.purchaseOrderId), eq(purchaseOrders.workspaceId, context.workspace.id))).limit(1));
+  if (!order || !canTransitionPurchaseOrder(order.status, "approve")) throw new Error("Only a pending-approval purchase order can be approved.");
+  await canActOnPurchaseOrder(db, context, order, "approve");
+  await db.update(purchaseOrders).set({ status: "approved", notes: [order.notes, `Approval note: ${input.note.trim()}`].filter(Boolean).join("\n") }).where(eq(purchaseOrders.id, order.id));
+  await ensureAudit(db, { workspaceId: context.workspace.id, actorUserId: user.id, eventType: "PURCHASE_ORDER_APPROVED", rationale: "A project authority approved a purchase-order draft. It remains unissued until a separate human issue action.", relatedEntityIds: [] });
+  return { wajenziId: order.wajenziId, status: "approved" as const };
+}
+
+export async function issuePurchaseOrder(user: User, input: { purchaseOrderId: number; note: string }) {
+  const db = await requireDb();
+  const context = await getWorkspaceContext(user);
+  const order = await first(db.select().from(purchaseOrders).where(and(eq(purchaseOrders.id, input.purchaseOrderId), eq(purchaseOrders.workspaceId, context.workspace.id))).limit(1));
+  if (!order || !canTransitionPurchaseOrder(order.status, "issue")) throw new Error("Only an approved purchase order can be issued.");
+  await canActOnPurchaseOrder(db, context, order, "issue");
+  await db.update(purchaseOrders).set({ status: "issued", notes: [order.notes, `Issue note: ${input.note.trim()}`].filter(Boolean).join("\n") }).where(eq(purchaseOrders.id, order.id));
+  await db.update(procurementRequests).set({ status: "awarded" }).where(eq(procurementRequests.id, order.procurementRequestId));
+  await db.update(supplierQuotes).set({ status: "accepted" }).where(eq(supplierQuotes.id, order.supplierQuoteId));
+  await ensureAudit(db, { workspaceId: context.workspace.id, actorUserId: user.id, eventType: "PURCHASE_ORDER_ISSUED", rationale: "An approved purchase order was explicitly issued and the source RFQ was marked awarded. No payment, dispatch, or delivery confirmation was created.", relatedEntityIds: [] });
+  return { wajenziId: order.wajenziId, status: "issued" as const };
+}
+
+export async function acknowledgePurchaseOrder(user: User, input: { purchaseOrderId: number; note: string }) {
+  const db = await requireDb();
+  const context = await getWorkspaceContext(user);
+  if (context.membership.workspaceRole !== "supplier" || !context.membership.organizationEntityId) throw new Error("Only the selected supplier organization can acknowledge an issued purchase order.");
+  const order = await first(db.select().from(purchaseOrders).where(and(eq(purchaseOrders.id, input.purchaseOrderId), eq(purchaseOrders.workspaceId, context.workspace.id), eq(purchaseOrders.supplierOrganizationEntityId, context.membership.organizationEntityId))).limit(1));
+  if (!order || !canAcknowledgePurchaseOrder(context.membership.workspaceRole, context.membership.organizationEntityId === order.supplierOrganizationEntityId) || !canTransitionPurchaseOrder(order.status, "acknowledge")) throw new Error("Only the named supplier organization can acknowledge an issued purchase order.");
+  await db.update(purchaseOrders).set({ status: "acknowledged", notes: [order.notes, `Supplier acknowledgement: ${input.note.trim()}`].filter(Boolean).join("\n") }).where(eq(purchaseOrders.id, order.id));
+  await ensureAudit(db, { workspaceId: context.workspace.id, actorUserId: user.id, eventType: "PURCHASE_ORDER_ACKNOWLEDGED", rationale: "The named supplier organization acknowledged an issued purchase order. Acknowledgement is not payment, dispatch, or a delivery confirmation.", relatedEntityIds: [] });
+  return { wajenziId: order.wajenziId, status: "acknowledged" as const };
+}
+
+export async function createDeliveryIntent(user: User, input: { purchaseOrderId: number; expectedAt?: Date; deliveryAddress?: string; notes?: string }) {
+  const db = await requireDb();
+  const context = await getWorkspaceContext(user);
+  const order = await first(db.select().from(purchaseOrders).where(and(eq(purchaseOrders.id, input.purchaseOrderId), eq(purchaseOrders.workspaceId, context.workspace.id))).limit(1));
+  if (!order || !canCreateDeliveryIntent(order.status)) throw new Error("A delivery intent can be created only after the supplier acknowledges an issued purchase order.");
+  await canCoordinateDelivery(db, context, order);
+  const wajenziId = createWajenziId("DLV");
+  await db.insert(deliveryIntents).values({ purchaseOrderId: order.id, workspaceId: context.workspace.id, wajenziId, status: "planned", expectedAt: input.expectedAt ?? null, deliveryAddress: input.deliveryAddress?.trim() || null, notes: input.notes?.trim() || null, createdByUserId: user.id });
+  await ensureAudit(db, { workspaceId: context.workspace.id, actorUserId: user.id, eventType: "DELIVERY_INTENT_CREATED", rationale: "Created a planned delivery intent for an acknowledged purchase order. It is not dispatch, proof of delivery, inspection, receipt, inventory movement, or payment.", relatedEntityIds: [] });
+  return { wajenziId, status: "planned" as const };
+}
+
+export async function updateDeliveryIntentStatus(user: User, input: { deliveryIntentId: number; status: "scheduled" | "in_transit" | "delivered" | "partially_delivered" | "failed" | "cancelled"; note: string }) {
+  const db = await requireDb();
+  const context = await getWorkspaceContext(user);
+  const delivery = await first(db.select().from(deliveryIntents).where(and(eq(deliveryIntents.id, input.deliveryIntentId), eq(deliveryIntents.workspaceId, context.workspace.id))).limit(1));
+  if (!delivery || !canTransitionDeliveryIntent(delivery.status, input.status)) throw new Error("That delivery-intent transition is not allowed from its current state.");
+  const order = await first(db.select().from(purchaseOrders).where(eq(purchaseOrders.id, delivery.purchaseOrderId)).limit(1));
+  if (!order) throw new Error("The purchase order for this delivery intent is unavailable.");
+  const actor = await canCoordinateDelivery(db, context, order);
+  if (["in_transit", "delivered", "partially_delivered", "failed"].includes(input.status) && actor !== "supplier" && context.membership.workspaceRole !== "registry_steward") throw new Error("Only the named supplier organization can report transit or delivery outcome status.");
+  await db.update(deliveryIntents).set({ status: input.status, notes: [delivery.notes, `Status ${input.status}: ${input.note.trim()}`].filter(Boolean).join("\n") }).where(eq(deliveryIntents.id, delivery.id));
+  await ensureAudit(db, { workspaceId: context.workspace.id, actorUserId: user.id, eventType: "DELIVERY_INTENT_STATUS_UPDATED", rationale: `Recorded supplier/project delivery-intent status as ${input.status}. This is a reported operational status, not receipt, inspection, inventory, invoice, or payment evidence.`, relatedEntityIds: [] });
+  return { wajenziId: delivery.wajenziId, status: input.status };
 }
 
 export async function getDashboard(user: User) {

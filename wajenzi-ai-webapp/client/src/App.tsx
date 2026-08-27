@@ -17,6 +17,7 @@ import CollaborationHub from "@/pages/CollaborationHub";
 import Projects from "@/pages/Projects";
 import PostLoginLanding from "@/pages/PostLoginLanding";
 import RfqBoard from "@/pages/RfqBoard";
+import OrdersDeliveryBoard from "@/pages/OrdersDeliveryBoard";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
@@ -40,15 +41,13 @@ function Router() {
       <Route path={"/projects"} component={Projects} />
       <Route path={"/site"}>{() => <GuidedWorkspace module="site" />}</Route>
       <Route path={"/boq"}>{() => <GuidedWorkspace module="boq" />}</Route>
-      <Route path={"/rfqs"}>{() => <GuidedWorkspace module="rfqs" />}</Route>
-      <Route path={"/deliveries"}>{() => <GuidedWorkspace module="deliveries" />}</Route>
+      <Route path={"/deliveries"} component={OrdersDeliveryBoard} />
       <Route path={"/finance"}>{() => <GuidedWorkspace module="finance" />}</Route>
       <Route path={"/approvals"} component={Approvals} />
       <Route path={"/pos"}>{() => <GuidedWorkspace module="pos" />}</Route>
       <Route path={"/inventory"}>{() => <GuidedWorkspace module="inventory" />}</Route>
       <Route path={"/reports"}>{() => <GuidedWorkspace module="reports" />}</Route>
       <Route path={"/quality"}>{() => <GuidedWorkspace module="quality" />}</Route>
-      <Route path={"/operations"}>{() => <GuidedWorkspace module="operations" />}</Route>
       <Route path={"/marketplace"} component={Marketplace} />
       <Route path={"/client"}>{() => <PersonaLanding persona="client" />}</Route>
       <Route path={"/contractor"}>{() => <PersonaLanding persona="contractor" />}</Route>

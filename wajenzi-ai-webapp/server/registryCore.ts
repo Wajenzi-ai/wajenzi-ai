@@ -135,3 +135,48 @@ export function canAccessWorkspace(role: string | undefined, action: "read" | "s
   };
   return allowed[action].includes(role);
 }
+
+export type PurchaseOrderStatus = "draft" | "pending_approval" | "approved" | "issued" | "acknowledged" | "cancelled" | "closed";
+export type DeliveryIntentStatus = "planned" | "scheduled" | "in_transit" | "delivered" | "partially_delivered" | "failed" | "cancelled";
+
+export function canApprovePurchaseOrder(role: string | undefined, projectRole?: string | null) {
+  if (role === "registry_steward") return true;
+  return role === "contractor" || role === "project_user"
+    ? ["contractor", "project_user", "project_manager", "owner", "project_owner", "approver", "procurement_manager"].includes(projectRole || "")
+    : false;
+}
+
+export function canViewPurchaseOrder(role: string | undefined, input: { isActiveProjectMember: boolean; isNamedSupplier: boolean }) {
+  if (role === "registry_steward") return true;
+  if (role === "supplier") return input.isNamedSupplier;
+  if (role === "contractor" || role === "project_user") return input.isActiveProjectMember;
+  return false;
+}
+
+export function canAcknowledgePurchaseOrder(role: string | undefined, isNamedSupplier: boolean) {
+  return role === "supplier" && isNamedSupplier;
+}
+
+export function canTransitionPurchaseOrder(status: PurchaseOrderStatus, action: "approve" | "issue" | "acknowledge" | "cancel") {
+  if (action === "approve") return status === "pending_approval";
+  if (action === "issue") return status === "approved";
+  if (action === "acknowledge") return status === "issued";
+  return ["pending_approval", "approved", "issued"].includes(status);
+}
+
+export function canCreateDeliveryIntent(orderStatus: PurchaseOrderStatus) {
+  return orderStatus === "acknowledged";
+}
+
+export function canTransitionDeliveryIntent(status: DeliveryIntentStatus, next: DeliveryIntentStatus) {
+  const transitions: Record<DeliveryIntentStatus, DeliveryIntentStatus[]> = {
+    planned: ["scheduled", "cancelled"],
+    scheduled: ["in_transit", "cancelled"],
+    in_transit: ["delivered", "partially_delivered", "failed"],
+    delivered: [],
+    partially_delivered: [],
+    failed: [],
+    cancelled: [],
+  };
+  return transitions[status].includes(next);
+}
