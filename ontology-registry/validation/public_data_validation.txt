@@ -1,0 +1,30 @@
+WAJENZI public-data and ontology validation
+
+Date: 2026-08-27
+
+refined ontology:
+- classes=226
+- predicates=126
+- ontology_json=valid
+- required_class_coverage=pass
+- required_predicate_coverage=pass
+- package_files=present
+- duplicate_predicate_codes=none
+- validation=PASS
+
+public data:
+- validation=PASSED
+- admin_units=338 (admin0=1, admin1=47, admin2=290)
+- hdx_wards=1450
+- geoboundaries_adm3=1452
+- ward_crosswalk: representative_point_in_hdx_polygon=1444, unique_normalized_name=6, unmatched=2
+- Gazette service units=669 (subcounty=125, division=59, location=171, sublocation=314)
+- PPRA construction reference=98 (Building Materials=27, Waterworks=71)
+- KNBS CIPI reference=16
+- manifest_sources=15
+
+source-quality notes:
+- Two HDX ward records have blank DHIS2 UID values; deterministic GID fallbacks are used only for source_record_id, while the blank UID remains visible.
+- Two ward crosswalk records remain unmatched: Kachien'g and Shella.
+- Gazette top-level proposals retain unconfirmed activation status; 18 parent counties remain unresolved and one is ambiguous.
+- PostgreSQL executable was not available in the sandbox; SQL was reviewed as an artifact but not executed against a live database.

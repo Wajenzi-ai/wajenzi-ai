@@ -1,0 +1,12 @@
+{
+  "master_rows": 13180,
+  "canonical_product_roots": 12663,
+  "canonical_variants": 517,
+  "variants_master_canonical": 517,
+  "variants_review_required": 0,
+  "variant_parent_methods": {
+    "unique_parent_sku": 448,
+    "source_row_id_fallback": 69
+  },
+  "supplier_template_columns": 32
+}

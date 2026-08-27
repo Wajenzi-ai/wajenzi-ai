@@ -1,0 +1,2119 @@
+{
+  "ontology_id": "wajenzi-core",
+  "version": "0.4.0",
+  "status": "draft-with-public-reference-data",
+  "namespace": "https://wajenzi.ai/ontology/",
+  "registry": {
+    "canonical_id": "opaque_uuidv7",
+    "public_uri_template": "https://id.wajenzi.ai/e/{entity_id}",
+    "external_identifier_key": [
+      "namespace",
+      "identifier_type",
+      "value"
+    ],
+    "ids_reusable": false,
+    "merged_ids_redirect": true,
+    "source_records_idempotent": true
+  },
+  "class_groups": {
+    "identity_access": [
+      "Person",
+      "UserAccount",
+      "Actor",
+      "Organization",
+      "OrganizationRole",
+      "OrganizationMembership",
+      "Workspace",
+      "AccessGrant",
+      "RoleDefinition",
+      "ProjectRoleAssignment",
+      "Persona",
+      "SystemActor",
+      "AIAgent"
+    ],
+    "place_location": [
+      "Place",
+      "Address",
+      "GeoObservation",
+      "GeographicUnit",
+      "BoundaryVersion",
+      "SpatialMembership",
+      "PostalArea",
+      "PostOffice",
+      "Property",
+      "Parcel",
+      "Site",
+      "Facility",
+      "Warehouse",
+      "DeliveryZone",
+      "Jurisdiction",
+      "Authority",
+      "RoadSegment",
+      "TransportRoute",
+      "RouteEstimate",
+      "PostalReference",
+      "RoadInventoryObservation",
+      "RoadConditionObservation",
+      "Postcode"
+    ],
+    "project_construction": [
+      "Project",
+      "ProjectProfile",
+      "ProjectPhase",
+      "PhaseGate",
+      "Building",
+      "BuildingSystem",
+      "BuildingElement",
+      "Floor",
+      "Space",
+      "Room",
+      "Asset",
+      "WBSNode",
+      "WorkPackage",
+      "Programme",
+      "Activity",
+      "Task",
+      "Milestone",
+      "Dependency",
+      "Resource",
+      "Installation"
+    ],
+    "information_evidence": [
+      "DocumentAsset",
+      "DocumentVersion",
+      "DocumentRecord",
+      "Drawing",
+      "Specification",
+      "BIMModel",
+      "BIMElementReference",
+      "Submittal",
+      "Transmittal",
+      "Evidence",
+      "Review",
+      "Approval",
+      "Signature",
+      "Meeting",
+      "RFI",
+      "SiteInstruction",
+      "Decision",
+      "EIAReport",
+      "ConsultationRecord",
+      "DirectorDisclosure",
+      "MasterProductRecord",
+      "SupplierProductSubmission",
+      "CanonicalizationCandidate",
+      "CanonicalizationDecision",
+      "ProductIdentityKey",
+      "CatalogueImportBatch"
+    ],
+    "classification_knowledge": [
+      "TaxonomyNode",
+      "ClassificationScheme",
+      "ClassificationCode",
+      "ClassificationAssignment",
+      "Crosswalk",
+      "Standard",
+      "Rule",
+      "RuleApplicability",
+      "Application",
+      "KnowledgeAssertion",
+      "ProcurementRegime",
+      "StandardDocumentFamily",
+      "StandardDocumentVersion",
+      "MarketReferenceGuide",
+      "MarketReferenceObservation",
+      "CostIndexSeries",
+      "CostIndexObservation",
+      "ProductClass",
+      "LabourClass",
+      "EquipmentClass",
+      "MasterCatalogue",
+      "CatalogueAuthority"
+    ],
+    "products_supply": [
+      "Material",
+      "ProductFamily",
+      "Product",
+      "ProductVariant",
+      "ProductSpecification",
+      "ProductOffer",
+      "Brand",
+      "SupplierFacility",
+      "InventoryPosition",
+      "AvailabilityObservation",
+      "PriceObservation",
+      "Batch",
+      "SerialNumber",
+      "WarrantyPolicy",
+      "ServiceOffering"
+    ],
+    "quantity_cost": [
+      "ProjectRequirement",
+      "QuantityTakeoff",
+      "Measurement",
+      "Formula",
+      "Assumption",
+      "BOQ",
+      "BOQSection",
+      "BOQItem",
+      "CostCode",
+      "Rate",
+      "CostEstimate",
+      "Budget",
+      "Commitment",
+      "Expense",
+      "Valuation",
+      "PaymentCertificate",
+      "Variation",
+      "Claim",
+      "Risk",
+      "Issue"
+    ],
+    "procurement_commerce_finance": [
+      "ProcurementRequest",
+      "ProcurementLine",
+      "RFQ",
+      "Quotation",
+      "QuotationLine",
+      "Cart",
+      "CartItem",
+      "Checkout",
+      "CustomerOrder",
+      "SupplierOrder",
+      "PurchaseOrder",
+      "PurchaseOrderLine",
+      "SalesOrder",
+      "Invoice",
+      "CreditNote",
+      "DebitNote",
+      "PaymentIntent",
+      "Payment",
+      "Settlement",
+      "Refund",
+      "FinancingApplication",
+      "FinancingOffer",
+      "Loan",
+      "Payroll",
+      "TransactionLedgerEntry",
+      "Dispute"
+    ],
+    "logistics": [
+      "Carrier",
+      "Vehicle",
+      "Driver",
+      "DeliveryRequest",
+      "Shipment",
+      "DispatchAssignment",
+      "Delivery",
+      "DeliveryEvent",
+      "ProofOfPickup",
+      "ProofOfDelivery",
+      "DeliveryPromise",
+      "ReturnMovement"
+    ],
+    "compliance_trust": [
+      "Agreement",
+      "Contract",
+      "ContractVersion",
+      "PartyRole",
+      "Obligation",
+      "ConditionPrecedent",
+      "Permit",
+      "Credential",
+      "VerificationCase",
+      "VerificationCheck",
+      "VerificationEvidence",
+      "ProfessionalRegistration",
+      "BusinessRegistration",
+      "BeneficialOwnership",
+      "TaxProfile",
+      "TaxInvoice",
+      "ETimsInvoice",
+      "WithholdingAssessment",
+      "InsurancePolicy",
+      "Bond",
+      "Guarantee",
+      "RetentionPolicy",
+      "RetentionLedger",
+      "DefectsLiabilityPeriod",
+      "Defect",
+      "Nonconformance",
+      "CorrectiveAction",
+      "CompletionCertificate",
+      "HandoverPackage",
+      "Determination",
+      "ArbitrationProceeding",
+      "NCAProjectRegistration",
+      "NCAContractorRegistration",
+      "NCAPractisingLicence",
+      "EnvironmentalAssessment",
+      "EIALicence",
+      "EnvironmentalAudit",
+      "EnvironmentalManagementPlan",
+      "NEMAExpertCredential",
+      "StandardDocumentApproval",
+      "ProcuringEntity",
+      "AwardedSupplier",
+      "TenderNotice",
+      "ProcurementAward",
+      "AwardLine"
+    ],
+    "events_ai_analytics": [
+      "BusinessEvent",
+      "StateTransition",
+      "AuditEvent",
+      "SourceSystem",
+      "SourceRecord",
+      "ProvenanceRecord",
+      "AIJob",
+      "AIOutput",
+      "Recommendation",
+      "ActionRequest",
+      "Notification",
+      "AnalyticsFact"
+    ]
+  },
+  "identifier_types": [
+    "canonical_entity_id",
+    "public_registry_uri",
+    "supplier_sku",
+    "manufacturer_part_number",
+    "barcode",
+    "business_registration_number",
+    "tax_identifier",
+    "professional_registration_number",
+    "license_number",
+    "external_record_id",
+    "alias",
+    "former_id",
+    "document_number",
+    "contract_number",
+    "procurement_number",
+    "invoice_number",
+    "payment_provider_reference",
+    "vehicle_registration",
+    "driver_license_number",
+    "batch_number",
+    "serial_number"
+  ],
+  "lifecycle_states": [
+    "draft",
+    "active",
+    "superseded",
+    "deprecated",
+    "archived",
+    "cancelled",
+    "merged"
+  ],
+  "state_axes": {
+    "workflow_state": [
+      "submitted",
+      "under_review",
+      "clarification_required",
+      "approved",
+      "rejected",
+      "completed"
+    ],
+    "commercial_state": [
+      "proposed",
+      "quoted",
+      "committed",
+      "invoiced",
+      "payable",
+      "paid",
+      "settled",
+      "disputed",
+      "refunded"
+    ],
+    "evidence_state": [
+      "missing",
+      "partial",
+      "verified",
+      "contradicted",
+      "expired"
+    ],
+    "compliance_state": [
+      "not_applicable",
+      "pending",
+      "verified",
+      "expired",
+      "non_compliant",
+      "exception_approved"
+    ],
+    "availability_state": [
+      "available",
+      "reserved",
+      "allocated",
+      "in_transit",
+      "damaged",
+      "returned",
+      "lost",
+      "unavailable"
+    ],
+    "access_state": [
+      "private",
+      "organization",
+      "project",
+      "counterparty",
+      "public",
+      "restricted"
+    ],
+    "ai_review_state": [
+      "not_required",
+      "pending_review",
+      "approved",
+      "rejected",
+      "overridden"
+    ]
+  },
+  "location_hierarchy_types": [
+    "country",
+    "county",
+    "subcounty_electoral",
+    "subcounty_statistical",
+    "subcounty_service_delivery",
+    "subcounty_county",
+    "county_assembly_ward",
+    "electoral_ward",
+    "service_delivery_division",
+    "service_delivery_location",
+    "service_delivery_sublocation",
+    "postal_service_area",
+    "planning_jurisdiction",
+    "delivery_zone",
+    "supplier_facility",
+    "project_site",
+    "address_point"
+  ],
+  "organization_roles": [
+    "owner_client",
+    "developer",
+    "employer",
+    "contractor",
+    "subcontractor",
+    "architectural_firm",
+    "engineering_firm",
+    "quantity_surveying_firm",
+    "professional_firm",
+    "supplier",
+    "manufacturer",
+    "distributor",
+    "retailer",
+    "hardware_store",
+    "logistics_provider",
+    "financial_institution",
+    "insurer",
+    "government_authority",
+    "regulator",
+    "professional_association",
+    "wajenzi_unit"
+  ],
+  "project_roles": [
+    "project_owner",
+    "client_representative",
+    "developer",
+    "project_initiator",
+    "project_manager",
+    "contract_administrator",
+    "architect",
+    "structural_engineer",
+    "civil_engineer",
+    "mechanical_engineer",
+    "electrical_engineer",
+    "quantity_surveyor",
+    "site_manager",
+    "foreman",
+    "main_contractor",
+    "subcontractor",
+    "artisan",
+    "procurement_officer",
+    "commercial_manager",
+    "accountant",
+    "supplier",
+    "logistics_provider",
+    "inspector",
+    "clerk_of_works",
+    "regulator",
+    "auditor",
+    "viewer"
+  ],
+  "predicates": [
+    {
+      "code": "controls",
+      "domain": [
+        "Person"
+      ],
+      "range": [
+        "UserAccount"
+      ]
+    },
+    {
+      "code": "represents",
+      "domain": [
+        "UserAccount",
+        "Drawing",
+        "Evidence"
+      ],
+      "range": [
+        "Person",
+        "BuildingElement",
+        "BIMElementReference",
+        "BusinessEvent"
+      ],
+      "signatures": [
+        [
+          "UserAccount",
+          "Person"
+        ],
+        [
+          "Drawing",
+          "BuildingElement"
+        ],
+        [
+          "Drawing",
+          "BIMElementReference"
+        ],
+        [
+          "Evidence",
+          "BusinessEvent"
+        ]
+      ]
+    },
+    {
+      "code": "member_of",
+      "domain": [
+        "Person"
+      ],
+      "range": [
+        "Organization"
+      ]
+    },
+    {
+      "code": "has_organization_role",
+      "domain": [
+        "Organization"
+      ],
+      "range": [
+        "OrganizationRole"
+      ]
+    },
+    {
+      "code": "has_persona",
+      "domain": [
+        "Person",
+        "Organization"
+      ],
+      "range": [
+        "Persona"
+      ]
+    },
+    {
+      "code": "assigned_project_role",
+      "domain": [
+        "Person",
+        "Organization"
+      ],
+      "range": [
+        "ProjectRoleAssignment"
+      ]
+    },
+    {
+      "code": "on_project",
+      "domain": [
+        "ProjectRoleAssignment"
+      ],
+      "range": [
+        "Project"
+      ]
+    },
+    {
+      "code": "grants_access",
+      "domain": [
+        "Workspace",
+        "RoleDefinition"
+      ],
+      "range": [
+        "AccessGrant"
+      ]
+    },
+    {
+      "code": "operates",
+      "domain": [
+        "Organization"
+      ],
+      "range": [
+        "Facility"
+      ]
+    },
+    {
+      "code": "owns_or_controls",
+      "domain": [
+        "Person",
+        "Organization"
+      ],
+      "range": [
+        "Property",
+        "Asset",
+        "Vehicle"
+      ]
+    },
+    {
+      "code": "employs_or_authorizes",
+      "domain": [
+        "Organization"
+      ],
+      "range": [
+        "Person"
+      ]
+    },
+    {
+      "code": "has_beneficial_owner",
+      "domain": [
+        "Organization"
+      ],
+      "range": [
+        "Person",
+        "Organization"
+      ]
+    },
+    {
+      "code": "authorized_by",
+      "domain": [
+        "Organization"
+      ],
+      "range": [
+        "Organization"
+      ],
+      "symmetric": false
+    },
+    {
+      "code": "has_site",
+      "domain": [
+        "Project"
+      ],
+      "range": [
+        "Site"
+      ]
+    },
+    {
+      "code": "has_geo_observation",
+      "domain": [
+        "Site",
+        "Facility",
+        "Vehicle",
+        "Driver",
+        "Address"
+      ],
+      "range": [
+        "GeoObservation"
+      ]
+    },
+    {
+      "code": "addressed_by",
+      "domain": [
+        "Site",
+        "Facility",
+        "Person",
+        "Organization"
+      ],
+      "range": [
+        "Address"
+      ]
+    },
+    {
+      "code": "spatially_member_of",
+      "domain": [
+        "Site",
+        "Facility",
+        "Address",
+        "Property"
+      ],
+      "range": [
+        "GeographicUnit"
+      ]
+    },
+    {
+      "code": "uses_boundary_version",
+      "domain": [
+        "SpatialMembership"
+      ],
+      "range": [
+        "BoundaryVersion"
+      ]
+    },
+    {
+      "code": "has_postal_reference",
+      "domain": [
+        "Site",
+        "Address",
+        "Facility"
+      ],
+      "range": [
+        "PostalArea",
+        "PostOffice"
+      ]
+    },
+    {
+      "code": "falls_under",
+      "domain": [
+        "Site",
+        "Project"
+      ],
+      "range": [
+        "Jurisdiction"
+      ]
+    },
+    {
+      "code": "administered_by",
+      "domain": [
+        "Jurisdiction"
+      ],
+      "range": [
+        "Authority"
+      ]
+    },
+    {
+      "code": "serves",
+      "domain": [
+        "Facility",
+        "Carrier"
+      ],
+      "range": [
+        "DeliveryZone"
+      ]
+    },
+    {
+      "code": "has_property_context",
+      "domain": [
+        "Project"
+      ],
+      "range": [
+        "Property",
+        "Parcel"
+      ]
+    },
+    {
+      "code": "owned_by",
+      "domain": [
+        "Project",
+        "Property",
+        "Asset"
+      ],
+      "range": [
+        "Person",
+        "Organization"
+      ]
+    },
+    {
+      "code": "initiated_by",
+      "domain": [
+        "Project"
+      ],
+      "range": [
+        "Actor"
+      ]
+    },
+    {
+      "code": "has_phase",
+      "domain": [
+        "Project"
+      ],
+      "range": [
+        "ProjectPhase"
+      ]
+    },
+    {
+      "code": "has_gate",
+      "domain": [
+        "ProjectPhase"
+      ],
+      "range": [
+        "PhaseGate"
+      ]
+    },
+    {
+      "code": "has_building",
+      "domain": [
+        "Project",
+        "Property"
+      ],
+      "range": [
+        "Building"
+      ]
+    },
+    {
+      "code": "has_system",
+      "domain": [
+        "Building"
+      ],
+      "range": [
+        "BuildingSystem"
+      ]
+    },
+    {
+      "code": "has_element",
+      "domain": [
+        "BuildingSystem",
+        "Building"
+      ],
+      "range": [
+        "BuildingElement"
+      ]
+    },
+    {
+      "code": "contains_space",
+      "domain": [
+        "Building",
+        "Floor"
+      ],
+      "range": [
+        "Floor",
+        "Space"
+      ]
+    },
+    {
+      "code": "contains_room",
+      "domain": [
+        "Space"
+      ],
+      "range": [
+        "Room"
+      ]
+    },
+    {
+      "code": "contains_wbs",
+      "domain": [
+        "Project",
+        "ProjectPhase",
+        "Contract"
+      ],
+      "range": [
+        "WBSNode"
+      ]
+    },
+    {
+      "code": "decomposes_into",
+      "domain": [
+        "WBSNode"
+      ],
+      "range": [
+        "WBSNode",
+        "WorkPackage",
+        "Deliverable"
+      ]
+    },
+    {
+      "code": "contains_activity",
+      "domain": [
+        "WorkPackage",
+        "WBSNode"
+      ],
+      "range": [
+        "Activity"
+      ]
+    },
+    {
+      "code": "has_task",
+      "domain": [
+        "Activity"
+      ],
+      "range": [
+        "Task"
+      ]
+    },
+    {
+      "code": "schedules",
+      "domain": [
+        "Programme"
+      ],
+      "range": [
+        "Activity",
+        "Task",
+        "Milestone"
+      ]
+    },
+    {
+      "code": "depends_on",
+      "domain": [
+        "Activity",
+        "Task",
+        "Milestone",
+        "ProjectRequirement"
+      ],
+      "range": [
+        "Activity",
+        "Task",
+        "Approval",
+        "Delivery",
+        "ProjectRequirement"
+      ]
+    },
+    {
+      "code": "consumes_resource",
+      "domain": [
+        "Activity",
+        "Task"
+      ],
+      "range": [
+        "Resource",
+        "Product",
+        "Material"
+      ]
+    },
+    {
+      "code": "produces",
+      "domain": [
+        "Activity",
+        "Task",
+        "AIJob"
+      ],
+      "range": [
+        "Deliverable",
+        "Installation",
+        "ProgressMeasurement",
+        "AIOutput",
+        "Recommendation",
+        "ActionRequest"
+      ],
+      "signatures": [
+        [
+          "Activity",
+          "Deliverable"
+        ],
+        [
+          "Activity",
+          "Installation"
+        ],
+        [
+          "Activity",
+          "ProgressMeasurement"
+        ],
+        [
+          "Task",
+          "Deliverable"
+        ],
+        [
+          "Task",
+          "Installation"
+        ],
+        [
+          "Task",
+          "ProgressMeasurement"
+        ],
+        [
+          "AIJob",
+          "AIOutput"
+        ],
+        [
+          "AIJob",
+          "Recommendation"
+        ],
+        [
+          "AIJob",
+          "ActionRequest"
+        ]
+      ]
+    },
+    {
+      "code": "installed_at",
+      "domain": [
+        "Product",
+        "Material",
+        "Installation"
+      ],
+      "range": [
+        "BuildingElement",
+        "Space",
+        "Asset"
+      ]
+    },
+    {
+      "code": "has_version",
+      "domain": [
+        "DocumentRecord"
+      ],
+      "range": [
+        "DocumentVersion"
+      ]
+    },
+    {
+      "code": "specifies",
+      "domain": [
+        "Specification",
+        "Drawing",
+        "Submittal"
+      ],
+      "range": [
+        "Product",
+        "ProductSpecification",
+        "WorkPackage"
+      ]
+    },
+    {
+      "code": "submitted_for",
+      "domain": [
+        "Submittal",
+        "DocumentRecord"
+      ],
+      "range": [
+        "Review",
+        "Approval"
+      ]
+    },
+    {
+      "code": "represented_by",
+      "domain": [
+        "Evidence"
+      ],
+      "range": [
+        "DocumentVersion",
+        "GeoObservation",
+        "BusinessEvent"
+      ]
+    },
+    {
+      "code": "reviewed_by",
+      "domain": [
+        "Review"
+      ],
+      "range": [
+        "ProjectRoleAssignment",
+        "Authority"
+      ]
+    },
+    {
+      "code": "approved_by",
+      "domain": [
+        "Approval",
+        "ActionRequest",
+        "AIOutput"
+      ],
+      "range": [
+        "ProjectRoleAssignment",
+        "Authority",
+        "Person",
+        "Organization",
+        "Approval"
+      ],
+      "signatures": [
+        [
+          "Approval",
+          "ProjectRoleAssignment"
+        ],
+        [
+          "Approval",
+          "Authority"
+        ],
+        [
+          "ActionRequest",
+          "Person"
+        ],
+        [
+          "ActionRequest",
+          "Organization"
+        ],
+        [
+          "ActionRequest",
+          "Approval"
+        ],
+        [
+          "AIOutput",
+          "Person"
+        ],
+        [
+          "AIOutput",
+          "Organization"
+        ],
+        [
+          "AIOutput",
+          "Approval"
+        ]
+      ]
+    },
+    {
+      "code": "supersedes",
+      "domain": [
+        "DocumentVersion",
+        "ContractVersion",
+        "ScheduleUpdate"
+      ],
+      "range": [
+        "DocumentVersion",
+        "ContractVersion",
+        "ScheduleUpdate"
+      ]
+    },
+    {
+      "code": "classified_by",
+      "domain": [
+        "Product",
+        "BOQItem",
+        "WBSNode",
+        "BuildingElement",
+        "Specification"
+      ],
+      "range": [
+        "ClassificationAssignment"
+      ]
+    },
+    {
+      "code": "crosswalks_to",
+      "domain": [
+        "ClassificationCode"
+      ],
+      "range": [
+        "ClassificationCode"
+      ]
+    },
+    {
+      "code": "has_rule_applicability",
+      "domain": [
+        "Project",
+        "Site",
+        "ProductSpecification",
+        "Organization",
+        "TransactionLedgerEntry"
+      ],
+      "range": [
+        "RuleApplicability"
+      ]
+    },
+    {
+      "code": "requires_permit",
+      "domain": [
+        "Project",
+        "Site",
+        "Organization"
+      ],
+      "range": [
+        "Permit"
+      ]
+    },
+    {
+      "code": "has_variant",
+      "domain": [
+        "Product",
+        "ProductFamily"
+      ],
+      "range": [
+        "ProductVariant",
+        "Product"
+      ]
+    },
+    {
+      "code": "has_brand",
+      "domain": [
+        "Product",
+        "ProductVariant"
+      ],
+      "range": [
+        "Brand"
+      ]
+    },
+    {
+      "code": "manufactured_by",
+      "domain": [
+        "Product",
+        "ProductVariant"
+      ],
+      "range": [
+        "Organization"
+      ]
+    },
+    {
+      "code": "has_material",
+      "domain": [
+        "Product",
+        "ProductSpecification"
+      ],
+      "range": [
+        "Material"
+      ]
+    },
+    {
+      "code": "has_specification",
+      "domain": [
+        "Product",
+        "ProductOffer",
+        "ProjectRequirement"
+      ],
+      "range": [
+        "ProductSpecification"
+      ]
+    },
+    {
+      "code": "offered_by",
+      "domain": [
+        "ProductOffer"
+      ],
+      "range": [
+        "Organization"
+      ]
+    },
+    {
+      "code": "available_at",
+      "domain": [
+        "ProductOffer",
+        "InventoryPosition"
+      ],
+      "range": [
+        "Facility",
+        "Warehouse"
+      ]
+    },
+    {
+      "code": "for_variant",
+      "domain": [
+        "ProductOffer",
+        "AvailabilityObservation",
+        "PriceObservation"
+      ],
+      "range": [
+        "ProductVariant"
+      ]
+    },
+    {
+      "code": "has_price_observation",
+      "domain": [
+        "ProductOffer"
+      ],
+      "range": [
+        "PriceObservation"
+      ]
+    },
+    {
+      "code": "has_availability_observation",
+      "domain": [
+        "ProductOffer",
+        "Facility"
+      ],
+      "range": [
+        "AvailabilityObservation"
+      ]
+    },
+    {
+      "code": "allows_substitution",
+      "domain": [
+        "ProductSpecification"
+      ],
+      "range": [
+        "Product",
+        "ProductVariant"
+      ]
+    },
+    {
+      "code": "requires_specification",
+      "domain": [
+        "ProjectRequirement",
+        "BOQItem"
+      ],
+      "range": [
+        "ProductSpecification"
+      ]
+    },
+    {
+      "code": "satisfied_by",
+      "domain": [
+        "ProjectRequirement",
+        "BOQItem"
+      ],
+      "range": [
+        "Product",
+        "ProductOffer",
+        "ServiceOffering"
+      ]
+    },
+    {
+      "code": "maps_to",
+      "domain": [
+        "BOQItem",
+        "ProjectRequirement"
+      ],
+      "range": [
+        "Product",
+        "ProductVariant",
+        "ServiceOffering"
+      ]
+    },
+    {
+      "code": "priced_by",
+      "domain": [
+        "BOQItem",
+        "Activity",
+        "WorkPackage"
+      ],
+      "range": [
+        "Rate",
+        "PriceObservation"
+      ]
+    },
+    {
+      "code": "allocates_to",
+      "domain": [
+        "Budget"
+      ],
+      "range": [
+        "CostCode",
+        "BOQItem",
+        "WorkPackage"
+      ]
+    },
+    {
+      "code": "creates_commitment",
+      "domain": [
+        "PurchaseOrder",
+        "Contract",
+        "Subcontract"
+      ],
+      "range": [
+        "Commitment"
+      ]
+    },
+    {
+      "code": "incurs",
+      "domain": [
+        "Project",
+        "Commitment",
+        "PurchaseOrder",
+        "Delivery"
+      ],
+      "range": [
+        "Expense"
+      ]
+    },
+    {
+      "code": "contains_line",
+      "domain": [
+        "BOQ",
+        "RFQ",
+        "Quotation",
+        "PurchaseOrder",
+        "ProcurementRequest",
+        "Cart",
+        "CustomerOrder"
+      ],
+      "range": [
+        "BOQItem",
+        "QuotationLine",
+        "PurchaseOrderLine",
+        "ProcurementLine",
+        "CartItem"
+      ]
+    },
+    {
+      "code": "generates",
+      "domain": [
+        "Project",
+        "ProcurementRequest",
+        "PurchaseOrder",
+        "Delivery",
+        "Payment",
+        "AIJob"
+      ],
+      "range": [
+        "RFQ",
+        "BusinessEvent",
+        "AuditEvent",
+        "AIOutput",
+        "Notification"
+      ]
+    },
+    {
+      "code": "fulfills",
+      "domain": [
+        "ProcurementLine",
+        "PurchaseOrderLine",
+        "SupplierOrderLine"
+      ],
+      "range": [
+        "ProjectRequirement",
+        "BOQItem",
+        "ProductVariant",
+        "ServiceOffering"
+      ]
+    },
+    {
+      "code": "responds_to",
+      "domain": [
+        "Quotation"
+      ],
+      "range": [
+        "RFQ"
+      ]
+    },
+    {
+      "code": "placed_with",
+      "domain": [
+        "PurchaseOrder",
+        "CustomerOrder"
+      ],
+      "range": [
+        "Organization"
+      ]
+    },
+    {
+      "code": "splits_into",
+      "domain": [
+        "Cart",
+        "CustomerOrder"
+      ],
+      "range": [
+        "SupplierOrder",
+        "PurchaseOrder"
+      ]
+    },
+    {
+      "code": "fulfilled_by",
+      "domain": [
+        "SupplierOrder",
+        "CustomerOrder"
+      ],
+      "range": [
+        "Organization",
+        "Facility"
+      ]
+    },
+    {
+      "code": "bills",
+      "domain": [
+        "Invoice"
+      ],
+      "range": [
+        "Person",
+        "Organization"
+      ]
+    },
+    {
+      "code": "attempts_to_settle",
+      "domain": [
+        "PaymentIntent"
+      ],
+      "range": [
+        "Invoice",
+        "Order",
+        "Obligation"
+      ]
+    },
+    {
+      "code": "settles",
+      "domain": [
+        "Payment",
+        "Settlement"
+      ],
+      "range": [
+        "Invoice",
+        "PaymentCertificate",
+        "Obligation",
+        "Payment"
+      ]
+    },
+    {
+      "code": "allocates",
+      "domain": [
+        "Settlement"
+      ],
+      "range": [
+        "Payment",
+        "Organization",
+        "Fee",
+        "Tax"
+      ]
+    },
+    {
+      "code": "finances",
+      "domain": [
+        "FinancingApplication",
+        "Loan"
+      ],
+      "range": [
+        "Project",
+        "ProcurementRequest",
+        "Order",
+        "Payroll"
+      ]
+    },
+    {
+      "code": "moves",
+      "domain": [
+        "DeliveryRequest",
+        "ReturnMovement"
+      ],
+      "range": [
+        "Shipment",
+        "ProductVariant",
+        "Asset"
+      ]
+    },
+    {
+      "code": "assigns",
+      "domain": [
+        "DispatchAssignment"
+      ],
+      "range": [
+        "Carrier",
+        "Vehicle",
+        "Driver",
+        "TransportRoute"
+      ]
+    },
+    {
+      "code": "originates_at",
+      "domain": [
+        "TransportRoute",
+        "Shipment"
+      ],
+      "range": [
+        "Facility",
+        "Site",
+        "Address"
+      ]
+    },
+    {
+      "code": "destines_at",
+      "domain": [
+        "TransportRoute",
+        "Shipment",
+        "Delivery"
+      ],
+      "range": [
+        "Site",
+        "Address",
+        "Person",
+        "Organization"
+      ]
+    },
+    {
+      "code": "has_estimate",
+      "domain": [
+        "TransportRoute"
+      ],
+      "range": [
+        "RouteEstimate"
+      ]
+    },
+    {
+      "code": "executes",
+      "domain": [
+        "Delivery"
+      ],
+      "range": [
+        "DeliveryRequest",
+        "Shipment"
+      ]
+    },
+    {
+      "code": "evidenced_by",
+      "domain": [
+        "Delivery",
+        "Payment",
+        "Inspection",
+        "Approval",
+        "Claim"
+      ],
+      "range": [
+        "Evidence",
+        "ProofOfPickup",
+        "ProofOfDelivery",
+        "DocumentVersion"
+      ]
+    },
+    {
+      "code": "updates",
+      "domain": [
+        "Delivery",
+        "GoodsReceipt",
+        "InventoryEvent"
+      ],
+      "range": [
+        "InventoryPosition",
+        "SiteInventory"
+      ]
+    },
+    {
+      "code": "creates_obligation",
+      "domain": [
+        "Contract",
+        "Rule",
+        "Approval"
+      ],
+      "range": [
+        "Obligation",
+        "ConditionPrecedent"
+      ]
+    },
+    {
+      "code": "performed_by",
+      "domain": [
+        "Obligation",
+        "Installation",
+        "Inspection",
+        "Measurement",
+        "Valuation"
+      ],
+      "range": [
+        "PartyRole",
+        "ProjectRoleAssignment",
+        "Person",
+        "Organization"
+      ]
+    },
+    {
+      "code": "due_by",
+      "domain": [
+        "Obligation",
+        "Task",
+        "ProcurementLine"
+      ],
+      "range": [
+        "Milestone",
+        "Deadline",
+        "ProjectPhase"
+      ]
+    },
+    {
+      "code": "tests_or_inspects",
+      "domain": [
+        "Inspection",
+        "Test"
+      ],
+      "range": [
+        "BuildingElement",
+        "Product",
+        "Delivery",
+        "Installation"
+      ]
+    },
+    {
+      "code": "produces_result",
+      "domain": [
+        "Inspection",
+        "Test"
+      ],
+      "range": [
+        "Acceptance",
+        "Nonconformance",
+        "Defect"
+      ]
+    },
+    {
+      "code": "corrected_by",
+      "domain": [
+        "Defect",
+        "Nonconformance",
+        "Issue",
+        "Risk"
+      ],
+      "range": [
+        "CorrectiveAction"
+      ]
+    },
+    {
+      "code": "modifies",
+      "domain": [
+        "Variation",
+        "ChangeOrder",
+        "ContractVersion"
+      ],
+      "range": [
+        "Contract",
+        "Scope",
+        "BOQ",
+        "Programme",
+        "ProjectRequirement"
+      ]
+    },
+    {
+      "code": "arises_from",
+      "domain": [
+        "Claim",
+        "Dispute",
+        "Variation"
+      ],
+      "range": [
+        "BusinessEvent",
+        "Notice",
+        "Contract"
+      ]
+    },
+    {
+      "code": "secures",
+      "domain": [
+        "Bond",
+        "Guarantee",
+        "InsurancePolicy"
+      ],
+      "range": [
+        "Contract",
+        "Obligation",
+        "Project"
+      ]
+    },
+    {
+      "code": "has_verification_case",
+      "domain": [
+        "Person",
+        "Organization",
+        "Vehicle",
+        "Facility",
+        "Project"
+      ],
+      "range": [
+        "VerificationCase"
+      ]
+    },
+    {
+      "code": "has_check",
+      "domain": [
+        "VerificationCase"
+      ],
+      "range": [
+        "VerificationCheck"
+      ]
+    },
+    {
+      "code": "supported_by",
+      "domain": [
+        "VerificationCheck",
+        "RuleApplicability",
+        "Recommendation",
+        "Claim",
+        "PaymentCertificate"
+      ],
+      "range": [
+        "VerificationEvidence",
+        "Evidence",
+        "ProvenanceRecord"
+      ]
+    },
+    {
+      "code": "caused_by",
+      "domain": [
+        "BusinessEvent",
+        "StateTransition",
+        "AuditEvent"
+      ],
+      "range": [
+        "Actor",
+        "BusinessEvent",
+        "AIJob"
+      ]
+    },
+    {
+      "code": "affects",
+      "domain": [
+        "BusinessEvent",
+        "Decision",
+        "Recommendation"
+      ],
+      "range": [
+        "Entity",
+        "Project",
+        "Product",
+        "Order",
+        "Payment",
+        "Delivery"
+      ]
+    },
+    {
+      "code": "records",
+      "domain": [
+        "AuditEvent"
+      ],
+      "range": [
+        "Entity",
+        "ActionRequest",
+        "AccessGrant"
+      ]
+    },
+    {
+      "code": "reads",
+      "domain": [
+        "AIJob"
+      ],
+      "range": [
+        "Entity",
+        "DocumentVersion",
+        "KnowledgeAssertion"
+      ]
+    },
+    {
+      "code": "delivered_to",
+      "domain": [
+        "Notification"
+      ],
+      "range": [
+        "UserAccount",
+        "Organization"
+      ]
+    },
+    {
+      "code": "has_postcode",
+      "domain": [
+        "Address",
+        "PostOffice",
+        "PostalReference"
+      ],
+      "range": [
+        "Postcode",
+        "PostalArea"
+      ]
+    },
+    {
+      "code": "supports_route",
+      "domain": [
+        "RoadInventoryObservation",
+        "RoadConditionObservation"
+      ],
+      "range": [
+        "RoadSegment"
+      ]
+    },
+    {
+      "code": "has_road_observation",
+      "domain": [
+        "RoadSegment"
+      ],
+      "range": [
+        "RoadInventoryObservation",
+        "RoadConditionObservation"
+      ]
+    },
+    {
+      "code": "has_project_registration",
+      "domain": [
+        "Project"
+      ],
+      "range": [
+        "NCAProjectRegistration"
+      ]
+    },
+    {
+      "code": "registers_project",
+      "domain": [
+        "NCAProjectRegistration"
+      ],
+      "range": [
+        "Project"
+      ]
+    },
+    {
+      "code": "requires_environmental_assessment",
+      "domain": [
+        "Project",
+        "Site"
+      ],
+      "range": [
+        "EnvironmentalAssessment"
+      ]
+    },
+    {
+      "code": "has_eia_licence",
+      "domain": [
+        "EnvironmentalAssessment"
+      ],
+      "range": [
+        "EIALicence"
+      ]
+    },
+    {
+      "code": "has_environmental_audit",
+      "domain": [
+        "Project",
+        "Site"
+      ],
+      "range": [
+        "EnvironmentalAudit"
+      ]
+    },
+    {
+      "code": "issued_by",
+      "domain": [
+        "Permit",
+        "EIALicence",
+        "Credential",
+        "NCAPractisingLicence",
+        "StandardDocumentVersion"
+      ],
+      "range": [
+        "Authority"
+      ]
+    },
+    {
+      "code": "has_standard_document",
+      "domain": [
+        "ProcurementRegime",
+        "StandardDocumentFamily"
+      ],
+      "range": [
+        "StandardDocumentVersion"
+      ]
+    },
+    {
+      "code": "uses_procurement_regime",
+      "domain": [
+        "Project",
+        "ProcurementRequest",
+        "TenderNotice"
+      ],
+      "range": [
+        "ProcurementRegime"
+      ]
+    },
+    {
+      "code": "references",
+      "domain": [
+        "MarketReferenceGuide",
+        "CostIndexSeries",
+        "CostEstimate",
+        "Rate"
+      ],
+      "range": [
+        "MarketReferenceObservation",
+        "CostIndexObservation",
+        "MarketReferenceGuide",
+        "CostIndexSeries"
+      ]
+    },
+    {
+      "code": "has_reference_observation",
+      "domain": [
+        "MarketReferenceGuide",
+        "CostIndexSeries"
+      ],
+      "range": [
+        "MarketReferenceObservation",
+        "CostIndexObservation"
+      ]
+    },
+    {
+      "code": "sampled_in",
+      "domain": [
+        "MarketReferenceObservation"
+      ],
+      "range": [
+        "GeographicUnit",
+        "PostalArea",
+        "Place"
+      ]
+    },
+    {
+      "code": "awards_contract",
+      "domain": [
+        "ProcuringEntity",
+        "TenderNotice"
+      ],
+      "range": [
+        "ProcurementAward",
+        "Contract"
+      ]
+    },
+    {
+      "code": "awarded_to",
+      "domain": [
+        "ProcurementAward",
+        "AwardLine"
+      ],
+      "range": [
+        "Organization",
+        "AwardedSupplier"
+      ]
+    },
+    {
+      "code": "discloses",
+      "domain": [
+        "AwardedSupplier",
+        "Organization"
+      ],
+      "range": [
+        "DirectorDisclosure",
+        "BeneficialOwnership"
+      ]
+    },
+    {
+      "code": "has_award_line",
+      "domain": [
+        "ProcurementAward"
+      ],
+      "range": [
+        "AwardLine"
+      ]
+    },
+    {
+      "code": "crosswalk_confidence",
+      "domain": [
+        "Crosswalk"
+      ],
+      "range": [
+        "ConfidenceScore"
+      ]
+    },
+    {
+      "code": "contains_master_record",
+      "domain": [
+        "MasterCatalogue",
+        "CatalogueAuthority"
+      ],
+      "range": [
+        "MasterProductRecord"
+      ]
+    },
+    {
+      "code": "authoritative_for",
+      "domain": [
+        "CatalogueAuthority"
+      ],
+      "range": [
+        "Product",
+        "ProductVariant",
+        "ProductIdentityKey"
+      ]
+    },
+    {
+      "code": "instantiates_canonical_product",
+      "domain": [
+        "MasterProductRecord"
+      ],
+      "range": [
+        "Product"
+      ]
+    },
+    {
+      "code": "instantiates_canonical_variant",
+      "domain": [
+        "MasterProductRecord"
+      ],
+      "range": [
+        "ProductVariant"
+      ]
+    },
+    {
+      "code": "submits_product",
+      "domain": [
+        "Organization",
+        "SupplierProductSubmission"
+      ],
+      "range": [
+        "SupplierProductSubmission",
+        "ProductOffer"
+      ]
+    },
+    {
+      "code": "candidate_for",
+      "domain": [
+        "SupplierProductSubmission"
+      ],
+      "range": [
+        "CanonicalizationCandidate"
+      ]
+    },
+    {
+      "code": "resolves_to",
+      "domain": [
+        "SupplierProductSubmission",
+        "CanonicalizationCandidate"
+      ],
+      "range": [
+        "Product",
+        "ProductVariant"
+      ]
+    },
+    {
+      "code": "skips_canonical_creation",
+      "domain": [
+        "CanonicalizationDecision"
+      ],
+      "range": [
+        "Product",
+        "ProductVariant"
+      ]
+    },
+    {
+      "code": "creates_canonical_product",
+      "domain": [
+        "CanonicalizationDecision"
+      ],
+      "range": [
+        "Product",
+        "ProductVariant"
+      ]
+    },
+    {
+      "code": "requires_steward_approval",
+      "domain": [
+        "CanonicalizationCandidate",
+        "CanonicalizationDecision"
+      ],
+      "range": [
+        "Approval",
+        "Person",
+        "UserAccount"
+      ]
+    },
+    {
+      "code": "uses_match_signal",
+      "domain": [
+        "CanonicalizationCandidate"
+      ],
+      "range": [
+        "ProductIdentityKey",
+        "ClassificationAssignment",
+        "Evidence"
+      ]
+    },
+    {
+      "code": "has_identity_key",
+      "domain": [
+        "Product",
+        "ProductVariant"
+      ],
+      "range": [
+        "ProductIdentityKey"
+      ]
+    },
+    {
+      "code": "has_catalogue_import",
+      "domain": [
+        "CatalogueAuthority",
+        "MasterCatalogue"
+      ],
+      "range": [
+        "CatalogueImportBatch"
+      ]
+    },
+    {
+      "code": "has_source_row",
+      "domain": [
+        "CatalogueImportBatch"
+      ],
+      "range": [
+        "MasterProductRecord"
+      ]
+    },
+    {
+      "code": "preserves_source_identity",
+      "domain": [
+        "MasterProductRecord",
+        "SupplierProductSubmission"
+      ],
+      "range": [
+        "ExternalIdentifier",
+        "SourceRecord"
+      ]
+    }
+  ],
+  "provenance_requirements": {
+    "required_for_external_facts": true,
+    "required_for_derived_spatial_joins": true,
+    "required_for_ai_outputs": true,
+    "required_fields": [
+      "source_system_id",
+      "source_record_id",
+      "observed_at_or_event_time",
+      "method",
+      "confidence",
+      "reviewer_or_approval_when_required",
+      "license_or_terms"
+    ],
+    "required_for_public_reference_data": true
+  }
+}

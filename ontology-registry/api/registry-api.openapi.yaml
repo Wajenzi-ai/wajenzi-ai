@@ -1,0 +1,269 @@
+openapi: 3.1.0
+info:
+  title: WAJENZI Identity and Ontology Registry API
+  version: 0.1.0
+  description: |
+    Authoritative identity, ontology, provenance, and canonicalization API for WAJENZI.
+    The registry separates canonical products from supplier-specific listings.
+servers:
+  - url: https://api.wajenzi.ai/v1
+paths:
+  /registry/entities:
+    post:
+      summary: Create or idempotently retrieve an entity from a source record
+      operationId: createEntity
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateEntityRequest'
+      responses:
+        '201':
+          description: Entity created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityResponse'
+        '200':
+          description: Existing entity returned by idempotent source key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityResponse'
+        '400':
+          description: Invalid entity or identifier
+  /registry/identifiers/resolve:
+    post:
+      summary: Resolve a namespaced identifier
+      operationId: resolveIdentifier
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResolveIdentifierRequest'
+      responses:
+        '200':
+          description: Identifier resolution result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResolutionResponse'
+        '404':
+          description: Identifier not found
+  /registry/assertions:
+    post:
+      summary: Create a typed, sourced relationship assertion
+      operationId: createAssertion
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssertionRequest'
+      responses:
+        '201':
+          description: Assertion created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssertionResponse'
+        '400':
+          description: Invalid predicate or entity types
+  /registry/merges:
+    post:
+      summary: Merge a duplicate entity into a surviving entity
+      operationId: mergeEntities
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MergeRequest'
+      responses:
+        '201':
+          description: Merge recorded and redirect created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MergeResponse'
+        '409':
+          description: Merge is unsafe or creates a cycle
+components:
+  schemas:
+    Status:
+      type: string
+      enum: [draft, active, deprecated, blocked, merged]
+    SourceRef:
+      type: object
+      required: [source_system, source_record_id]
+      properties:
+        source_system:
+          type: string
+        source_record_id:
+          type: string
+        import_batch_id:
+          type: string
+          format: uuid
+        document_id:
+          type: string
+          format: uuid
+    ExternalIdentifier:
+      type: object
+      required: [namespace, identifier_type, value]
+      properties:
+        namespace:
+          type: string
+        identifier_type:
+          type: string
+        value:
+          type: string
+        is_preferred:
+          type: boolean
+          default: false
+    CreateEntityRequest:
+      type: object
+      required: [entity_type, canonical_name]
+      properties:
+        entity_type:
+          type: string
+        canonical_name:
+          type: string
+        description:
+          type: string
+        status:
+          $ref: '#/components/schemas/Status'
+        metadata:
+          type: object
+          additionalProperties: true
+        source:
+          $ref: '#/components/schemas/SourceRef'
+        identifiers:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExternalIdentifier'
+    EntityResponse:
+      type: object
+      required: [entity_id, entity_type, canonical_name, status, result]
+      properties:
+        entity_id:
+          type: string
+          format: uuid
+        public_uri:
+          type: string
+          format: uri
+        entity_type:
+          type: string
+        canonical_name:
+          type: string
+        status:
+          $ref: '#/components/schemas/Status'
+        result:
+          type: string
+          enum: [created, existing, matched, review_required]
+    ResolveIdentifierRequest:
+      type: object
+      required: [namespace, identifier_type, value]
+      properties:
+        namespace:
+          type: string
+        identifier_type:
+          type: string
+        value:
+          type: string
+    ResolutionResponse:
+      type: object
+      required: [resolved]
+      properties:
+        resolved:
+          type: boolean
+        matched_entity_id:
+          type: string
+          format: uuid
+        resolved_entity_id:
+          type: string
+          format: uuid
+        entity_type:
+          type: string
+        status:
+          $ref: '#/components/schemas/Status'
+        resolution:
+          type: string
+          enum: [canonical_id, external_identifier, alias, merge_redirect]
+    AssertionRequest:
+      type: object
+      required: [subject_id, predicate, object_id]
+      properties:
+        subject_id:
+          type: string
+          format: uuid
+        predicate:
+          type: string
+        object_id:
+          type: string
+          format: uuid
+        context:
+          type: object
+          additionalProperties: true
+        provenance:
+          type: object
+          additionalProperties: true
+        source_record_id:
+          type: string
+          format: uuid
+        method:
+          type: string
+          enum: [manual, imported, model_inferred, steward_approved, system_generated]
+          default: manual
+        confidence:
+          type: number
+          minimum: 0
+          maximum: 1
+          default: 1
+    AssertionResponse:
+      type: object
+      required: [assertion_id, status]
+      properties:
+        assertion_id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [draft, active]
+        created_at:
+          type: string
+          format: date-time
+    MergeRequest:
+      type: object
+      required: [from_entity_id, into_entity_id, reason, approved_by]
+      properties:
+        from_entity_id:
+          type: string
+          format: uuid
+        into_entity_id:
+          type: string
+          format: uuid
+        reason:
+          type: string
+        evidence:
+          type: object
+          additionalProperties: true
+        approved_by:
+          type: string
+          format: uuid
+    MergeResponse:
+      type: object
+      required: [merge_event_id, from_entity_id, into_entity_id, redirect_created]
+      properties:
+        merge_event_id:
+          type: string
+          format: uuid
+        from_entity_id:
+          type: string
+          format: uuid
+        into_entity_id:
+          type: string
+          format: uuid
+        redirect_created:
+          type: boolean

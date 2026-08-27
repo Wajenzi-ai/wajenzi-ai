@@ -1,0 +1,1921 @@
+{
+  "source_file": "/home/ubuntu/upload/WAJENZI_EXTERNAL_SOURCE_ENRICHED_PRODUCTS.csv",
+  "source_file_id_policy": "ID is retained as source-record identifier; WAJENZI canonical IDs are newly assigned opaque IDs.",
+  "row_count": 13180,
+  "canonical_root_count": 12663,
+  "canonical_product_count": 12612,
+  "canonical_product_family_count": 51,
+  "canonical_variant_count": 517,
+  "type_counts": {
+    "variable": 51,
+    "variation": 517,
+    "simple": 12612
+  },
+  "parent_reference_resolution": {
+    "resolved_by_unique_sku": 448,
+    "resolved_by_source_row_id": 69
+  },
+  "unique_variation_parent_refs": 47,
+  "missing_parent_refs_by_sku": [],
+  "ambiguous_parent_refs_by_sku": [],
+  "variables_with_variation_counts": {
+    "10469": 6,
+    "14990": 9,
+    "15000": 12,
+    "15013": 12,
+    "15026": 9,
+    "15036": 12,
+    "15049": 12,
+    "15062": 39,
+    "15102": 54,
+    "15157": 63,
+    "20691": 9,
+    "20721": 9,
+    "20722": 11,
+    "20751": 11,
+    "20753": 12,
+    "20781": 12,
+    "20782": 9,
+    "20812": 9,
+    "20813": 15,
+    "20841": 15,
+    "20842": 9,
+    "20871": 21,
+    "20873": 12,
+    "20902": 9,
+    "20932": 6,
+    "21002": 0,
+    "21014": 0,
+    "21031": 14,
+    "21256": 0,
+    "21269": 14,
+    "21361": 6,
+    "21390": 3,
+    "21481": 6,
+    "21510": 8,
+    "22172": 6,
+    "22179": 6,
+    "22258": 4,
+    "22263": 5,
+    "22269": 4,
+    "22311": 3,
+    "22315": 2,
+    "22671": 0,
+    "22679": 6,
+    "22707": 6,
+    "22714": 6,
+    "22793": 4,
+    "22798": 5,
+    "22804": 4,
+    "22846": 3,
+    "22850": 2,
+    "22858": 3
+  },
+  "variables_without_variations_by_sku_count": 4,
+  "variables_without_variations_by_id": [
+    "21002",
+    "21014",
+    "21256",
+    "22671"
+  ],
+  "identifier_quality": {
+    "id_nonempty_unique": true,
+    "sku_nonempty": 11309,
+    "sku_unique_nonempty": 11235,
+    "sku_duplicate_group_count": 74,
+    "sku_duplicate_groups_sample": {
+      "WPT130": [
+        "12916",
+        "12918"
+      ],
+      "WPT197": [
+        "13052",
+        "13058"
+      ],
+      "WPT200": [
+        "13060",
+        "13062"
+      ],
+      "WPT201": [
+        "13064",
+        "13066"
+      ],
+      "INGCTLS91": [
+        "24951",
+        "24953"
+      ],
+      "INGCTLS92": [
+        "24955",
+        "24957"
+      ],
+      "INGCTLS93": [
+        "24959",
+        "24961"
+      ],
+      "INGCTLS94": [
+        "24963",
+        "24965"
+      ],
+      "INGCTLS95": [
+        "24967",
+        "24968"
+      ],
+      "INGCTLS96": [
+        "24970",
+        "24972"
+      ],
+      "INGCTLS97": [
+        "24974",
+        "24976"
+      ],
+      "INGCTLS98": [
+        "24978",
+        "24980"
+      ],
+      "INGCTLS99": [
+        "24982",
+        "24984"
+      ],
+      "INGCTLS100": [
+        "24986",
+        "24988"
+      ],
+      "INGCTLS101": [
+        "24990",
+        "24992"
+      ],
+      "INGCTLS102": [
+        "24994",
+        "24995"
+      ],
+      "INGCTLS103": [
+        "24998",
+        "24999"
+      ],
+      "INGCTLS104": [
+        "25002",
+        "25003"
+      ],
+      "INGCTLS105": [
+        "25006",
+        "25007"
+      ],
+      "INGCTLS106": [
+        "25010",
+        "25011"
+      ],
+      "INGCTLS107": [
+        "25014",
+        "25015"
+      ],
+      "INGCTLS108": [
+        "25017",
+        "25019"
+      ],
+      "INGCTLS109": [
+        "25021",
+        "25023"
+      ],
+      "INGCTLS110": [
+        "25025",
+        "25027"
+      ],
+      "INGCTLS111": [
+        "25029",
+        "25031"
+      ],
+      "BAC146": [
+        "31352",
+        "31353"
+      ],
+      "BAC147": [
+        "31355",
+        "31356"
+      ],
+      "BAC148": [
+        "31358",
+        "31359"
+      ],
+      "BAC173": [
+        "31408",
+        "31409"
+      ],
+      "LOL174": [
+        "36282",
+        "36284"
+      ],
+      "LOL175": [
+        "36287",
+        "36288"
+      ],
+      "LOL176": [
+        "36290",
+        "36292"
+      ],
+      "SOLAR163": [
+        "38261",
+        "38263"
+      ],
+      "SOLAR164": [
+        "38264",
+        "38265"
+      ],
+      "SOLAR165": [
+        "38267",
+        "38269"
+      ],
+      "SOLAR166": [
+        "38272",
+        "38273"
+      ],
+      "SOLAR167": [
+        "38276",
+        "38277"
+      ],
+      "SOLAR246": [
+        "38405",
+        "38406"
+      ],
+      "SOLAR247": [
+        "38408",
+        "38410"
+      ],
+      "SOLAR248": [
+        "38412",
+        "38413"
+      ],
+      "SOLAR249": [
+        "38415",
+        "38416"
+      ],
+      "SOLAR250": [
+        "38418",
+        "38420"
+      ],
+      "BRDS92": [
+        "39107",
+        "39108"
+      ],
+      "BRDS93": [
+        "39109",
+        "39110"
+      ],
+      "BRDS94": [
+        "39111",
+        "39112"
+      ],
+      "FNDS35": [
+        "39690",
+        "39691"
+      ],
+      "FNDS46": [
+        "39712",
+        "39713"
+      ],
+      "FNDS80": [
+        "39764",
+        "39765"
+      ],
+      "FNDS81": [
+        "39767",
+        "39769"
+      ],
+      "FNDS82": [
+        "39770",
+        "39771"
+      ]
+    },
+    "gtin_nonempty": 0,
+    "blank_sku_rows": 1871
+  },
+  "field_metrics_on_canonical_roots": {
+    "canonical_brand_external": {
+      "nonempty": 4499,
+      "unique": 27
+    },
+    "product_family_external": {
+      "nonempty": 12663,
+      "unique": 12
+    },
+    "unit_of_measure_external": {
+      "nonempty": 12663,
+      "unique": 8
+    },
+    "pack_size_value_external": {
+      "nonempty": 12526,
+      "unique": 51
+    },
+    "pack_size_unit_external": {
+      "nonempty": 12663,
+      "unique": 8
+    },
+    "pack_size_text_external": {
+      "nonempty": 12663,
+      "unique": 69
+    },
+    "normalized_weight_kg_external": {
+      "nonempty": 168,
+      "unique": 50
+    },
+    "normalized_length_cm_external": {
+      "nonempty": 1295,
+      "unique": 106
+    },
+    "normalized_width_cm_external": {
+      "nonempty": 1295,
+      "unique": 123
+    },
+    "normalized_height_cm_external": {
+      "nonempty": 0,
+      "unique": 0
+    },
+    "thickness_mm_external": {
+      "nonempty": 69,
+      "unique": 29
+    },
+    "diameter_value_external": {
+      "nonempty": 194,
+      "unique": 45
+    },
+    "description_source_url_external": {
+      "nonempty": 12663,
+      "unique": 11
+    },
+    "description_confidence_external": {
+      "nonempty": 12663,
+      "unique": 2
+    }
+  },
+  "classification_metrics_on_canonical_roots": {
+    "omniclass_table_23_code": {
+      "nonempty": 8921,
+      "unique": 48,
+      "confidence_counts": {
+        "0.9": 2273,
+        "0.95": 1032,
+        "0.85": 593,
+        "0.8": 564,
+        "0.88": 744,
+        "0.84": 190,
+        "0.86": 231,
+        "0.94": 65,
+        "0.93": 525,
+        "0.96": 640,
+        "0.6": 788,
+        "0.82": 621,
+        "0.92": 93,
+        "0.58": 411,
+        "0.97": 111,
+        "0.78": 40
+      }
+    },
+    "masterformat_code": {
+      "nonempty": 7289,
+      "unique": 21,
+      "confidence_counts": {
+        "0.88": 2042,
+        "0.9": 1823,
+        "0.8": 1310,
+        "0.62": 131,
+        "0.82": 442,
+        "0.92": 74,
+        "0.95": 129,
+        "0.86": 330,
+        "0.72": 60,
+        "0.75": 274,
+        "0.7": 243,
+        "0.93": 310,
+        "0.78": 50,
+        "0.96": 71
+      }
+    },
+    "uniformat_code": {
+      "nonempty": 547,
+      "unique": 4,
+      "confidence_counts": {
+        "0.84": 102,
+        "0.92": 125,
+        "0.9": 249,
+        "0.96": 71
+      }
+    },
+    "etim_code": {
+      "nonempty": 4419,
+      "unique": 468,
+      "confidence_counts": {
+        "0.98": 3781,
+        "0.99": 231,
+        "0.718": 8,
+        "0.692": 4,
+        "0.682": 60,
+        "0.838": 1,
+        "0.771": 3,
+        "0.652": 15,
+        "0.714": 7,
+        "0.658": 10,
+        "0.745": 2,
+        "0.721": 9,
+        "0.702": 79,
+        "0.756": 22,
+        "0.664": 3,
+        "0.711": 3,
+        "0.807": 3,
+        "0.661": 1,
+        "0.806": 8,
+        "0.763": 4,
+        "0.667": 4,
+        "0.666": 2,
+        "0.722": 1,
+        "0.764": 2,
+        "0.723": 2,
+        "0.688": 3,
+        "0.639": 2,
+        "0.641": 4,
+        "0.727": 1,
+        "0.73": 1,
+        "0.739": 5,
+        "0.638": 1,
+        "0.657": 4,
+        "0.742": 1,
+        "0.716": 1,
+        "0.787": 2,
+        "0.715": 15,
+        "0.671": 4,
+        "0.695": 8,
+        "0.626": 1,
+        "0.674": 1,
+        "0.645": 10,
+        "0.665": 10,
+        "0.634": 3,
+        "0.654": 11,
+        "0.757": 45,
+        "0.66": 2,
+        "0.697": 2,
+        "0.677": 3,
+        "0.696": 3,
+        "0.651": 2,
+        "0.648": 2,
+        "0.746": 3,
+        "0.774": 2,
+        "0.643": 1,
+        "0.621": 1
+      }
+    },
+    "icms_code": {
+      "nonempty": 9033,
+      "unique": 12,
+      "confidence_counts": {
+        "0.75": 3038,
+        "0.93": 2123,
+        "0.55": 131,
+        "0.6": 296,
+        "0.9": 835,
+        "0.88": 693,
+        "0.65": 1199,
+        "0.8": 43,
+        "0.85": 274,
+        "0.95": 125,
+        "0.7": 276
+      }
+    },
+    "dks_3015_code": {
+      "nonempty": 0,
+      "unique": 0,
+      "confidence_counts": {}
+    }
+  },
+  "top_canonical_brands_external": [
+    [
+      "Plascon",
+      1296
+    ],
+    [
+      "Stanley",
+      1126
+    ],
+    [
+      "Tapis",
+      687
+    ],
+    [
+      "Makita",
+      567
+    ],
+    [
+      "Bosch",
+      256
+    ],
+    [
+      "Ingco",
+      152
+    ],
+    [
+      "Nova",
+      118
+    ],
+    [
+      "Hansgrohe",
+      68
+    ],
+    [
+      "Geberit",
+      40
+    ],
+    [
+      "Black and Decker",
+      40
+    ],
+    [
+      "Lifestile",
+      28
+    ],
+    [
+      "Crown",
+      23
+    ],
+    [
+      "Ryobi",
+      14
+    ],
+    [
+      "Versatile",
+      13
+    ],
+    [
+      "Miro",
+      11
+    ],
+    [
+      "DeWalt",
+      11
+    ],
+    [
+      "Elegantile",
+      10
+    ],
+    [
+      "Orientile",
+      10
+    ],
+    [
+      "Knauf",
+      6
+    ],
+    [
+      "Bamburi",
+      5
+    ],
+    [
+      "Ponal",
+      4
+    ],
+    [
+      "Gyproc",
+      3
+    ],
+    [
+      "Pattex",
+      3
+    ],
+    [
+      "Olga",
+      2
+    ],
+    [
+      "Crometta",
+      2
+    ],
+    [
+      "Hada",
+      2
+    ],
+    [
+      "Black+Decker",
+      2
+    ]
+  ],
+  "top_product_families_external": [
+    [
+      "tools",
+      3365
+    ],
+    [
+      "plumbing",
+      2958
+    ],
+    [
+      "electrical",
+      2206
+    ],
+    [
+      "paint",
+      1402
+    ],
+    [
+      "tiles",
+      659
+    ],
+    [
+      "roofing",
+      512
+    ],
+    [
+      "woodwork",
+      452
+    ],
+    [
+      "general_hardware",
+      374
+    ],
+    [
+      "fasteners",
+      315
+    ],
+    [
+      "steel",
+      251
+    ],
+    [
+      "concrete_chemicals",
+      128
+    ],
+    [
+      "ppe",
+      41
+    ]
+  ],
+  "top_categories": [
+    [
+      "Plumbing",
+      2628
+    ],
+    [
+      "Power tools",
+      2251
+    ],
+    [
+      "paints",
+      1290
+    ],
+    [
+      "solar",
+      650
+    ],
+    [
+      "electrical",
+      648
+    ],
+    [
+      "lighting",
+      618
+    ],
+    [
+      "Tool accessories",
+      615
+    ],
+    [
+      "roofing",
+      447
+    ],
+    [
+      "taps",
+      439
+    ],
+    [
+      "Steel",
+      377
+    ],
+    [
+      "Woodwork",
+      332
+    ],
+    [
+      "Porcelain tiles",
+      315
+    ],
+    [
+      "fasteners",
+      293
+    ],
+    [
+      "Hardware",
+      255
+    ],
+    [
+      "Fencing",
+      215
+    ],
+    [
+      "makita power tools",
+      210
+    ],
+    [
+      "makita",
+      197
+    ],
+    [
+      "ceramic tiles",
+      187
+    ],
+    [
+      "ingco",
+      171
+    ],
+    [
+      "WELDING > MIG Welding",
+      146
+    ],
+    [
+      "Doors and locks",
+      144
+    ],
+    [
+      "Toilets",
+      141
+    ],
+    [
+      "Decker",
+      140
+    ],
+    [
+      "Adhesive",
+      133
+    ],
+    [
+      "kitchen",
+      128
+    ],
+    [
+      "total accessories",
+      125
+    ],
+    [
+      "Tanks",
+      123
+    ],
+    [
+      "bosch",
+      121
+    ],
+    [
+      "cctv",
+      121
+    ],
+    [
+      "Wall tiles",
+      101
+    ],
+    [
+      "Paint",
+      95
+    ],
+    [
+      "Doors",
+      86
+    ],
+    [
+      "Interior design",
+      78
+    ],
+    [
+      "Wood Doors",
+      71
+    ],
+    [
+      "MRM",
+      57
+    ],
+    [
+      "PPE",
+      46
+    ],
+    [
+      "Natural stones",
+      40
+    ],
+    [
+      "lights",
+      40
+    ],
+    [
+      "Ceiling",
+      39
+    ],
+    [
+      "Rebar tools",
+      39
+    ],
+    [
+      "Claddding",
+      37
+    ],
+    [
+      "Exterior finish",
+      37
+    ],
+    [
+      "Tile essentials",
+      36
+    ],
+    [
+      "Solar Panels",
+      36
+    ],
+    [
+      "Floor tiles",
+      34
+    ],
+    [
+      "concrete products",
+      29
+    ],
+    [
+      "stone coated roofing",
+      25
+    ],
+    [
+      "Dewalt",
+      22
+    ],
+    [
+      "WELDING > MIG Welders",
+      21
+    ],
+    [
+      "ryobi",
+      19
+    ],
+    [
+      "Cement",
+      18
+    ],
+    [
+      "barbed wire",
+      15
+    ],
+    [
+      "building materials",
+      12
+    ],
+    [
+      "Paint brush and rollers",
+      11
+    ],
+    [
+      "Flooring",
+      9
+    ],
+    [
+      "Imported doors",
+      9
+    ],
+    [
+      "total",
+      8
+    ],
+    [
+      "deformed bar",
+      7
+    ],
+    [
+      "WELDING > TIG Welders",
+      6
+    ],
+    [
+      "Smart Locks",
+      5
+    ],
+    [
+      "Metering Accessories",
+      4
+    ],
+    [
+      "bathroom",
+      1
+    ],
+    [
+      "Tile Installation Kits",
+      1
+    ],
+    [
+      "Adhesives and Sealants",
+      1
+    ]
+  ],
+  "matching_key": {
+    "definition": "normalized Name + canonical brand + product family + unit + pack size + thickness + diameter + MasterFormat code",
+    "root_collision_group_count": 1388,
+    "root_collision_groups_sample": [
+      {
+        "key": "cutting blade – diamond cutting & grinding wheel 7-1/4″(180mm) 8500r/min|stanley|tools|piece|1 piece||||",
+        "ids": [
+          "11019",
+          "11021"
+        ]
+      },
+      {
+        "key": "drill bit s.d.s plus-1 10 x100 x 160mm||tools|piece|1 piece||||",
+        "ids": [
+          "11104",
+          "11105"
+        ]
+      },
+      {
+        "key": "drill bits 6mm shaft||tools|piece|1 piece||||",
+        "ids": [
+          "11135",
+          "11137",
+          "11139"
+        ]
+      },
+      {
+        "key": "keyed chuck 1-13mm||tools|piece|1 piece||||",
+        "ids": [
+          "11217",
+          "11218"
+        ]
+      },
+      {
+        "key": "single battery gba 18v, 6.0 ah|ingco|tools|piece|1 piece||||",
+        "ids": [
+          "11326",
+          "11327"
+        ]
+      },
+      {
+        "key": "bosch cordless 18v angle grinder|bosch|tools|piece|1 piece||||",
+        "ids": [
+          "11577",
+          "11599"
+        ]
+      },
+      {
+        "key": "bosch gvc 22 ex hose 3.5mm x 1.5m|bosch|tools|piece|1 piece||||",
+        "ids": [
+          "11621",
+          "25361"
+        ]
+      },
+      {
+        "key": "lithium-ion blower||tools|piece|1 piece||||",
+        "ids": [
+          "11897",
+          "12041"
+        ]
+      },
+      {
+        "key": "demolition breaker||tools|piece|1 piece||||26 28 16",
+        "ids": [
+          "11913",
+          "12008"
+        ]
+      },
+      {
+        "key": "lithium-ion angle polisher||tools|piece|1 piece||||",
+        "ids": [
+          "11919",
+          "24890"
+        ]
+      },
+      {
+        "key": "spray gun||tools|piece|1 piece||||",
+        "ids": [
+          "11941",
+          "39674"
+        ]
+      },
+      {
+        "key": "electric router|bosch|tools|piece|1 piece||||",
+        "ids": [
+          "11951",
+          "11996"
+        ]
+      },
+      {
+        "key": "lithium-ion impact drill – 20v|stanley|tools|piece|1 piece||||",
+        "ids": [
+          "11967",
+          "12047",
+          "12049"
+        ]
+      },
+      {
+        "key": "lithium-ion cordless drill – 20v|stanley|tools|piece|1 piece||||",
+        "ids": [
+          "11969",
+          "11971"
+        ]
+      },
+      {
+        "key": "rotary hammer – input power: 800w||tools|piece|1 piece||||",
+        "ids": [
+          "12016",
+          "12018"
+        ]
+      },
+      {
+        "key": "lithium-ion vacuum cleaner||tools|piece|1 piece||||",
+        "ids": [
+          "12035",
+          "24884",
+          "24886"
+        ]
+      },
+      {
+        "key": "lithium-ion angle grinder||tools|piece|1 piece||||",
+        "ids": [
+          "12039",
+          "24888"
+        ]
+      },
+      {
+        "key": "stainless steel round shower head with silicone nozzle anti scaling, 20cm||plumbing|piece|1 piece||20|cm|22 42 00",
+        "ids": [
+          "12700",
+          "30541"
+        ]
+      },
+      {
+        "key": "tapis shower head + arm|tapis|plumbing|piece|1 piece||||22 42 00",
+        "ids": [
+          "12726",
+          "12740"
+        ]
+      },
+      {
+        "key": "shower arm, chrome plated||plumbing|piece|1 piece||||22 42 00",
+        "ids": [
+          "12802",
+          "12804",
+          "30587",
+          "30589"
+        ]
+      },
+      {
+        "key": "hand shower||plumbing|piece|1 piece||||22 42 00",
+        "ids": [
+          "12816",
+          "12818",
+          "12820",
+          "30593",
+          "30595",
+          "30597",
+          "43466",
+          "43471",
+          "43476"
+        ]
+      },
+      {
+        "key": "jeals victorian concealed shower 3-way||plumbing|piece|1 piece||||22 42 00",
+        "ids": [
+          "12874",
+          "12878"
+        ]
+      },
+      {
+        "key": "tapis alborg concealed shower 4-way|tapis|plumbing|piece|1 piece||||22 42 00",
+        "ids": [
+          "12882",
+          "12884"
+        ]
+      },
+      {
+        "key": "talis s concealed 4-way, finish set, chrome plated||plumbing|set|set||||22 42 00",
+        "ids": [
+          "12890",
+          "30619"
+        ]
+      },
+      {
+        "key": "hgrohe ecos for 4-way shower mixer body + finish set||plumbing|set|set||||22 42 00",
+        "ids": [
+          "12916",
+          "12918"
+        ]
+      },
+      {
+        "key": "bath spout, chrome plated||plumbing|piece|1 piece||||22 42 00",
+        "ids": [
+          "12920",
+          "12922",
+          "12924",
+          "12926",
+          "30637",
+          "30639",
+          "30641",
+          "43954",
+          "43959",
+          "43964"
+        ]
+      },
+      {
+        "key": "delay action basin tap||plumbing|piece|1 piece||||22 42 00",
+        "ids": [
+          "12956",
+          "12958",
+          "12960",
+          "43934",
+          "43939",
+          "43944"
+        ]
+      },
+      {
+        "key": "tapis long neck wall type bib tap|tapis|plumbing|piece|1 piece||||22 42 00",
+        "ids": [
+          "12962",
+          "12964"
+        ]
+      },
+      {
+        "key": "infra red basin tap, zenit||plumbing|piece|1 piece||||22 42 00",
+        "ids": [
+          "12980",
+          "30328"
+        ]
+      },
+      {
+        "key": "push tap delay action, chrome plated||plumbing|piece|1 piece||||22 42 00",
+        "ids": [
+          "12982",
+          "12984"
+        ]
+      },
+      {
+        "key": "tapis basin mixer with pop up waste;|tapis|plumbing|piece|1 piece||||22 42 00",
+        "ids": [
+          "12992",
+          "12994",
+          "12998"
+        ]
+      },
+      {
+        "key": "infra red electronic basin tap, ac & dc||plumbing|piece|1 piece||||22 42 00",
+        "ids": [
+          "13002",
+          "13004",
+          "30667",
+          "30669",
+          "43924"
+        ]
+      },
+      {
+        "key": "tapis jeals victorian basin mixer with pop-up waste|tapis|plumbing|piece|1 piece||||22 42 00",
+        "ids": [
+          "13052",
+          "13058"
+        ]
+      },
+      {
+        "key": "tapis fannie victorian basin mixer|tapis|plumbing|piece|1 piece||||22 42 00",
+        "ids": [
+          "13060",
+          "13062"
+        ]
+      },
+      {
+        "key": "tapis erath basin mixer with pop up waste|tapis|plumbing|piece|1 piece||||22 42 00",
+        "ids": [
+          "13064",
+          "13066"
+        ]
+      },
+      {
+        "key": "tapis easter basin mixer with pop up waste|tapis|plumbing|piece|1 piece||||22 42 00",
+        "ids": [
+          "13070",
+          "13072"
+        ]
+      },
+      {
+        "key": "electronic wash basin tap, wall mount; modus e hd-k; battery operated||plumbing|piece|1 piece||||22 42 00",
+        "ids": [
+          "13136",
+          "30280"
+        ]
+      },
+      {
+        "key": "stainless steel round shower head with silicone nozzle anti scaling; 200mm, matt black||plumbing|piece|1 piece||20|cm|22 42 00",
+        "ids": [
+          "13144",
+          "30288"
+        ]
+      },
+      {
+        "key": "tapis stainless steel square rain air shower head; 20cm|tapis|plumbing|piece|1 piece||20|cm|22 42 00",
+        "ids": [
+          "13160",
+          "13164"
+        ]
+      },
+      {
+        "key": "nova vanity: counter basin|nova|plumbing|piece|1 piece||||22 42 00",
+        "ids": [
+          "13414",
+          "13448"
+        ]
+      },
+      {
+        "key": "nova: counter top basin|nova|plumbing|piece|1 piece||||22 42 00",
+        "ids": [
+          "13416",
+          "13420",
+          "13454",
+          "13456",
+          "13466"
+        ]
+      },
+      {
+        "key": "tapis: counter top basin|tapis|plumbing|piece|1 piece||||22 42 00",
+        "ids": [
+          "13424",
+          "13444"
+        ]
+      },
+      {
+        "key": "elodie: washbasin||plumbing|piece|1 piece||||22 42 00",
+        "ids": [
+          "13426",
+          "13514"
+        ]
+      },
+      {
+        "key": "art-deco: washbasin||plumbing|piece|1 piece||||22 42 00",
+        "ids": [
+          "13440",
+          "13442"
+        ]
+      },
+      {
+        "key": "tapis : vanity basin|tapis|plumbing|piece|1 piece||||22 42 00",
+        "ids": [
+          "13450",
+          "13462"
+        ]
+      },
+      {
+        "key": "ivo : pedestal||plumbing|piece|1 piece||||22 42 00",
+        "ids": [
+          "13484",
+          "13486"
+        ]
+      },
+      {
+        "key": "ivo: washbasin||plumbing|piece|1 piece||||22 42 00",
+        "ids": [
+          "13488",
+          "13490"
+        ]
+      },
+      {
+        "key": "durastyle: vanity basin||plumbing|piece|1 piece||||22 42 00",
+        "ids": [
+          "13540",
+          "13550"
+        ]
+      },
+      {
+        "key": "sid110-50 sirius tectonite inset kitchen sink, single bowl, carbon black||plumbing|piece|1 piece||||09 30 00",
+        "ids": [
+          "13576",
+          "30386"
+        ]
+      },
+      {
+        "key": "sid110-50 sirius tectonite inset kitchen sink, single bowl, indria brown||plumbing|piece|1 piece||||09 30 00",
+        "ids": [
+          "13578",
+          "30388"
+        ]
+      },
+      {
+        "key": "sid110-50 sirius tectonite inset kitchen sink, single bowl, coffee||plumbing|piece|1 piece||||09 30 00",
+        "ids": [
+          "13582",
+          "30392"
+        ]
+      },
+      {
+        "key": "sid610 sirius tectonite inset kitchen sink, single bowl, indria brown||plumbing|piece|1 piece||||09 30 00",
+        "ids": [
+          "13586",
+          "30394"
+        ]
+      },
+      {
+        "key": "sid610 sirius tectonite inset kitchen sink, single bowl, arctic white||plumbing|piece|1 piece||||09 30 00",
+        "ids": [
+          "13592",
+          "30396"
+        ]
+      },
+      {
+        "key": "cascade: stainless steel kitchen sink||plumbing|piece|1 piece||||09 30 00",
+        "ids": [
+          "13598",
+          "13650"
+        ]
+      },
+      {
+        "key": "stainless steel kitchen sink||plumbing|piece|1 piece||||09 30 00",
+        "ids": [
+          "13604",
+          "13648"
+        ]
+      },
+      {
+        "key": "hansgrohe: built-in sink|hansgrohe|plumbing|piece|1 piece||||09 30 00",
+        "ids": [
+          "13606",
+          "13608",
+          "13610",
+          "13612",
+          "13614"
+        ]
+      },
+      {
+        "key": "mekal: s/steel inset rectangle kitchen sink||plumbing|piece|1 piece||||09 30 00",
+        "ids": [
+          "13616",
+          "13618",
+          "13620"
+        ]
+      },
+      {
+        "key": "projectline stainless steel sink||plumbing|piece|1 piece||||09 30 00",
+        "ids": [
+          "13624",
+          "13656"
+        ]
+      },
+      {
+        "key": "trendline lay on stainless steel sink||plumbing|piece|1 piece||||09 30 00",
+        "ids": [
+          "13632",
+          "13634",
+          "13636"
+        ]
+      },
+      {
+        "key": "stainless steel inset kitchen sink||plumbing|piece|1 piece||||09 30 00",
+        "ids": [
+          "13638",
+          "13642",
+          "13644",
+          "13646"
+        ]
+      },
+      {
+        "key": "plastic insert (i08) for stainless steel sink||plumbing|piece|1 piece||||09 30 00",
+        "ids": [
+          "13640",
+          "30422"
+        ]
+      },
+      {
+        "key": "zeda: sink||plumbing|piece|1 piece||||09 30 00",
+        "ids": [
+          "13658",
+          "13660"
+        ]
+      },
+      {
+        "key": "freestanding bathtub||plumbing|piece|1 piece||||09 30 00",
+        "ids": [
+          "13738",
+          "13772",
+          "13774",
+          "13778",
+          "13782",
+          "13784"
+        ]
+      },
+      {
+        "key": "steam room+jacuzzi||plumbing|piece|1 piece||||",
+        "ids": [
+          "13744",
+          "13746"
+        ]
+      },
+      {
+        "key": "crw: massage bathtub||plumbing|piece|1 piece||||09 30 00",
+        "ids": [
+          "13750",
+          "13752",
+          "13754",
+          "13756",
+          "13758",
+          "13762"
+        ]
+      },
+      {
+        "key": "nova oriental: acrylic bath tub|nova|plumbing|piece|1 piece||||",
+        "ids": [
+          "13766",
+          "13768",
+          "13770"
+        ]
+      },
+      {
+        "key": "fshn: freestanding bathtub||plumbing|piece|1 piece||||09 30 00",
+        "ids": [
+          "13776",
+          "13780"
+        ]
+      },
+      {
+        "key": "tapis stuart : uf seat cover; wooden|tapis|plumbing|piece|1 piece||||22 42 00",
+        "ids": [
+          "13867",
+          "42710"
+        ]
+      },
+      {
+        "key": "tapis arco : wc pan : white|tapis|plumbing|piece|1 piece||||22 42 00",
+        "ids": [
+          "13935",
+          "13943"
+        ]
+      },
+      {
+        "key": "gloria chrome glass shelf||plumbing|piece|1 piece||||",
+        "ids": [
+          "14008",
+          "31098"
+        ]
+      },
+      {
+        "key": "gloria chrome single towel rail||plumbing|piece|1 piece||||",
+        "ids": [
+          "14010",
+          "31099"
+        ]
+      },
+      {
+        "key": "gloria chrome towel ring||plumbing|piece|1 piece||||",
+        "ids": [
+          "14012",
+          "31100"
+        ]
+      },
+      {
+        "key": "perla antique brushed bronze robe hook||plumbing|piece|1 piece||||",
+        "ids": [
+          "14014",
+          "31101"
+        ]
+      },
+      {
+        "key": "perla antique brushed bronze round towel ring||plumbing|piece|1 piece||||",
+        "ids": [
+          "14016",
+          "31102"
+        ]
+      },
+      {
+        "key": "perla antique brushed bronze tumbler holder||plumbing|piece|1 piece||||",
+        "ids": [
+          "14018",
+          "31103"
+        ]
+      },
+      {
+        "key": "single caddy alpha soap basket - 200 x 120 x 30mm||plumbing|piece|1 piece||||",
+        "ids": [
+          "14020",
+          "31104"
+        ]
+      },
+      {
+        "key": "cotto como chrome glass shelf||plumbing|piece|1 piece||||",
+        "ids": [
+          "14022",
+          "31105"
+        ]
+      },
+      {
+        "key": "cotto como chrome robe hook||plumbing|piece|1 piece||||",
+        "ids": [
+          "14024",
+          "31106"
+        ]
+      },
+      {
+        "key": "cotto como chrome soap holder||plumbing|piece|1 piece||||",
+        "ids": [
+          "14026",
+          "31107"
+        ]
+      },
+      {
+        "key": "cotto como chrome towel ring||plumbing|piece|1 piece||||",
+        "ids": [
+          "14028",
+          "31108"
+        ]
+      },
+      {
+        "key": "cotto como chrome tumbler holder||plumbing|piece|1 piece||||",
+        "ids": [
+          "14030",
+          "31109"
+        ]
+      },
+      {
+        "key": "cotto curve chrome glass shelf||plumbing|piece|1 piece||||",
+        "ids": [
+          "14032",
+          "31110"
+        ]
+      },
+      {
+        "key": "cotto curve chrome robe hook||plumbing|piece|1 piece||||",
+        "ids": [
+          "14034",
+          "31111"
+        ]
+      },
+      {
+        "key": "cotto curve chrome soap holder||plumbing|piece|1 piece||||",
+        "ids": [
+          "14036",
+          "31112"
+        ]
+      },
+      {
+        "key": "cotto curve chrome towel ring||plumbing|piece|1 piece||||",
+        "ids": [
+          "14038",
+          "31113"
+        ]
+      },
+      {
+        "key": "cotto curve chrome tumbler holder||plumbing|piece|1 piece||||",
+        "ids": [
+          "14040",
+          "31114"
+        ]
+      },
+      {
+        "key": "cotto square chrome glass shelf||plumbing|piece|1 piece||||",
+        "ids": [
+          "14042",
+          "31115"
+        ]
+      },
+      {
+        "key": "cotto square chrome robe hook||plumbing|piece|1 piece||||",
+        "ids": [
+          "14044",
+          "31116"
+        ]
+      },
+      {
+        "key": "cotto square chrome soap holder||plumbing|piece|1 piece||||",
+        "ids": [
+          "14046",
+          "31117"
+        ]
+      },
+      {
+        "key": "cotto square chrome tumbler holder||plumbing|piece|1 piece||||",
+        "ids": [
+          "14048",
+          "31118"
+        ]
+      },
+      {
+        "key": "cellini single stainless steel glass shelf||plumbing|piece|1 piece||||",
+        "ids": [
+          "14050",
+          "31119"
+        ]
+      },
+      {
+        "key": "cellini six piece gift set aluminium||plumbing|set|set||||",
+        "ids": [
+          "14052",
+          "31120"
+        ]
+      },
+      {
+        "key": "cellini stainless steel six piece gift set||plumbing|set|set||||",
+        "ids": [
+          "14054",
+          "31121"
+        ]
+      },
+      {
+        "key": "cubo black robe hook||plumbing|piece|1 piece||||",
+        "ids": [
+          "14056",
+          "31122"
+        ]
+      },
+      {
+        "key": "cubo black soap basket||plumbing|piece|1 piece||||",
+        "ids": [
+          "14058",
+          "31123"
+        ]
+      },
+      {
+        "key": "cubo black soap dish||plumbing|piece|1 piece||||",
+        "ids": [
+          "14060",
+          "31124"
+        ]
+      },
+      {
+        "key": "cubo black towel ring||plumbing|piece|1 piece||||",
+        "ids": [
+          "14062",
+          "31125"
+        ]
+      },
+      {
+        "key": "cubo black tumbler holder||plumbing|piece|1 piece||||",
+        "ids": [
+          "14064",
+          "31126"
+        ]
+      },
+      {
+        "key": "flusso black robe hook||plumbing|piece|1 piece||||",
+        "ids": [
+          "14066",
+          "31127"
+        ]
+      },
+      {
+        "key": "flusso black soap dish||plumbing|piece|1 piece||||",
+        "ids": [
+          "14068",
+          "31128"
+        ]
+      }
+    ],
+    "warning": "The key is a candidate match signal, not an automatic merge key. Supplier evidence, manufacturer part number, barcode, specification, unit, pack, and steward approval remain required."
+  },
+  "sample_rows": [
+    {
+      "ID": "10469",
+      "Type": "variable",
+      "SKU": "WP022",
+      "Name": "Crown Vinyl Matt Emulsion Xtreme APS Shades",
+      "Parent": "",
+      "canonical_brand_external": "Crown",
+      "product_family_external": "paint",
+      "unit_of_measure_external": "L",
+      "pack_size_text_external": "20 L | 4 L | 1 L",
+      "masterformat_code": "09 91 00",
+      "code_mapping_confidence": "0.9"
+    },
+    {
+      "ID": "10489",
+      "Type": "variation",
+      "SKU": "WP023",
+      "Name": "Crown Vinyl Matt Emulsion Xtreme APS Shades",
+      "Parent": "WP022",
+      "canonical_brand_external": "Crown",
+      "product_family_external": "paint",
+      "unit_of_measure_external": "L",
+      "pack_size_text_external": "20 L",
+      "masterformat_code": "09 91 00",
+      "code_mapping_confidence": "0.9"
+    },
+    {
+      "ID": "10490",
+      "Type": "variation",
+      "SKU": "WP024",
+      "Name": "Crown Vinyl Matt Emulsion Xtreme APS Shades",
+      "Parent": "WP022",
+      "canonical_brand_external": "Crown",
+      "product_family_external": "paint",
+      "unit_of_measure_external": "L",
+      "pack_size_text_external": "4 L",
+      "masterformat_code": "09 91 00",
+      "code_mapping_confidence": "0.9"
+    },
+    {
+      "ID": "10491",
+      "Type": "variation",
+      "SKU": "WP025",
+      "Name": "Crown Vinyl Matt Emulsion Xtreme APS Shades",
+      "Parent": "WP022",
+      "canonical_brand_external": "Crown",
+      "product_family_external": "paint",
+      "unit_of_measure_external": "L",
+      "pack_size_text_external": "1 L",
+      "masterformat_code": "09 91 00",
+      "code_mapping_confidence": "0.9"
+    },
+    {
+      "ID": "10492",
+      "Type": "variation",
+      "SKU": "WP026",
+      "Name": "Crown Vinyl Matt Emulsion Xtreme APS Shades",
+      "Parent": "WP022",
+      "canonical_brand_external": "Crown",
+      "product_family_external": "paint",
+      "unit_of_measure_external": "L",
+      "pack_size_text_external": "20 L",
+      "masterformat_code": "09 91 00",
+      "code_mapping_confidence": "0.9"
+    },
+    {
+      "ID": "10493",
+      "Type": "variation",
+      "SKU": "WP027",
+      "Name": "Crown Vinyl Matt Emulsion Xtreme APS Shades",
+      "Parent": "WP022",
+      "canonical_brand_external": "Crown",
+      "product_family_external": "paint",
+      "unit_of_measure_external": "L",
+      "pack_size_text_external": "4 L",
+      "masterformat_code": "09 91 00",
+      "code_mapping_confidence": "0.9"
+    },
+    {
+      "ID": "10494",
+      "Type": "variation",
+      "SKU": "WP028",
+      "Name": "Crown Vinyl Matt Emulsion Xtreme APS Shades",
+      "Parent": "WP022",
+      "canonical_brand_external": "Crown",
+      "product_family_external": "paint",
+      "unit_of_measure_external": "L",
+      "pack_size_text_external": "1 L",
+      "masterformat_code": "09 91 00",
+      "code_mapping_confidence": "0.9"
+    },
+    {
+      "ID": "10952",
+      "Type": "simple",
+      "SKU": "TA01",
+      "Name": "11pcs Hole Saw Set",
+      "Parent": "",
+      "canonical_brand_external": "",
+      "product_family_external": "tools",
+      "unit_of_measure_external": "piece",
+      "pack_size_text_external": "11 piece",
+      "masterformat_code": "",
+      "code_mapping_confidence": "0.98"
+    },
+    {
+      "ID": "10954",
+      "Type": "simple",
+      "SKU": "TA02",
+      "Name": "19 Piece High Speed Drill Bit Set 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10mm",
+      "Parent": "",
+      "canonical_brand_external": "",
+      "product_family_external": "tools",
+      "unit_of_measure_external": "piece",
+      "pack_size_text_external": "19 piece",
+      "masterformat_code": "",
+      "code_mapping_confidence": "0.98"
+    },
+    {
+      "ID": "10956",
+      "Type": "simple",
+      "SKU": "TA03",
+      "Name": "32-Pc Screwdriver Bit Set",
+      "Parent": "",
+      "canonical_brand_external": "",
+      "product_family_external": "tools",
+      "unit_of_measure_external": "set",
+      "pack_size_text_external": "set",
+      "masterformat_code": "",
+      "code_mapping_confidence": ""
+    },
+    {
+      "ID": "10958",
+      "Type": "simple",
+      "SKU": "TA04",
+      "Name": "4 Piece Hole Saw Set",
+      "Parent": "",
+      "canonical_brand_external": "",
+      "product_family_external": "tools",
+      "unit_of_measure_external": "piece",
+      "pack_size_text_external": "4 piece",
+      "masterformat_code": "",
+      "code_mapping_confidence": "0.98"
+    },
+    {
+      "ID": "10960",
+      "Type": "simple",
+      "SKU": "TA05",
+      "Name": "43-Pc Bit & Nut Set",
+      "Parent": "",
+      "canonical_brand_external": "",
+      "product_family_external": "tools",
+      "unit_of_measure_external": "set",
+      "pack_size_text_external": "set",
+      "masterformat_code": "",
+      "code_mapping_confidence": ""
+    },
+    {
+      "ID": "10962",
+      "Type": "simple",
+      "SKU": "TA06",
+      "Name": "46-Pc Screwdriver Bit Set",
+      "Parent": "",
+      "canonical_brand_external": "",
+      "product_family_external": "tools",
+      "unit_of_measure_external": "set",
+      "pack_size_text_external": "set",
+      "masterformat_code": "",
+      "code_mapping_confidence": ""
+    },
+    {
+      "ID": "10964",
+      "Type": "simple",
+      "SKU": "TA07",
+      "Name": "5 Pc Sandind Discs Set 115mm 40,60,80,100,12 0",
+      "Parent": "",
+      "canonical_brand_external": "",
+      "product_family_external": "tools",
+      "unit_of_measure_external": "piece",
+      "pack_size_text_external": "5 piece",
+      "masterformat_code": "",
+      "code_mapping_confidence": ""
+    },
+    {
+      "ID": "10966",
+      "Type": "simple",
+      "SKU": "TA08",
+      "Name": "5 Piece High Speed Drill Bit Set   4, 5, 6, 8, 10mm",
+      "Parent": "",
+      "canonical_brand_external": "",
+      "product_family_external": "tools",
+      "unit_of_measure_external": "piece",
+      "pack_size_text_external": "5 piece",
+      "masterformat_code": "",
+      "code_mapping_confidence": "0.98"
+    },
+    {
+      "ID": "10968",
+      "Type": "simple",
+      "SKU": "TA09",
+      "Name": "5pcs Forstner Bit Set 15mm, 20mm, 25mm, 30mm, 35mm",
+      "Parent": "",
+      "canonical_brand_external": "",
+      "product_family_external": "tools",
+      "unit_of_measure_external": "piece",
+      "pack_size_text_external": "5 piece",
+      "masterformat_code": "",
+      "code_mapping_confidence": "0.98"
+    },
+    {
+      "ID": "10969",
+      "Type": "simple",
+      "SKU": "TA10",
+      "Name": "6 Pc Sandind Discs Set180mm 40,60,80,100,12 0",
+      "Parent": "",
+      "canonical_brand_external": "",
+      "product_family_external": "tools",
+      "unit_of_measure_external": "piece",
+      "pack_size_text_external": "6 piece",
+      "masterformat_code": "",
+      "code_mapping_confidence": ""
+    },
+    {
+      "ID": "10971",
+      "Type": "simple",
+      "SKU": "TA11",
+      "Name": "7 Piece Tungsten Carbide Tipped Hole Saw Set",
+      "Parent": "",
+      "canonical_brand_external": "",
+      "product_family_external": "tools",
+      "unit_of_measure_external": "piece",
+      "pack_size_text_external": "7 piece",
+      "masterformat_code": "",
+      "code_mapping_confidence": "0.98"
+    },
+    {
+      "ID": "10973",
+      "Type": "simple",
+      "SKU": "TA12",
+      "Name": "8pcs Wood Drills Set 3, 4, 5, 6, 7, 8, 9, 10mm",
+      "Parent": "",
+      "canonical_brand_external": "",
+      "product_family_external": "tools",
+      "unit_of_measure_external": "piece",
+      "pack_size_text_external": "8 piece",
+      "masterformat_code": "",
+      "code_mapping_confidence": "0.98"
+    },
+    {
+      "ID": "10975",
+      "Type": "simple",
+      "SKU": "TA13",
+      "Name": "Auger Bit 10mm-3/8″",
+      "Parent": "",
+      "canonical_brand_external": "",
+      "product_family_external": "tools",
+      "unit_of_measure_external": "piece",
+      "pack_size_text_external": "1 piece",
+      "masterformat_code": "",
+      "code_mapping_confidence": "0.98"
+    }
+  ]
+}

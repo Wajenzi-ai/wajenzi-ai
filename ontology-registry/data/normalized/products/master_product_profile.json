@@ -1,0 +1,3464 @@
+{
+  "file": "/home/ubuntu/upload/WAJENZI_EXTERNAL_SOURCE_ENRICHED_PRODUCTS.csv",
+  "rows": 13180,
+  "columns": 118,
+  "fields": [
+    "ID",
+    "Type",
+    "SKU",
+    "GTIN, UPC, EAN, or ISBN",
+    "Name",
+    "Published",
+    "Is featured?",
+    "Visibility in catalog",
+    "Short description",
+    "Description",
+    "Date sale price starts",
+    "Date sale price ends",
+    "Tax status",
+    "Tax class",
+    "In stock?",
+    "Stock",
+    "Low stock amount",
+    "Backorders allowed?",
+    "Sold individually?",
+    "Weight (kg)",
+    "Length (cm)",
+    "Width (cm)",
+    "Height (cm)",
+    "Allow customer reviews?",
+    "Purchase note",
+    "Sale price",
+    "Regular price",
+    "Categories",
+    "Tags",
+    "Shipping class",
+    "Images",
+    "Download limit",
+    "Download expiry days",
+    "Parent",
+    "Grouped products",
+    "Upsells",
+    "Cross-sells",
+    "External URL",
+    "Button text",
+    "Position",
+    "Brands",
+    "Attribute 1 name",
+    "Attribute 1 value(s)",
+    "Attribute 1 visible",
+    "Attribute 1 global",
+    "Attribute 2 name",
+    "Attribute 2 value(s)",
+    "Attribute 2 visible",
+    "Attribute 2 global",
+    "omniclass_table_23_code",
+    "omniclass_table_23_title",
+    "omniclass_table_23_match_method",
+    "omniclass_table_23_confidence",
+    "omniclass_table_23_evidence",
+    "omniclass_table_23_source_document",
+    "masterformat_code",
+    "masterformat_title",
+    "masterformat_match_method",
+    "masterformat_confidence",
+    "masterformat_evidence",
+    "masterformat_source_document",
+    "uniformat_code",
+    "uniformat_title",
+    "uniformat_match_method",
+    "uniformat_confidence",
+    "uniformat_evidence",
+    "uniformat_source_document",
+    "etim_code",
+    "etim_title",
+    "etim_match_method",
+    "etim_confidence",
+    "etim_evidence",
+    "etim_source_document",
+    "icms_code",
+    "icms_title",
+    "icms_match_method",
+    "icms_confidence",
+    "icms_evidence",
+    "icms_source_document",
+    "dks_3015_code",
+    "dks_3015_title",
+    "dks_3015_match_method",
+    "dks_3015_confidence",
+    "dks_3015_evidence",
+    "dks_3015_source_document",
+    "code_mapping_status",
+    "code_mapping_confidence",
+    "source_short_description",
+    "source_description",
+    "source_weight_kg",
+    "source_length_cm",
+    "source_width_cm",
+    "source_height_cm",
+    "canonical_brand_external",
+    "product_family_external",
+    "unit_of_measure_external",
+    "unit_of_measure_status_external",
+    "pack_size_value_external",
+    "pack_size_unit_external",
+    "pack_size_text_external",
+    "normalized_weight_kg_external",
+    "weight_evidence_status_external",
+    "normalized_length_cm_external",
+    "normalized_width_cm_external",
+    "normalized_height_cm_external",
+    "thickness_mm_external",
+    "diameter_value_external",
+    "diameter_unit_external",
+    "dimension_evidence_status_external",
+    "dimension_notes_external",
+    "seo_keyword_primary_external",
+    "seo_keywords_external",
+    "description_source_url_external",
+    "description_source_title_external",
+    "description_source_type_external",
+    "description_source_date_external",
+    "description_confidence_external",
+    "description_origin_external"
+  ],
+  "type_counts": {
+    "variable": 51,
+    "variation": 517,
+    "simple": 12612
+  },
+  "published_counts": {
+    "1": 13174,
+    "2": 6
+  },
+  "visibility_counts": {
+    "visible": 13180
+  },
+  "featured_counts": {
+    "0": 13179,
+    "1": 1
+  },
+  "in_stock_counts": {
+    "1": 13138,
+    "0": 42
+  },
+  "ID_nonempty": 13180,
+  "ID_unique_nonempty": 13180,
+  "ID_duplicate_value_count": 0,
+  "ID_top_duplicates": [],
+  "SKU_nonempty": 11309,
+  "SKU_unique_nonempty": 11235,
+  "SKU_duplicate_value_count": 74,
+  "SKU_top_duplicates": [
+    [
+      "BAC146",
+      2
+    ],
+    [
+      "BAC147",
+      2
+    ],
+    [
+      "BAC148",
+      2
+    ],
+    [
+      "BAC173",
+      2
+    ],
+    [
+      "BRDS92",
+      2
+    ],
+    [
+      "BRDS93",
+      2
+    ],
+    [
+      "BRDS94",
+      2
+    ],
+    [
+      "FNDS156",
+      2
+    ],
+    [
+      "FNDS157",
+      2
+    ],
+    [
+      "FNDS35",
+      2
+    ],
+    [
+      "FNDS46",
+      2
+    ],
+    [
+      "FNDS80",
+      2
+    ],
+    [
+      "FNDS81",
+      2
+    ],
+    [
+      "FNDS82",
+      2
+    ],
+    [
+      "FNDS83",
+      2
+    ],
+    [
+      "FNDS84",
+      2
+    ],
+    [
+      "FNDS86",
+      2
+    ],
+    [
+      "FNDS87",
+      2
+    ],
+    [
+      "FNDS88",
+      2
+    ],
+    [
+      "FNDS89",
+      2
+    ]
+  ],
+  "Name_nonempty": 13180,
+  "Name_unique_nonempty": 9996,
+  "Name_duplicate_value_count": 1551,
+  "Name_top_duplicates": [
+    [
+      "Brass hex exhaust nuts cotter split pin zinc DIN 94...",
+      79
+    ],
+    [
+      "Matt Granito Tile 60.0×60.0",
+      78
+    ],
+    [
+      "Rectangular Hollow Section",
+      64
+    ],
+    [
+      "Square Hollow Section",
+      55
+    ],
+    [
+      "Ceramic Tile 30.0×30.0",
+      40
+    ],
+    [
+      "Circular Hollow sections",
+      40
+    ],
+    [
+      "Matt Granito Tile 60.0×120.0",
+      38
+    ],
+    [
+      "Ceramic Tile 20.0×30.0",
+      36
+    ],
+    [
+      "Ceramic Tile (30.0×60.0)cm",
+      26
+    ],
+    [
+      "Matt Granito Tile 30.0×60.0",
+      23
+    ],
+    [
+      "MCCB 800 Amps 3 Pole Adjustable",
+      21
+    ],
+    [
+      "ABS Consumer Unit 6 Way",
+      19
+    ],
+    [
+      "Ceramic Tile 30.0×60.0",
+      19
+    ],
+    [
+      "Ceramic Border Tile 07.0×20.0",
+      17
+    ],
+    [
+      "Matt Granito Tile 30.3×61.3",
+      17
+    ],
+    [
+      "Double sheathed round submersible cable",
+      15
+    ],
+    [
+      "Ceramic Tile (20.0×30.0)cm",
+      13
+    ],
+    [
+      "Ngao Gloss Enamel",
+      12
+    ],
+    [
+      "Bath Spout, Chrome Plated",
+      10
+    ],
+    [
+      "Dali: Tumbler Holder with Glass, Chrome Plated",
+      10
+    ]
+  ],
+  "Parent_nonempty": 517,
+  "Parent_unique_nonempty": 47,
+  "Parent_duplicate_value_count": 47,
+  "Parent_top_duplicates": [
+    [
+      "SSTL168",
+      63
+    ],
+    [
+      "SSTL113",
+      54
+    ],
+    [
+      "SSTL073",
+      39
+    ],
+    [
+      "PPR183",
+      21
+    ],
+    [
+      "PPR141",
+      15
+    ],
+    [
+      "PPR157",
+      15
+    ],
+    [
+      "WWEL285",
+      14
+    ],
+    [
+      "WWEL57",
+      14
+    ],
+    [
+      "PPR085",
+      12
+    ],
+    [
+      "PPR098",
+      12
+    ],
+    [
+      "PPR209",
+      12
+    ],
+    [
+      "SSTL011",
+      12
+    ],
+    [
+      "SSTL024",
+      12
+    ],
+    [
+      "SSTL047",
+      12
+    ],
+    [
+      "SSTL060",
+      12
+    ],
+    [
+      "PPR051",
+      11
+    ],
+    [
+      "PPR063",
+      11
+    ],
+    [
+      "PPR001",
+      9
+    ],
+    [
+      "PPR041",
+      9
+    ],
+    [
+      "PPR111",
+      9
+    ]
+  ],
+  "Brands_nonempty": 15,
+  "Brands_unique_nonempty": 1,
+  "Brands_duplicate_value_count": 1,
+  "Brands_top_duplicates": [
+    [
+      "Chula Homes",
+      15
+    ]
+  ],
+  "Categories_nonempty": 12658,
+  "Categories_unique_nonempty": 69,
+  "Categories_duplicate_value_count": 63,
+  "Categories_top_duplicates": [
+    [
+      "Plumbing",
+      2019
+    ],
+    [
+      "Power tools",
+      1674
+    ],
+    [
+      "paints",
+      1290
+    ],
+    [
+      "electrical",
+      648
+    ],
+    [
+      "lighting",
+      618
+    ],
+    [
+      "solar",
+      614
+    ],
+    [
+      "Tool accessories",
+      490
+    ],
+    [
+      "Plumbing, taps",
+      439
+    ],
+    [
+      "roofing",
+      366
+    ],
+    [
+      "Steel",
+      343
+    ],
+    [
+      "Porcelain tiles",
+      315
+    ],
+    [
+      "fasteners",
+      293
+    ],
+    [
+      "Woodwork",
+      279
+    ],
+    [
+      "Hardware",
+      255
+    ],
+    [
+      "Fencing",
+      215
+    ],
+    [
+      "makita, makita power tools, Power tools",
+      197
+    ],
+    [
+      "ceramic tiles",
+      186
+    ],
+    [
+      "ingco, Power tools",
+      171
+    ],
+    [
+      "Decker",
+      140
+    ],
+    [
+      "Adhesive",
+      132
+    ]
+  ],
+  "omniclass_table_23_code_nonempty": 9278,
+  "omniclass_table_23_code_unique_nonempty": 48,
+  "omniclass_table_23_code_duplicate_value_count": 46,
+  "omniclass_table_23_code_top_duplicates": [
+    [
+      "23-15 21 11",
+      1425
+    ],
+    [
+      "23-31 00 00",
+      788
+    ],
+    [
+      "23-35 47 00",
+      564
+    ],
+    [
+      "23-15 17 13 13 17 11",
+      441
+    ],
+    [
+      "23-15 17 13 13 13",
+      440
+    ],
+    [
+      "23-35 00 00",
+      411
+    ],
+    [
+      "23-35 37 00",
+      392
+    ],
+    [
+      "23-31 35 00",
+      379
+    ],
+    [
+      "23-13 17 11 11",
+      378
+    ],
+    [
+      "23-31 13 00",
+      370
+    ],
+    [
+      "23-31 11 19",
+      310
+    ],
+    [
+      "23-15 17 13 13",
+      304
+    ],
+    [
+      "23-13 39 00",
+      274
+    ],
+    [
+      "23-31 19 00",
+      258
+    ],
+    [
+      "23-13 23 21 15",
+      254
+    ],
+    [
+      "23-35 47 11 15",
+      249
+    ],
+    [
+      "23-35 23 17",
+      199
+    ],
+    [
+      "23-31 11 00",
+      194
+    ],
+    [
+      "23-15 15 13 17",
+      155
+    ],
+    [
+      "23-13 23 15",
+      131
+    ]
+  ],
+  "masterformat_code_nonempty": 7646,
+  "masterformat_code_unique_nonempty": 21,
+  "masterformat_code_duplicate_value_count": 20,
+  "masterformat_code_top_duplicates": [
+    [
+      "09 91 00",
+      1543
+    ],
+    [
+      "09 30 00",
+      1431
+    ],
+    [
+      "22 42 00",
+      1310
+    ],
+    [
+      "26 51 00",
+      564
+    ],
+    [
+      "26 27 26",
+      516
+    ],
+    [
+      "22 10 00",
+      476
+    ],
+    [
+      "05 50 00",
+      378
+    ],
+    [
+      "07 30 00",
+      274
+    ],
+    [
+      "26 05 19",
+      254
+    ],
+    [
+      "26 56 00",
+      249
+    ],
+    [
+      "07 92 00",
+      134
+    ],
+    [
+      "32 31 00",
+      125
+    ],
+    [
+      "26 28 16",
+      74
+    ],
+    [
+      "26 31 00",
+      71
+    ],
+    [
+      "08 14 00",
+      61
+    ],
+    [
+      "08 71 00",
+      59
+    ],
+    [
+      "03 30 00",
+      50
+    ],
+    [
+      "08 11 00",
+      50
+    ],
+    [
+      "03 05 00",
+      21
+    ],
+    [
+      "08 50 00",
+      5
+    ]
+  ],
+  "uniformat_code_nonempty": 547,
+  "uniformat_code_unique_nonempty": 4,
+  "uniformat_code_duplicate_value_count": 4,
+  "uniformat_code_top_duplicates": [
+    [
+      "G2040.70",
+      249
+    ],
+    [
+      "G2060.20",
+      125
+    ],
+    [
+      "D5030.50",
+      102
+    ],
+    [
+      "D5010.30",
+      71
+    ]
+  ],
+  "rows_with_parent": 517,
+  "unique_parent_refs": 47,
+  "missing_parent_ref_count": 47,
+  "missing_parent_refs": [
+    "PPR001",
+    "PPR041",
+    "PPR051",
+    "PPR063",
+    "PPR085",
+    "PPR098",
+    "PPR111",
+    "PPR131",
+    "PPR141",
+    "PPR157",
+    "PPR173",
+    "PPR183",
+    "PPR209",
+    "PPR232",
+    "PPR250",
+    "SSTL001",
+    "SSTL011",
+    "SSTL024",
+    "SSTL037",
+    "SSTL047",
+    "SSTL060",
+    "SSTL073",
+    "SSTL113",
+    "SSTL168",
+    "WP022",
+    "WWEL285",
+    "WWEL377",
+    "WWEL405",
+    "WWEL497",
+    "WWEL526",
+    "WWEL57",
+    "id:22172",
+    "id:22179",
+    "id:22258",
+    "id:22263",
+    "id:22269",
+    "id:22311",
+    "id:22315",
+    "id:22679",
+    "id:22707",
+    "id:22714",
+    "id:22793",
+    "id:22798",
+    "id:22804",
+    "id:22846",
+    "id:22850",
+    "id:22858"
+  ],
+  "variable_count": 51,
+  "variation_count": 517,
+  "simple_count": 12612,
+  "variation_parent_counts": {
+    "WP022": 6,
+    "SSTL001": 9,
+    "SSTL011": 12,
+    "SSTL024": 12,
+    "SSTL037": 9,
+    "SSTL047": 12,
+    "SSTL060": 12,
+    "SSTL073": 39,
+    "SSTL113": 54,
+    "SSTL168": 63,
+    "PPR001": 9,
+    "PPR041": 9,
+    "PPR051": 11,
+    "PPR063": 11,
+    "PPR085": 12,
+    "PPR098": 12,
+    "PPR111": 9,
+    "PPR131": 9,
+    "PPR141": 15,
+    "PPR157": 15,
+    "PPR173": 9,
+    "PPR183": 21,
+    "PPR209": 12,
+    "PPR232": 9,
+    "PPR250": 6,
+    "WWEL57": 14,
+    "WWEL285": 14,
+    "WWEL377": 6,
+    "WWEL405": 3,
+    "WWEL497": 6,
+    "WWEL526": 8,
+    "id:22172": 6,
+    "id:22179": 6,
+    "id:22258": 4,
+    "id:22263": 5,
+    "id:22269": 4,
+    "id:22311": 3,
+    "id:22315": 2,
+    "id:22679": 6,
+    "id:22707": 6,
+    "id:22714": 6,
+    "id:22793": 4,
+    "id:22798": 5,
+    "id:22804": 4,
+    "id:22846": 3,
+    "id:22850": 2,
+    "id:22858": 3
+  },
+  "variation_without_parent": 0,
+  "variables_without_variation": [
+    "10469",
+    "14990",
+    "15000",
+    "15013",
+    "15026",
+    "15036",
+    "15049",
+    "15062",
+    "15102",
+    "15157",
+    "20691",
+    "20721",
+    "20722",
+    "20751",
+    "20753",
+    "20781",
+    "20782",
+    "20812",
+    "20813",
+    "20841",
+    "20842",
+    "20871",
+    "20873",
+    "20902",
+    "20932",
+    "21002",
+    "21014",
+    "21031",
+    "21256",
+    "21269",
+    "21361",
+    "21390",
+    "21481",
+    "21510",
+    "22172",
+    "22179",
+    "22258",
+    "22263",
+    "22269",
+    "22311",
+    "22315",
+    "22671",
+    "22679",
+    "22707",
+    "22714",
+    "22793",
+    "22798",
+    "22804",
+    "22846",
+    "22850",
+    "22858"
+  ],
+  "category_count": 64,
+  "top_categories": [
+    [
+      "Plumbing",
+      2628
+    ],
+    [
+      "Power tools",
+      2251
+    ],
+    [
+      "paints",
+      1290
+    ],
+    [
+      "solar",
+      650
+    ],
+    [
+      "electrical",
+      648
+    ],
+    [
+      "lighting",
+      618
+    ],
+    [
+      "Tool accessories",
+      615
+    ],
+    [
+      "roofing",
+      447
+    ],
+    [
+      "taps",
+      439
+    ],
+    [
+      "Steel",
+      377
+    ],
+    [
+      "Woodwork",
+      332
+    ],
+    [
+      "Porcelain tiles",
+      315
+    ],
+    [
+      "fasteners",
+      293
+    ],
+    [
+      "Hardware",
+      255
+    ],
+    [
+      "Fencing",
+      215
+    ],
+    [
+      "makita power tools",
+      210
+    ],
+    [
+      "makita",
+      197
+    ],
+    [
+      "ceramic tiles",
+      187
+    ],
+    [
+      "ingco",
+      171
+    ],
+    [
+      "WELDING > MIG Welding",
+      146
+    ],
+    [
+      "Doors and locks",
+      144
+    ],
+    [
+      "Toilets",
+      141
+    ],
+    [
+      "Decker",
+      140
+    ],
+    [
+      "Adhesive",
+      133
+    ],
+    [
+      "kitchen",
+      128
+    ],
+    [
+      "total accessories",
+      125
+    ],
+    [
+      "Tanks",
+      123
+    ],
+    [
+      "bosch",
+      121
+    ],
+    [
+      "cctv",
+      121
+    ],
+    [
+      "Wall tiles",
+      101
+    ],
+    [
+      "Paint",
+      95
+    ],
+    [
+      "Doors",
+      86
+    ],
+    [
+      "Interior design",
+      78
+    ],
+    [
+      "Wood Doors",
+      71
+    ],
+    [
+      "MRM",
+      57
+    ],
+    [
+      "PPE",
+      46
+    ],
+    [
+      "Natural stones",
+      40
+    ],
+    [
+      "lights",
+      40
+    ],
+    [
+      "Ceiling",
+      39
+    ],
+    [
+      "Rebar tools",
+      39
+    ],
+    [
+      "Claddding",
+      37
+    ],
+    [
+      "Exterior finish",
+      37
+    ],
+    [
+      "Tile essentials",
+      36
+    ],
+    [
+      "Solar Panels",
+      36
+    ],
+    [
+      "Floor tiles",
+      34
+    ],
+    [
+      "concrete products",
+      29
+    ],
+    [
+      "stone coated roofing",
+      25
+    ],
+    [
+      "Dewalt",
+      22
+    ],
+    [
+      "WELDING > MIG Welders",
+      21
+    ],
+    [
+      "ryobi",
+      19
+    ],
+    [
+      "Cement",
+      18
+    ],
+    [
+      "barbed wire",
+      15
+    ],
+    [
+      "building materials",
+      12
+    ],
+    [
+      "Paint brush and rollers",
+      11
+    ],
+    [
+      "Flooring",
+      9
+    ],
+    [
+      "Imported doors",
+      9
+    ],
+    [
+      "total",
+      8
+    ],
+    [
+      "deformed bar",
+      7
+    ],
+    [
+      "WELDING > TIG Welders",
+      6
+    ],
+    [
+      "Smart Locks",
+      5
+    ],
+    [
+      "Metering Accessories",
+      4
+    ],
+    [
+      "bathroom",
+      1
+    ],
+    [
+      "Tile Installation Kits",
+      1
+    ],
+    [
+      "Adhesives and Sealants",
+      1
+    ]
+  ],
+  "brand_count": 1,
+  "top_brands": [
+    [
+      "Chula Homes",
+      15
+    ]
+  ],
+  "tag_count": 263,
+  "top_tags": [
+    [
+      "plascon",
+      1296
+    ],
+    [
+      "stanley",
+      1104
+    ],
+    [
+      "bathroom",
+      818
+    ],
+    [
+      "Solar",
+      547
+    ],
+    [
+      "shower mixers",
+      494
+    ],
+    [
+      "shower taps",
+      494
+    ],
+    [
+      "Paints",
+      425
+    ],
+    [
+      "bathroom accessories",
+      417
+    ],
+    [
+      "indoor lighting",
+      384
+    ],
+    [
+      "Drill Bit",
+      381
+    ],
+    [
+      "Makita accessories",
+      378
+    ],
+    [
+      "Power tools",
+      375
+    ],
+    [
+      "GI",
+      338
+    ],
+    [
+      "Tapis",
+      338
+    ],
+    [
+      "Electrical Outlets and Switches",
+      327
+    ],
+    [
+      "Porcelain tiles",
+      315
+    ],
+    [
+      "fasteners",
+      315
+    ],
+    [
+      "showers",
+      277
+    ],
+    [
+      "ceramics",
+      251
+    ],
+    [
+      "outdoor lighting",
+      234
+    ],
+    [
+      "Plumbing Accessories",
+      221
+    ],
+    [
+      "finder power tools",
+      219
+    ],
+    [
+      "Total power tools",
+      209
+    ],
+    [
+      "kitchen sink",
+      208
+    ],
+    [
+      "kitchen",
+      204
+    ],
+    [
+      "ceramic tiles",
+      186
+    ],
+    [
+      "Saws",
+      184
+    ],
+    [
+      "Boards",
+      180
+    ],
+    [
+      "Drills and Drivers",
+      175
+    ],
+    [
+      "bosch tool accessories",
+      159
+    ],
+    [
+      "handtools",
+      158
+    ],
+    [
+      "CCTV",
+      156
+    ],
+    [
+      "Welding Machines",
+      150
+    ],
+    [
+      "adhesive",
+      148
+    ],
+    [
+      "Metal Cutting and Fabrication Tools",
+      145
+    ],
+    [
+      "INGCO tools",
+      119
+    ],
+    [
+      "Makita",
+      119
+    ],
+    [
+      "toilets",
+      117
+    ],
+    [
+      "Lumber and Boards",
+      115
+    ],
+    [
+      "particle boards",
+      106
+    ],
+    [
+      "wall tiles",
+      101
+    ],
+    [
+      "Hosepipes",
+      98
+    ],
+    [
+      "Wire products",
+      97
+    ],
+    [
+      "chuma",
+      95
+    ],
+    [
+      "Steel Fasteners",
+      92
+    ],
+    [
+      "Tanks",
+      84
+    ],
+    [
+      "mediawall",
+      78
+    ],
+    [
+      "drillbits",
+      75
+    ],
+    [
+      "tool accessories",
+      75
+    ],
+    [
+      "Roofing Insulation",
+      74
+    ],
+    [
+      "DOORS",
+      73
+    ],
+    [
+      "locks",
+      73
+    ],
+    [
+      "Steel Finishing and Coatings",
+      72
+    ],
+    [
+      "Mrmroof",
+      71
+    ],
+    [
+      "Woodworking Accessories",
+      69
+    ],
+    [
+      "sink",
+      68
+    ],
+    [
+      "mild steel plates",
+      66
+    ],
+    [
+      "Steel Sheets and Plates",
+      66
+    ],
+    [
+      "mdf",
+      64
+    ],
+    [
+      "Woodworking Tools",
+      60
+    ],
+    [
+      "Electrical Safety Equipment",
+      60
+    ],
+    [
+      "carbon rolled flat iron",
+      59
+    ],
+    [
+      "Bosch",
+      55
+    ],
+    [
+      "Gutters and Accessories",
+      53
+    ],
+    [
+      "Table saw",
+      53
+    ],
+    [
+      "Abrasive and Grinding",
+      50
+    ],
+    [
+      "Nyumba mabati",
+      50
+    ],
+    [
+      "Fence Energizers",
+      50
+    ],
+    [
+      "Spray paint",
+      49
+    ],
+    [
+      "PPE",
+      46
+    ],
+    [
+      "Safety wear",
+      46
+    ],
+    [
+      "akfix",
+      45
+    ],
+    [
+      "Routers and Planers",
+      44
+    ],
+    [
+      "Roofing Accessories",
+      41
+    ],
+    [
+      "countertops",
+      40
+    ],
+    [
+      "MCCB",
+      40
+    ],
+    [
+      "top tank",
+      39
+    ],
+    [
+      "kitchen hardware",
+      39
+    ],
+    [
+      "Cladding stones",
+      37
+    ],
+    [
+      "solar panel",
+      36
+    ],
+    [
+      "cabinet Lighting",
+      36
+    ],
+    [
+      "Wardrobe",
+      35
+    ],
+    [
+      "floor tiles",
+      34
+    ],
+    [
+      "floor switches",
+      34
+    ],
+    [
+      "Switches",
+      34
+    ],
+    [
+      "Laser Self-Leveling Crossline",
+      34
+    ],
+    [
+      "Tile Leveling Systems",
+      34
+    ],
+    [
+      "Plumbing",
+      32
+    ],
+    [
+      "total",
+      32
+    ],
+    [
+      "water pumps",
+      32
+    ],
+    [
+      "Batteries and Chargers",
+      31
+    ],
+    [
+      "Cordless Battery",
+      31
+    ],
+    [
+      "Power Tool Batteries and Chargers",
+      31
+    ],
+    [
+      "inverter",
+      31
+    ],
+    [
+      "Router",
+      29
+    ],
+    [
+      "sink taps",
+      29
+    ],
+    [
+      "Fencing",
+      29
+    ],
+    [
+      "Concrete products",
+      29
+    ],
+    [
+      "Locking systems",
+      29
+    ],
+    [
+      "Kitchen tap",
+      28
+    ]
+  ],
+  "blank_id_count": 0,
+  "blank_sku_count": 1871,
+  "blank_name_count": 0,
+  "sku_collisions": [
+    [
+      "BAC146",
+      2
+    ],
+    [
+      "BAC147",
+      2
+    ],
+    [
+      "BAC148",
+      2
+    ],
+    [
+      "BAC173",
+      2
+    ],
+    [
+      "BRDS92",
+      2
+    ],
+    [
+      "BRDS93",
+      2
+    ],
+    [
+      "BRDS94",
+      2
+    ],
+    [
+      "FNDS156",
+      2
+    ],
+    [
+      "FNDS157",
+      2
+    ],
+    [
+      "FNDS35",
+      2
+    ],
+    [
+      "FNDS46",
+      2
+    ],
+    [
+      "FNDS80",
+      2
+    ],
+    [
+      "FNDS81",
+      2
+    ],
+    [
+      "FNDS82",
+      2
+    ],
+    [
+      "FNDS83",
+      2
+    ],
+    [
+      "FNDS84",
+      2
+    ],
+    [
+      "FNDS86",
+      2
+    ],
+    [
+      "FNDS87",
+      2
+    ],
+    [
+      "FNDS88",
+      2
+    ],
+    [
+      "FNDS89",
+      2
+    ],
+    [
+      "FNDS90",
+      2
+    ],
+    [
+      "FNDS91",
+      2
+    ],
+    [
+      "FNDS92",
+      2
+    ],
+    [
+      "INGCTLS100",
+      2
+    ],
+    [
+      "INGCTLS101",
+      2
+    ],
+    [
+      "INGCTLS102",
+      2
+    ],
+    [
+      "INGCTLS103",
+      2
+    ],
+    [
+      "INGCTLS104",
+      2
+    ],
+    [
+      "INGCTLS105",
+      2
+    ],
+    [
+      "INGCTLS106",
+      2
+    ],
+    [
+      "INGCTLS107",
+      2
+    ],
+    [
+      "INGCTLS108",
+      2
+    ],
+    [
+      "INGCTLS109",
+      2
+    ],
+    [
+      "INGCTLS110",
+      2
+    ],
+    [
+      "INGCTLS111",
+      2
+    ],
+    [
+      "INGCTLS91",
+      2
+    ],
+    [
+      "INGCTLS92",
+      2
+    ],
+    [
+      "INGCTLS93",
+      2
+    ],
+    [
+      "INGCTLS94",
+      2
+    ],
+    [
+      "INGCTLS95",
+      2
+    ],
+    [
+      "INGCTLS96",
+      2
+    ],
+    [
+      "INGCTLS97",
+      2
+    ],
+    [
+      "INGCTLS98",
+      2
+    ],
+    [
+      "INGCTLS99",
+      2
+    ],
+    [
+      "LOL174",
+      2
+    ],
+    [
+      "LOL175",
+      2
+    ],
+    [
+      "LOL176",
+      2
+    ],
+    [
+      "MEDIA40",
+      2
+    ],
+    [
+      "MEDIA41",
+      2
+    ],
+    [
+      "MEDIA42",
+      2
+    ],
+    [
+      "MEDIA43",
+      2
+    ],
+    [
+      "MEDIA44",
+      2
+    ],
+    [
+      "MEDIA45",
+      2
+    ],
+    [
+      "MEDIA46",
+      2
+    ],
+    [
+      "MEDIA47",
+      2
+    ],
+    [
+      "MEDIA48",
+      2
+    ],
+    [
+      "MEDIA49",
+      2
+    ],
+    [
+      "MEDIA50",
+      2
+    ],
+    [
+      "MEDIA51",
+      2
+    ],
+    [
+      "MEDIA52",
+      2
+    ],
+    [
+      "SOLAR163",
+      2
+    ],
+    [
+      "SOLAR164",
+      2
+    ],
+    [
+      "SOLAR165",
+      2
+    ],
+    [
+      "SOLAR166",
+      2
+    ],
+    [
+      "SOLAR167",
+      2
+    ],
+    [
+      "SOLAR246",
+      2
+    ],
+    [
+      "SOLAR247",
+      2
+    ],
+    [
+      "SOLAR248",
+      2
+    ],
+    [
+      "SOLAR249",
+      2
+    ],
+    [
+      "SOLAR250",
+      2
+    ],
+    [
+      "WPT130",
+      2
+    ],
+    [
+      "WPT197",
+      2
+    ],
+    [
+      "WPT200",
+      2
+    ],
+    [
+      "WPT201",
+      2
+    ]
+  ],
+  "canonical_name_collision_groups": [
+    [
+      "brass hex exhaust nuts cotter split pin zinc din 94...",
+      [
+        "33278",
+        "33280",
+        "33282",
+        "33284",
+        "33286",
+        "33288",
+        "33290",
+        "33292",
+        "33294",
+        "33296",
+        "33298",
+        "33300",
+        "33302",
+        "33304",
+        "33306",
+        "33308",
+        "33310",
+        "33312",
+        "33314",
+        "33316",
+        "33318",
+        "33320",
+        "33322",
+        "33326",
+        "33328",
+        "33330",
+        "33332",
+        "33334",
+        "33336",
+        "33338",
+        "33340",
+        "33342",
+        "33344",
+        "33346",
+        "33348",
+        "33350",
+        "33352",
+        "33354",
+        "33356",
+        "33358",
+        "33360",
+        "33362",
+        "33364",
+        "33366",
+        "33368",
+        "33370",
+        "33372",
+        "33374",
+        "33376",
+        "33378",
+        "33380",
+        "33382",
+        "33384",
+        "33386",
+        "33388",
+        "33390",
+        "33392",
+        "33394",
+        "33396",
+        "33398",
+        "33400",
+        "33402",
+        "33404",
+        "33406",
+        "33408",
+        "33410",
+        "33412",
+        "33414",
+        "33416",
+        "33418",
+        "33420",
+        "33454",
+        "33456",
+        "33458",
+        "33460",
+        "33462",
+        "33464",
+        "33466",
+        "33468"
+      ]
+    ],
+    [
+      "matt granito tile 60.0×60.0",
+      [
+        "16094",
+        "16096",
+        "16098",
+        "16100",
+        "16102",
+        "16104",
+        "16106",
+        "16108",
+        "16110",
+        "16112",
+        "16114",
+        "16116",
+        "16118",
+        "16120",
+        "16122",
+        "16124",
+        "16126",
+        "16128",
+        "16130",
+        "16132",
+        "16134",
+        "16136",
+        "16138",
+        "16140",
+        "16142",
+        "16144",
+        "16146",
+        "16148",
+        "16152",
+        "16154",
+        "16156",
+        "16158",
+        "16160",
+        "16164",
+        "16166",
+        "16168",
+        "16170",
+        "16176",
+        "16178",
+        "16180",
+        "16182",
+        "16184",
+        "16186",
+        "16188",
+        "16190",
+        "16192",
+        "16194",
+        "16202",
+        "16204",
+        "16206",
+        "16208",
+        "16210",
+        "16212",
+        "16214",
+        "16216",
+        "16218",
+        "16222",
+        "16224",
+        "16226",
+        "16228",
+        "16230",
+        "16232",
+        "16234",
+        "16236",
+        "16238",
+        "16240",
+        "16244",
+        "16246",
+        "16248",
+        "16250",
+        "16252",
+        "16254",
+        "16256",
+        "16258",
+        "16264",
+        "16266",
+        "16270",
+        "16272"
+      ]
+    ],
+    [
+      "ceramic tile 30.0×30.0",
+      [
+        "15543",
+        "15545",
+        "15547",
+        "15549",
+        "15551",
+        "15553",
+        "15555",
+        "15557",
+        "15559",
+        "15563",
+        "15565",
+        "15567",
+        "15569",
+        "15571",
+        "15575",
+        "15577",
+        "15579",
+        "15581",
+        "15583",
+        "15585",
+        "15810",
+        "15859",
+        "15860",
+        "15861",
+        "15862",
+        "15863",
+        "15864",
+        "15865",
+        "15866",
+        "15867",
+        "15869",
+        "15870",
+        "15871",
+        "15872",
+        "15873",
+        "15875",
+        "15876",
+        "15877",
+        "15878",
+        "15879"
+      ]
+    ],
+    [
+      "matt granito tile 60.0×120.0",
+      [
+        "16010",
+        "16012",
+        "16014",
+        "16016",
+        "16018",
+        "16020",
+        "16022",
+        "16024",
+        "16030",
+        "16032",
+        "16034",
+        "16036",
+        "16040",
+        "16042",
+        "16044",
+        "16048",
+        "16050",
+        "16052",
+        "16054",
+        "16056",
+        "16058",
+        "16060",
+        "16062",
+        "16064",
+        "16066",
+        "16068",
+        "16070",
+        "16072",
+        "16074",
+        "16076",
+        "16078",
+        "16080",
+        "16082",
+        "16084",
+        "16086",
+        "16088",
+        "16090",
+        "16092"
+      ]
+    ],
+    [
+      "ceramic tile 20.0×30.0",
+      [
+        "15613",
+        "15615",
+        "15619",
+        "15621",
+        "15623",
+        "15627",
+        "15643",
+        "15645",
+        "15647",
+        "15649",
+        "15655",
+        "15661",
+        "15663",
+        "15665",
+        "15667",
+        "15669",
+        "15671",
+        "15673",
+        "15816",
+        "15817",
+        "15819",
+        "15820",
+        "15821",
+        "15822",
+        "15823",
+        "15824",
+        "15825",
+        "15826",
+        "15829",
+        "15831",
+        "15832",
+        "15833",
+        "15834",
+        "15835",
+        "15836",
+        "15837"
+      ]
+    ],
+    [
+      "ceramic tile (30.0×60.0)cm",
+      [
+        "15373",
+        "15375",
+        "15377",
+        "15379",
+        "15381",
+        "15383",
+        "15385",
+        "15387",
+        "15389",
+        "15391",
+        "15393",
+        "15395",
+        "15397",
+        "15399",
+        "15401",
+        "15403",
+        "15405",
+        "15407",
+        "15409",
+        "15411",
+        "15413",
+        "15759",
+        "15760",
+        "15761",
+        "15762",
+        "15763"
+      ]
+    ],
+    [
+      "matt granito tile 30.0×60.0",
+      [
+        "16346",
+        "16352",
+        "16360",
+        "16362",
+        "16364",
+        "16366",
+        "16368",
+        "16370",
+        "16372",
+        "16374",
+        "16376",
+        "16378",
+        "16380",
+        "16382",
+        "16384",
+        "16386",
+        "16388",
+        "16390",
+        "16392",
+        "16394",
+        "16396",
+        "16398",
+        "16400"
+      ]
+    ],
+    [
+      "mccb 800 amps 3 pole adjustable",
+      [
+        "18001",
+        "18003",
+        "18005",
+        "18007",
+        "18009",
+        "18011",
+        "18013",
+        "18015",
+        "18017",
+        "18019",
+        "18021",
+        "18023",
+        "18025",
+        "18027",
+        "18029",
+        "18031",
+        "18033",
+        "18035",
+        "18037",
+        "18043",
+        "18150"
+      ]
+    ],
+    [
+      "abs consumer unit 6 way",
+      [
+        "18047",
+        "18049",
+        "18051",
+        "18053",
+        "18055",
+        "18057",
+        "18059",
+        "18061",
+        "18063",
+        "18065",
+        "18067",
+        "18069",
+        "18071",
+        "18073",
+        "18075",
+        "18077",
+        "18079",
+        "18081",
+        "18083"
+      ]
+    ],
+    [
+      "ceramic tile 30.0×60.0",
+      [
+        "15509",
+        "15511",
+        "15513",
+        "15515",
+        "15517",
+        "15519",
+        "15521",
+        "15523",
+        "15525",
+        "15527",
+        "15797",
+        "15798",
+        "15799",
+        "15800",
+        "15801",
+        "15802",
+        "15803",
+        "15804",
+        "15805"
+      ]
+    ],
+    [
+      "ceramic border tile 07.0×20.0",
+      [
+        "15675",
+        "15677",
+        "15679",
+        "15681",
+        "15683",
+        "15685",
+        "15689",
+        "15693",
+        "15723",
+        "15725",
+        "15727",
+        "15729",
+        "15731",
+        "15733",
+        "15735",
+        "15737",
+        "15739"
+      ]
+    ],
+    [
+      "matt granito tile 30.3×61.3",
+      [
+        "16310",
+        "16312",
+        "16314",
+        "16316",
+        "16318",
+        "16320",
+        "16322",
+        "16324",
+        "16326",
+        "16328",
+        "16330",
+        "16332",
+        "16334",
+        "16336",
+        "16338",
+        "16340",
+        "16342"
+      ]
+    ],
+    [
+      "ceramic tile (20.0×30.0)cm",
+      [
+        "15435",
+        "15437",
+        "15439",
+        "15617",
+        "15651",
+        "15653",
+        "15657",
+        "15770",
+        "15772",
+        "15774",
+        "15827",
+        "15828",
+        "15830"
+      ]
+    ],
+    [
+      "dali: tumbler holder with glass, chrome plated",
+      [
+        "31304",
+        "31579",
+        "31581",
+        "31583",
+        "31585",
+        "31589",
+        "31591",
+        "31593",
+        "31595",
+        "31597",
+        "31599"
+      ]
+    ],
+    [
+      "bath spout, chrome plated",
+      [
+        "12920",
+        "12922",
+        "12924",
+        "12926",
+        "30637",
+        "30639",
+        "30641",
+        "43954",
+        "43959",
+        "43964"
+      ]
+    ],
+    [
+      "matt granito tile 20.0×120.0",
+      [
+        "16422",
+        "16424",
+        "16426",
+        "16428",
+        "16430",
+        "16432",
+        "16434",
+        "16436",
+        "16438",
+        "16440"
+      ]
+    ],
+    [
+      "plascon universal undercoat",
+      [
+        "33661",
+        "33665",
+        "44925",
+        "44927",
+        "44994",
+        "44996",
+        "45109",
+        "45111",
+        "45479",
+        "45481"
+      ]
+    ],
+    [
+      "ceramic tile 30.1×60.5",
+      [
+        "15529",
+        "15531",
+        "15533",
+        "15535",
+        "15537",
+        "15806",
+        "15807",
+        "15808",
+        "15809"
+      ]
+    ],
+    [
+      "combination spanner",
+      [
+        "39955",
+        "39956",
+        "39957",
+        "39958",
+        "39959",
+        "39960",
+        "39961",
+        "39962",
+        "39963"
+      ]
+    ],
+    [
+      "dali: soap dish single, chrome plated",
+      [
+        "31635",
+        "31637",
+        "31639",
+        "31645",
+        "31647",
+        "31651",
+        "31653",
+        "31657",
+        "31659"
+      ]
+    ],
+    [
+      "engineered wood flooring:",
+      [
+        "15885",
+        "15887",
+        "15889",
+        "15891",
+        "15893",
+        "15895",
+        "15897",
+        "15899",
+        "15901"
+      ]
+    ],
+    [
+      "hand shower",
+      [
+        "12816",
+        "12818",
+        "12820",
+        "30593",
+        "30595",
+        "30597",
+        "43466",
+        "43471",
+        "43476"
+      ]
+    ],
+    [
+      "matt granito tile 60.8×60.8",
+      [
+        "15994",
+        "15996",
+        "15998",
+        "16000",
+        "16002",
+        "16004",
+        "16006",
+        "16008",
+        "16242"
+      ]
+    ],
+    [
+      "sds plus hammer drill bit",
+      [
+        "39829",
+        "39830",
+        "39831",
+        "39832",
+        "39833",
+        "39834",
+        "39835",
+        "39836",
+        "39837"
+      ]
+    ],
+    [
+      "standing metallic enclosure",
+      [
+        "18431",
+        "18433",
+        "18435",
+        "18437",
+        "18439",
+        "18443",
+        "18445",
+        "18447",
+        "18449"
+      ]
+    ],
+    [
+      "ceramic tile 10.0×20.0",
+      [
+        "15707",
+        "15709",
+        "15711",
+        "15713",
+        "15842",
+        "15843",
+        "15844",
+        "15845"
+      ]
+    ],
+    [
+      "ceramic tile 15.0×80.0",
+      [
+        "15695",
+        "15697",
+        "15699",
+        "15701",
+        "15838",
+        "15839",
+        "15840",
+        "15841"
+      ]
+    ],
+    [
+      "dali: toilet roll holder, chrome plated",
+      [
+        "31296",
+        "31310",
+        "31527",
+        "31555",
+        "31557",
+        "31559",
+        "31561",
+        "31565"
+      ]
+    ],
+    [
+      "plascon silicon exterior (protector)",
+      [
+        "33809",
+        "33819",
+        "45068",
+        "45073",
+        "45183",
+        "45188",
+        "45553",
+        "45558"
+      ]
+    ],
+    [
+      "welded razor mesh 15mtrs bto 18",
+      [
+        "37753",
+        "37754",
+        "37755",
+        "37756",
+        "37757",
+        "37758",
+        "37759",
+        "37760"
+      ]
+    ],
+    [
+      "welded razor mesh 15mtrs bto 22",
+      [
+        "37745",
+        "37746",
+        "37747",
+        "37748",
+        "37749",
+        "37750",
+        "37751",
+        "37752"
+      ]
+    ],
+    [
+      "welded razor mesh 15mtrs cbt 65",
+      [
+        "37737",
+        "37738",
+        "37739",
+        "37740",
+        "37741",
+        "37742",
+        "37743",
+        "37744"
+      ]
+    ],
+    [
+      "black pipe medium 8\"",
+      [
+        "23707",
+        "23712",
+        "23751",
+        "23757",
+        "23827",
+        "23872",
+        "23881"
+      ]
+    ],
+    [
+      "ceramic tile (25.0×75.0)cm",
+      [
+        "15445",
+        "15447",
+        "15449",
+        "15451",
+        "15453",
+        "15455",
+        "15457"
+      ]
+    ],
+    [
+      "ceramic tile; (30.0×30.0)cm",
+      [
+        "15415",
+        "15427",
+        "15429",
+        "15431",
+        "15433",
+        "15561",
+        "15573"
+      ]
+    ],
+    [
+      "dali: towel ring, chrome plated",
+      [
+        "31415",
+        "31419",
+        "31421",
+        "31427",
+        "31429",
+        "31431",
+        "31435"
+      ]
+    ],
+    [
+      "matt granito tile 40.0×80.0",
+      [
+        "16280",
+        "16282",
+        "16284",
+        "16286",
+        "16288",
+        "16290",
+        "16292"
+      ]
+    ],
+    [
+      "welded razor mesh 30mtrs bto 18",
+      [
+        "37716",
+        "37717",
+        "37718",
+        "37719",
+        "37720",
+        "37721",
+        "37722"
+      ]
+    ],
+    [
+      "welded razor mesh 30mtrs bto 22",
+      [
+        "37723",
+        "37724",
+        "37725",
+        "37726",
+        "37727",
+        "37728",
+        "37729"
+      ]
+    ],
+    [
+      "welded razor mesh 30mtrs cbt 65",
+      [
+        "37730",
+        "37731",
+        "37732",
+        "37733",
+        "37734",
+        "37735",
+        "37736"
+      ]
+    ],
+    [
+      "10pcs 4241 twist drill",
+      [
+        "39844",
+        "39845",
+        "39846",
+        "39847",
+        "39848",
+        "39849"
+      ]
+    ],
+    [
+      "bench vice",
+      [
+        "39719",
+        "39720",
+        "39721",
+        "39722",
+        "39723",
+        "39724"
+      ]
+    ],
+    [
+      "ceramic tile 25.0×70.0",
+      [
+        "15591",
+        "15593",
+        "15595",
+        "15813",
+        "15814",
+        "15815"
+      ]
+    ],
+    [
+      "ceramic tile 33.3×100.0",
+      [
+        "15475",
+        "15477",
+        "15479",
+        "15784",
+        "15785",
+        "15786"
+      ]
+    ],
+    [
+      "ceramic tile 33.3×55.0",
+      [
+        "15481",
+        "15483",
+        "15485",
+        "15787",
+        "15788",
+        "15789"
+      ]
+    ],
+    [
+      "ceramic tile 36.0×80.0",
+      [
+        "15469",
+        "15471",
+        "15473",
+        "15781",
+        "15782",
+        "15783"
+      ]
+    ],
+    [
+      "crw: massage bathtub",
+      [
+        "13750",
+        "13752",
+        "13754",
+        "13756",
+        "13758",
+        "13762"
+      ]
+    ],
+    [
+      "delay action basin tap",
+      [
+        "12956",
+        "12958",
+        "12960",
+        "43934",
+        "43939",
+        "43944"
+      ]
+    ],
+    [
+      "electric soldering iron",
+      [
+        "39741",
+        "39742",
+        "39743",
+        "39744",
+        "39745",
+        "39746"
+      ]
+    ],
+    [
+      "finder g-clamp",
+      [
+        "39770",
+        "39771",
+        "39772",
+        "39773",
+        "39774",
+        "39775"
+      ]
+    ],
+    [
+      "freestanding bathtub",
+      [
+        "13738",
+        "13772",
+        "13774",
+        "13778",
+        "13782",
+        "13784"
+      ]
+    ],
+    [
+      "hand saw",
+      [
+        "18323",
+        "39753",
+        "39754",
+        "39755",
+        "39756",
+        "39757"
+      ]
+    ],
+    [
+      "matt granito tile 30.0×30.0",
+      [
+        "16406",
+        "16408",
+        "16410",
+        "16412",
+        "16414",
+        "16416"
+      ]
+    ],
+    [
+      "matt porcelain tile (15.0×90.0)cm",
+      [
+        "15908",
+        "15910",
+        "15912",
+        "15914",
+        "15916",
+        "15918"
+      ]
+    ],
+    [
+      "pipe wrench",
+      [
+        "39971",
+        "39972",
+        "39973",
+        "39974",
+        "39975",
+        "39976"
+      ]
+    ],
+    [
+      "polished granito tile 60.0×60.0",
+      [
+        "16498",
+        "16500",
+        "16502",
+        "16514",
+        "16516",
+        "16518"
+      ]
+    ],
+    [
+      "robe hook (double) : chrome plated",
+      [
+        "31707",
+        "31709",
+        "31711",
+        "31713",
+        "31715",
+        "31719"
+      ]
+    ],
+    [
+      "single floor socket with 1 data port",
+      [
+        "18396",
+        "18398",
+        "18424",
+        "32675",
+        "32677",
+        "32901"
+      ]
+    ],
+    [
+      "steam reducing socket 1_1/2\"x1/2\"",
+      [
+        "23660",
+        "23740",
+        "23795",
+        "23799",
+        "23842",
+        "23982"
+      ]
+    ],
+    [
+      "steam socket 4\"",
+      [
+        "23651",
+        "23847",
+        "23930",
+        "23936",
+        "23976",
+        "23980"
+      ]
+    ],
+    [
+      "toilet brush + holder, chrome plated",
+      [
+        "31609",
+        "31611",
+        "31613",
+        "31615",
+        "31617",
+        "31619"
+      ]
+    ],
+    [
+      "tool box",
+      [
+        "39676",
+        "39677",
+        "39678",
+        "39679",
+        "39680",
+        "39681"
+      ]
+    ],
+    [
+      "adjustable wrench",
+      [
+        "39924",
+        "39925",
+        "39927",
+        "39928",
+        "39929"
+      ]
+    ],
+    [
+      "bathroom shelf : glass, chrome plated",
+      [
+        "31799",
+        "31805",
+        "31807",
+        "31809",
+        "31811"
+      ]
+    ],
+    [
+      "black tee 2\"",
+      [
+        "23557",
+        "23622",
+        "23793",
+        "23797",
+        "23965"
+      ]
+    ],
+    [
+      "dali: double towel bar, chrome plated",
+      [
+        "31286",
+        "31455",
+        "31463",
+        "31465",
+        "31469"
+      ]
+    ],
+    [
+      "dali: towel rack, chrome plated",
+      [
+        "31290",
+        "31459",
+        "31467",
+        "31473",
+        "31475"
+      ]
+    ],
+    [
+      "double ring offset spanner",
+      [
+        "39945",
+        "39946",
+        "39947",
+        "39948",
+        "39949"
+      ]
+    ],
+    [
+      "hansgrohe: built-in sink",
+      [
+        "13606",
+        "13608",
+        "13610",
+        "13612",
+        "13614"
+      ]
+    ],
+    [
+      "infra red electronic basin tap, ac & dc",
+      [
+        "13002",
+        "13004",
+        "30667",
+        "30669",
+        "43924"
+      ]
+    ],
+    [
+      "matt granito tile 19.8×22.8",
+      [
+        "16446",
+        "16448",
+        "16450",
+        "16452",
+        "16454"
+      ]
+    ],
+    [
+      "matt granito tile 61.0×61.0",
+      [
+        "15980",
+        "15982",
+        "15984",
+        "15986",
+        "15988"
+      ]
+    ],
+    [
+      "modern crystal raindrop chandelier",
+      [
+        "37013",
+        "37015",
+        "37017",
+        "37019",
+        "37021"
+      ]
+    ],
+    [
+      "nova: counter top basin",
+      [
+        "13416",
+        "13420",
+        "13454",
+        "13456",
+        "13466"
+      ]
+    ],
+    [
+      "nova: pvc/pp bottle trap: 1.25in",
+      [
+        "13422",
+        "30862",
+        "32203",
+        "44004",
+        "44069"
+      ]
+    ],
+    [
+      "plascon 1lt aluminium bituminous",
+      [
+        "33773",
+        "44981",
+        "45050",
+        "45165",
+        "45535"
+      ]
+    ],
+    [
+      "plascon 1lt anticorrosive primer",
+      [
+        "33783",
+        "44986",
+        "45055",
+        "45170",
+        "45540"
+      ]
+    ],
+    [
+      "plascon 1lt budget emulsion",
+      [
+        "33727",
+        "44958",
+        "45027",
+        "45142",
+        "45512"
+      ]
+    ],
+    [
+      "plascon 1lt budget undercoat",
+      [
+        "33725",
+        "44957",
+        "45026",
+        "45141",
+        "45511"
+      ]
+    ],
+    [
+      "plascon 1lt ceiling white",
+      [
+        "33761",
+        "44975",
+        "45044",
+        "45159",
+        "45529"
+      ]
+    ],
+    [
+      "plascon 1lt eggshell",
+      [
+        "33671",
+        "44930",
+        "44999",
+        "45114",
+        "45484"
+      ]
+    ],
+    [
+      "plascon 1lt fine textured",
+      [
+        "33765",
+        "44977",
+        "45046",
+        "45161",
+        "45531"
+      ]
+    ],
+    [
+      "plascon 1lt multicolour",
+      [
+        "33699",
+        "44944",
+        "45013",
+        "45128",
+        "45498"
+      ]
+    ],
+    [
+      "plascon 1lt passivating wash",
+      [
+        "33747",
+        "44968",
+        "45037",
+        "45152",
+        "45522"
+      ]
+    ],
+    [
+      "plascon 1lt pearl finish",
+      [
+        "33767",
+        "44978",
+        "45047",
+        "45162",
+        "45532"
+      ]
+    ],
+    [
+      "plascon 1lt tar upox",
+      [
+        "33733",
+        "44961",
+        "45030",
+        "45145",
+        "45515"
+      ]
+    ],
+    [
+      "plascon 1lt upox hardener",
+      [
+        "33735",
+        "44962",
+        "45031",
+        "45146",
+        "45516"
+      ]
+    ],
+    [
+      "plascon 1lt weather guard",
+      [
+        "33763",
+        "44976",
+        "45045",
+        "45160",
+        "45530"
+      ]
+    ],
+    [
+      "plascon 1lts anteak oil",
+      [
+        "33713",
+        "44951",
+        "45020",
+        "45135",
+        "45505"
+      ]
+    ],
+    [
+      "plascon 1lts plascovac",
+      [
+        "33695",
+        "44942",
+        "45011",
+        "45126",
+        "45496"
+      ]
+    ],
+    [
+      "plascon 1lts topside enamel",
+      [
+        "33779",
+        "44984",
+        "45053",
+        "45168",
+        "45538"
+      ]
+    ],
+    [
+      "plascon 1lts universal undercoat",
+      [
+        "33743",
+        "44966",
+        "45035",
+        "45150",
+        "45520"
+      ]
+    ],
+    [
+      "plascon 1lts varnish stains",
+      [
+        "33711",
+        "44950",
+        "45019",
+        "45134",
+        "45504"
+      ]
+    ],
+    [
+      "plascon 1lts veneer lacquer",
+      [
+        "33715",
+        "44952",
+        "45021",
+        "45136",
+        "45506"
+      ]
+    ],
+    [
+      "plascon 1lts woodcare - interior",
+      [
+        "33709",
+        "44949",
+        "45018",
+        "45133",
+        "45503"
+      ]
+    ],
+    [
+      "plascon 20lt fine textured",
+      [
+        "33749",
+        "44969",
+        "45038",
+        "45153",
+        "45523"
+      ]
+    ],
+    [
+      "plascon 20lt pearl finish",
+      [
+        "33751",
+        "44970",
+        "45039",
+        "45154",
+        "45524"
+      ]
+    ],
+    [
+      "plascon 20lts aluminium bituminous",
+      [
+        "33769",
+        "44979",
+        "45048",
+        "45163",
+        "45533"
+      ]
+    ],
+    [
+      "plascon 20lts budget emulsion",
+      [
+        "33719",
+        "44954",
+        "45023",
+        "45138",
+        "45508"
+      ]
+    ],
+    [
+      "plascon 20lts budget undercoat",
+      [
+        "33717",
+        "44953",
+        "45022",
+        "45137",
+        "45507"
+      ]
+    ]
+  ],
+  "attribute_fields": {
+    "Attribute 1 name": 518,
+    "Attribute 1 value(s)": 513,
+    "Attribute 1 visible": 40,
+    "Attribute 1 global": 518,
+    "Attribute 2 name": 189,
+    "Attribute 2 value(s)": 189,
+    "Attribute 2 visible": 7,
+    "Attribute 2 global": 189
+  },
+  "sample_rows": [
+    {
+      "ID": "10469",
+      "Type": "variable",
+      "SKU": "WP022",
+      "Name": "Crown Vinyl Matt Emulsion Xtreme APS Shades",
+      "Parent": "",
+      "Brands": "",
+      "Categories": "Paint",
+      "Attribute 1 name": "size in litres",
+      "Attribute 1 value(s)": "20, 4, 1",
+      "Attribute 2 name": "Group",
+      "Attribute 2 value(s)": "1, 2",
+      "omniclass_table_23_code": "23-15 21 11",
+      "masterformat_code": "09 91 00",
+      "uniformat_code": ""
+    },
+    {
+      "ID": "10489",
+      "Type": "variation",
+      "SKU": "WP023",
+      "Name": "Crown Vinyl Matt Emulsion Xtreme APS Shades",
+      "Parent": "WP022",
+      "Brands": "",
+      "Categories": "",
+      "Attribute 1 name": "size in litres",
+      "Attribute 1 value(s)": "20",
+      "Attribute 2 name": "Group",
+      "Attribute 2 value(s)": "1",
+      "omniclass_table_23_code": "23-15 21 11",
+      "masterformat_code": "09 91 00",
+      "uniformat_code": ""
+    },
+    {
+      "ID": "10490",
+      "Type": "variation",
+      "SKU": "WP024",
+      "Name": "Crown Vinyl Matt Emulsion Xtreme APS Shades",
+      "Parent": "WP022",
+      "Brands": "",
+      "Categories": "",
+      "Attribute 1 name": "size in litres",
+      "Attribute 1 value(s)": "4",
+      "Attribute 2 name": "Group",
+      "Attribute 2 value(s)": "1",
+      "omniclass_table_23_code": "23-15 21 11",
+      "masterformat_code": "09 91 00",
+      "uniformat_code": ""
+    },
+    {
+      "ID": "10491",
+      "Type": "variation",
+      "SKU": "WP025",
+      "Name": "Crown Vinyl Matt Emulsion Xtreme APS Shades",
+      "Parent": "WP022",
+      "Brands": "",
+      "Categories": "",
+      "Attribute 1 name": "size in litres",
+      "Attribute 1 value(s)": "1",
+      "Attribute 2 name": "Group",
+      "Attribute 2 value(s)": "1",
+      "omniclass_table_23_code": "23-15 21 11",
+      "masterformat_code": "09 91 00",
+      "uniformat_code": ""
+    },
+    {
+      "ID": "10492",
+      "Type": "variation",
+      "SKU": "WP026",
+      "Name": "Crown Vinyl Matt Emulsion Xtreme APS Shades",
+      "Parent": "WP022",
+      "Brands": "",
+      "Categories": "",
+      "Attribute 1 name": "size in litres",
+      "Attribute 1 value(s)": "20",
+      "Attribute 2 name": "Group",
+      "Attribute 2 value(s)": "2",
+      "omniclass_table_23_code": "23-15 21 11",
+      "masterformat_code": "09 91 00",
+      "uniformat_code": ""
+    },
+    {
+      "ID": "10493",
+      "Type": "variation",
+      "SKU": "WP027",
+      "Name": "Crown Vinyl Matt Emulsion Xtreme APS Shades",
+      "Parent": "WP022",
+      "Brands": "",
+      "Categories": "",
+      "Attribute 1 name": "size in litres",
+      "Attribute 1 value(s)": "4",
+      "Attribute 2 name": "Group",
+      "Attribute 2 value(s)": "2",
+      "omniclass_table_23_code": "23-15 21 11",
+      "masterformat_code": "09 91 00",
+      "uniformat_code": ""
+    },
+    {
+      "ID": "10494",
+      "Type": "variation",
+      "SKU": "WP028",
+      "Name": "Crown Vinyl Matt Emulsion Xtreme APS Shades",
+      "Parent": "WP022",
+      "Brands": "",
+      "Categories": "",
+      "Attribute 1 name": "size in litres",
+      "Attribute 1 value(s)": "1",
+      "Attribute 2 name": "Group",
+      "Attribute 2 value(s)": "2",
+      "omniclass_table_23_code": "23-15 21 11",
+      "masterformat_code": "09 91 00",
+      "uniformat_code": ""
+    },
+    {
+      "ID": "10952",
+      "Type": "simple",
+      "SKU": "TA01",
+      "Name": "11pcs Hole Saw Set",
+      "Parent": "",
+      "Brands": "",
+      "Categories": "Tool accessories",
+      "Attribute 1 name": "",
+      "Attribute 1 value(s)": "",
+      "Attribute 2 name": "",
+      "Attribute 2 value(s)": "",
+      "omniclass_table_23_code": "",
+      "masterformat_code": "",
+      "uniformat_code": ""
+    },
+    {
+      "ID": "10954",
+      "Type": "simple",
+      "SKU": "TA02",
+      "Name": "19 Piece High Speed Drill Bit Set 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10mm",
+      "Parent": "",
+      "Brands": "",
+      "Categories": "Tool accessories",
+      "Attribute 1 name": "",
+      "Attribute 1 value(s)": "",
+      "Attribute 2 name": "",
+      "Attribute 2 value(s)": "",
+      "omniclass_table_23_code": "",
+      "masterformat_code": "",
+      "uniformat_code": ""
+    },
+    {
+      "ID": "10956",
+      "Type": "simple",
+      "SKU": "TA03",
+      "Name": "32-Pc Screwdriver Bit Set",
+      "Parent": "",
+      "Brands": "",
+      "Categories": "Tool accessories",
+      "Attribute 1 name": "",
+      "Attribute 1 value(s)": "",
+      "Attribute 2 name": "",
+      "Attribute 2 value(s)": "",
+      "omniclass_table_23_code": "",
+      "masterformat_code": "",
+      "uniformat_code": ""
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+flowchart LR
+  PRJ[Project] -->|has_phase| PHASE[ProjectPhase]
+  PHASE -->|contains| WBS[WBSNode / WorkPackage]
+  WBS -->|contains| ACT[Activity / Task]
+  ACT -->|produces| QTY[QuantityTakeoff / Measurement]
+  PRJ -->|has_boq| BOQ[BOQ]
+  QTY -->|supports| BOQ
+  BOQ -->|contains| ITEM[BOQItem]
+  ITEM -->|maps_to| PROD[Canonical Product]
+  ITEM -->|requires| REQ[ProjectRequirement]
+  REQ -->|requires_specification| SPEC[ProductSpecification]
+  PROD -->|has_variant| VAR[ProductVariant]
+  VAR -->|offered_as| OFFER[ProductOffer]
+  OFFER -->|offered_by| ORG[Supplier Organization]
+  OFFER -->|available_at| FAC[SupplierFacility]
+  OFFER -->|has_price| PRICE[PriceObservation]
+  OFFER -->|has_availability| STOCK[AvailabilityObservation]
+  REQ -->|generates| PREQ[ProcurementRequest]
+  PREQ -->|generates| RFQ[RFQ]
+  RFQ -->|receives| QUOTE[Quotation]
+  QUOTE -->|converts_to| PO[PurchaseOrder]
+  PO -->|contains| LINE[PurchaseOrderLine]
+  LINE -->|purchases| VAR
+  PO -->|creates| COMMIT[Commitment]
+  classDef project fill:#FFF4D6,stroke:#B8860B,color:#111;
+  classDef supply fill:#F4E8FF,stroke:#7B3FB3,color:#111;
+  classDef commerce fill:#FFE9E2,stroke:#C84A2F,color:#111;
+  class PRJ,PHASE,WBS,ACT,QTY,BOQ,ITEM,REQ project;
+  class PROD,SPEC,VAR,OFFER,ORG,FAC,PRICE,STOCK supply;
+  class PREQ,RFQ,QUOTE,PO,LINE,COMMIT commerce;

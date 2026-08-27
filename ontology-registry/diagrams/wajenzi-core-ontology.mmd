@@ -1,0 +1,213 @@
+flowchart LR
+  %% WAJENZI core ontology v0.2
+  subgraph ID[Identity and access]
+    PER[Person]
+    ACC[UserAccount]
+    ORG[Organization / Company]
+    OROLE[OrganizationRole]
+    MEM[OrganizationMembership]
+    WS[Workspace / Tenant]
+    PROLE[ProjectRoleAssignment]
+    ACTOR[Actor / SystemActor / AIAgent]
+    PER -->|controls| ACC
+    PER -->|member_of| MEM
+    MEM -->|member_of| ORG
+    ORG -->|has role| OROLE
+    PER -->|assigned| PROLE
+    ORG -->|assigned| PROLE
+    PROLE -->|on| PRJ
+    ACC -->|member_of| WS
+    ACTOR -->|acts in| EVT
+  end
+
+  subgraph PLACE[Place and location]
+    PRJ[Project]
+    SITE[Site]
+    ADDR[Address]
+    GEO[GeoObservation]
+    GU[GeographicUnit\ncounty / ward / subcounty / location]
+    SM[SpatialMembership]
+    JUR[Jurisdiction]
+    AUTH[Authority]
+    FAC[SupplierFacility]
+    WH[Warehouse]
+    ZONE[DeliveryZone]
+    ROUTE[TransportRoute]
+    EST[RouteEstimate]
+    PRJ -->|has_site| SITE
+    SITE -->|has_geo_observation| GEO
+    SITE -->|addressed_by| ADDR
+    SITE -->|spatially_member_of| SM
+    SM -->|references| GU
+    SITE -->|falls_under| JUR
+    JUR -->|administered_by| AUTH
+    ORG -->|operates| FAC
+    FAC -->|subtype| WH
+    FAC -->|serves| ZONE
+    WH -->|originates| ROUTE
+    ROUTE -->|has_estimate| EST
+    ROUTE -->|destines_at| SITE
+    FAC -->|located_in| GU
+  end
+
+  subgraph BUILD[Project and construction]
+    PROP[Property / Parcel]
+    PHASE[ProjectPhase / PhaseGate]
+    BLD[Building]
+    SYS[BuildingSystem]
+    ELEM[BuildingElement]
+    WBS[WBSNode / WorkPackage]
+    ACT[Activity / Task]
+    MILE[Milestone / Dependency]
+    PROG[Programme / Schedule]
+    DOC[DocumentRecord / Drawing / Specification]
+    EVID[Evidence / Review / Approval]
+    BOQ[BOQ / BOQItem]
+    QTY[QuantityTakeoff / Measurement / Formula]
+    REQ[ProjectRequirement]
+    PRJ -->|has_property_context| PROP
+    PRJ -->|has_phase| PHASE
+    PRJ -->|has_building| BLD
+    BLD -->|has_system| SYS
+    SYS -->|has_element| ELEM
+    PRJ -->|contains_wbs| WBS
+    WBS -->|contains| ACT
+    ACT -->|scheduled_by| PROG
+    ACT -->|depends_on| MILE
+    ACT -->|produces| QTY
+    PRJ -->|has_document| DOC
+    DOC -->|supported_by| EVID
+    PRJ -->|has_boq| BOQ
+    BOQ -->|contains| QTY
+    BOQ -->|creates| REQ
+    DOC -->|specifies| REQ
+    ELEM -->|requires| REQ
+  end
+
+  subgraph SUPPLY[Product and supply network]
+    MAT[Material]
+    PROD[Canonical Product]
+    VAR[ProductVariant]
+    SPEC[ProductSpecification]
+    OFFER[ProductOffer]
+    BRAND[Brand]
+    PRICE[PriceObservation]
+    STOCK[AvailabilityObservation / InventoryPosition]
+    BATCH[Batch / SerialNumber]
+    REQ -->|requires_specification| SPEC
+    SPEC -->|identifies| PROD
+    PROD -->|has_variant| VAR
+    PROD -->|has_brand| BRAND
+    PROD -->|has_material| MAT
+    OFFER -->|for_variant| VAR
+    OFFER -->|offered_by| ORG
+    OFFER -->|available_at| FAC
+    OFFER -->|has_price| PRICE
+    OFFER -->|has_availability| STOCK
+    REQ -->|satisfied_by| OFFER
+    BOQ -->|maps_to| PROD
+    VAR -->|traceable_batch| BATCH
+  end
+
+  subgraph COMMERCE[Procurement and finance]
+    PREQ[ProcurementRequest / Line]
+    RFQ[RFQ]
+    QUOTE[Quotation / Line]
+    PO[PurchaseOrder / Line]
+    ORDER[CustomerOrder / SupplierOrder]
+    INV[Invoice / TaxInvoice]
+    PAY[PaymentIntent / Payment]
+    SETTLE[Settlement / Refund]
+    BUD[Budget / CostCode]
+    COMMIT[Commitment]
+    EXP[Expense]
+    FIN[FinancingApplication / Loan]
+    PREQ -->|contains| REQ
+    PREQ -->|generates| RFQ
+    RFQ -->|receives| QUOTE
+    QUOTE -->|converts_to| PO
+    PO -->|contains| VAR
+    ORDER -->|splits_into| PO
+    PO -->|creates| COMMIT
+    PRJ -->|has_budget| BUD
+    BUD -->|allocates_to| BOQ
+    COMMIT -->|becomes| EXP
+    INV -->|billed_to| ORG
+    PAY -->|settles| INV
+    PAY -->|allocated_by| SETTLE
+    FIN -->|finances| PRJ
+    FIN -->|finances| PREQ
+  end
+
+  subgraph LOG[Logistics and installation]
+    DREQ[DeliveryRequest]
+    SHIP[Shipment]
+    DISPATCH[DispatchAssignment]
+    CARRIER[Carrier]
+    VEH[Vehicle]
+    DRIVER[Driver]
+    DEL[Delivery]
+    DELEVT[DeliveryEvent]
+    POD[ProofOfDelivery]
+    GRN[GoodsReceipt]
+    INST[Installation]
+    INSP[Inspection / Test]
+    ACCEPT[Acceptance / NCR / Defect]
+    PO -->|creates| DREQ
+    DREQ -->|moves| SHIP
+    DISPATCH -->|assigns| CARRIER
+    DISPATCH -->|assigns| VEH
+    DISPATCH -->|assigns| DRIVER
+    DISPATCH -->|uses| ROUTE
+    SHIP -->|executed_by| DEL
+    DEL -->|has_event| DELEVT
+    DEL -->|evidenced_by| POD
+    DEL -->|received_as| GRN
+    GRN -->|updates| STOCK
+    GRN -->|enables| INST
+    INST -->|at| ELEM
+    INST -->|verified_by| INSP
+    INSP -->|produces| ACCEPT
+  end
+
+  subgraph GOV[Compliance, knowledge, AI and traceability]
+    RULE[Rule / Standard / Classification]
+    PERMIT[Permit / Credential / VerificationCase]
+    CONTRACT[Contract / Obligation / PartyRole]
+    VARIATION[Variation / Claim / Dispute]
+    EVENT[BusinessEvent / StateTransition]
+    EVT[AuditEvent]
+    AI[AIJob / AIOutput / Recommendation]
+    NOTIF[Notification]
+    KNOW[KnowledgeAssertion / ProvenanceRecord]
+    PRJ -->|requires| PERMIT
+    PRJ -->|has_contract| CONTRACT
+    CONTRACT -->|creates| VARIATION
+    CONTRACT -->|creates_obligation| ACCEPT
+    PRJ -->|has_rule_applicability| RULE
+    PROD -->|classified_by| RULE
+    EVENT -->|affects| PRJ
+    EVENT -->|affects| PROD
+    EVENT -->|affects| PO
+    EVENT -->|generates| EVT
+    AI -->|reads| KNOW
+    AI -->|produces| NOTIF
+    AI -->|recommends| OFFER
+    EVID -->|supported_by| KNOW
+    VARIATION -->|changes| CONTRACT
+  end
+
+  classDef identity fill:#E8F1FF,stroke:#3367D6,color:#111;
+  classDef place fill:#E9F7EF,stroke:#2E8B57,color:#111;
+  classDef build fill:#FFF4D6,stroke:#B8860B,color:#111;
+  classDef supply fill:#F4E8FF,stroke:#7B3FB3,color:#111;
+  classDef commerce fill:#FFE9E2,stroke:#C84A2F,color:#111;
+  classDef log fill:#E6F7FA,stroke:#187A8C,color:#111;
+  classDef gov fill:#F0F0F0,stroke:#555,color:#111;
+  class PER,ACC,ORG,OROLE,MEM,WS,PROLE,ACTOR identity;
+  class PRJ,SITE,ADDR,GEO,GU,SM,JUR,AUTH,FAC,WH,ZONE,ROUTE,EST place;
+  class PROP,PHASE,BLD,SYS,ELEM,WBS,ACT,MILE,PROG,DOC,EVID,BOQ,QTY,REQ build;
+  class MAT,PROD,VAR,SPEC,OFFER,BRAND,PRICE,STOCK,BATCH supply;
+  class PREQ,RFQ,QUOTE,PO,ORDER,INV,PAY,SETTLE,BUD,COMMIT,EXP,FIN commerce;
+  class DREQ,SHIP,DISPATCH,CARRIER,VEH,DRIVER,DEL,DELEVT,POD,GRN,INST,INSP,ACCEPT log;
+  class RULE,PERMIT,CONTRACT,VARIATION,EVENT,EVT,AI,NOTIF,KNOW gov;

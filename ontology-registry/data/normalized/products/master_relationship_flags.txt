@@ -1,0 +1,38 @@
+UNRESOLVED_PARENT_REFERENCES
+id:22172 6 22173,22174,22175,22176,22177,22178
+id:22179 6 22180,22181,22182,22183,22184,22185
+id:22258 4 22259,22260,22261,22262
+id:22263 5 22264,22265,22266,22267,22268
+id:22269 4 22270,22271,22272,22273
+id:22311 3 22312,22313,22314
+id:22315 2 22316,22317
+id:22679 6 22680,22681,22682,22683,22684,22685
+id:22707 6 22708,22709,22710,22711,22712,22713
+id:22714 6 22715,22716,22717,22718,22719,22720
+id:22793 4 22794,22795,22796,22797
+id:22798 5 22799,22800,22801,22802,22803
+id:22804 4 22805,22806,22807,22808
+id:22846 3 22847,22848,22849
+id:22850 2 22851,22852
+id:22858 3 22859,22860,22861
+VARIABLE_ROOTS_WITHOUT_VARIATIONS
+21002 WWEL03 PvC insulated single core copper cable
+21014 WWEL15 PvC insulated single core copper cable
+21256 WWEL256 PvC Insulated Flexible cable
+22172  Crown Medicryl Vinyl Matt Emulsion
+22179  Crown Medicryl Silk Vinyl Emulsion  APS Shades
+22258  Ngao Emulsion
+22263  Ngao Gloss Enamel
+22269  Ngao Varnish
+22311  Crown Metallica A.P.S.
+22315  Crown Timber Master
+22671  Crown Permacote Ultra Guard with Silicone  APS
+22679  Crown Permaplast Long Life Exterior Emulsion
+22707  Crown Medicryl Vinyl Matt Emulsion
+22714  Crown Medicryl Silk Vinyl Emulsion  APS Shades
+22793  Ngao Emulsion
+22798  Ngao Gloss Enamel
+22804  Ngao Varnish
+22846  Crown Metallica A.P.S.
+22850  Crown Timber Master
+22858  Crown Woodseal Polyurethane Varnish

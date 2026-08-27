@@ -1,0 +1,25 @@
+flowchart LR
+  PER[Person] -->|controls| ACC[UserAccount]
+  PER -->|member_of| MEM[OrganizationMembership]
+  MEM -->|member_of| ORG[Organization / Company]
+  ORG -->|has_organization_role| OROLE[OrganizationRole\ncontractor / supplier / manufacturer]
+  PER -->|assigned_to| PROLE[ProjectRoleAssignment]
+  ORG -->|assigned_to| PROLE
+  PROLE -->|on_project| PRJ[Project]
+  ACC -->|member_of| WS[Workspace / Tenant]
+  WS -->|governs| GRANT[AccessGrant]
+  PRJ -->|has_site| SITE[Site]
+  SITE -->|addressed_by| ADDR[Address]
+  SITE -->|has_geo_observation| GEO[GeoObservation]
+  SITE -->|spatially_member_of| SM[SpatialMembership]
+  SM -->|references| GU[GeographicUnit\ncounty / ward / typed subcounty]
+  SITE -->|falls_under| JUR[Jurisdiction]
+  JUR -->|administered_by| AUTH[Authority]
+  ORG -->|operates| FAC[Facility]
+  FAC -->|subtype| WH[Warehouse]
+  FAC -->|located_in| GU
+  FAC -->|serves| ZONE[DeliveryZone]
+  classDef identity fill:#E8F1FF,stroke:#3367D6,color:#111;
+  classDef place fill:#E9F7EF,stroke:#2E8B57,color:#111;
+  class PER,ACC,MEM,ORG,OROLE,PROLE,WS,GRANT,PRJ identity;
+  class SITE,ADDR,GEO,SM,GU,JUR,AUTH,FAC,WH,ZONE place;

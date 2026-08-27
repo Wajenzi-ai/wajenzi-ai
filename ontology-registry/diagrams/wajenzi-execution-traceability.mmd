@@ -1,0 +1,36 @@
+flowchart LR
+  PO[PurchaseOrder] -->|creates| DREQ[DeliveryRequest]
+  DREQ -->|moves| SHIP[Shipment]
+  SHIP -->|assigned_to| DISPATCH[DispatchAssignment]
+  DISPATCH -->|uses| ROUTE[TransportRoute]
+  DISPATCH -->|assigns| VEH[Vehicle]
+  DISPATCH -->|assigns| DRIVER[Driver]
+  SHIP -->|executed_by| DEL[Delivery]
+  DEL -->|has_event| DELEVT[DeliveryEvent]
+  DEL -->|evidenced_by| POD[ProofOfDelivery]
+  DEL -->|received_as| GRN[GoodsReceipt]
+  GRN -->|updates| INV[InventoryPosition]
+  GRN -->|enables| INST[Installation]
+  INST -->|at| ELEM[BuildingElement / Asset]
+  INST -->|verified_by| INSP[Inspection / Test]
+  INSP -->|produces| ACCEPT[Acceptance / NCR / Defect]
+  PO -->|billed_by| INVOICE[Invoice / ETIMS Invoice]
+  INVOICE -->|settled_by| PAY[Payment]
+  PAY -->|reconciled_by| SETTLE[Settlement]
+  INSP -->|supported_by| EVID[Evidence]
+  DEL -->|supported_by| EVID
+  PAY -->|supported_by| EVID
+  EVID -->|represented_by| DOC[DocumentVersion]
+  DEL -->|generates| EVENT[BusinessEvent]
+  PAY -->|generates| EVENT
+  EVENT -->|recorded_by| AUDIT[AuditEvent]
+  AI[AIJob / Recommendation] -->|reads| EVID
+  AI -->|proposes| ACTION[ActionRequest]
+  ACTION -->|approved_by| APPROVAL[Approval]
+  ACTION -->|generates| AUDIT
+  classDef log fill:#E6F7FA,stroke:#187A8C,color:#111;
+  classDef commerce fill:#FFE9E2,stroke:#C84A2F,color:#111;
+  classDef gov fill:#F0F0F0,stroke:#555,color:#111;
+  class PO,INVOICE,PAY,SETTLE commerce;
+  class DREQ,SHIP,DISPATCH,ROUTE,VEH,DRIVER,DEL,DELEVT,POD,GRN,INV,INST,ELEM,INSP,ACCEPT log;
+  class EVID,DOC,EVENT,AUDIT,AI,ACTION,APPROVAL gov;

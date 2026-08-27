@@ -1,0 +1,360 @@
+openapi: 3.0.3
+info:
+  title: WAJENZI Product Canonicalization Registry API
+  version: 0.4.0
+  description: >-
+    Contract for the authoritative WAJENZI master canonical catalogue and
+    controlled supplier-product canonicalization. Supplier submissions are
+    retained as source evidence and do not create canonical identity unless an
+    explicit decision approves creation.
+servers:
+  - url: https://registry.wajenzi.ai
+paths:
+  /catalogues/master/imports:
+    post:
+      summary: Stage or bootstrap the WAJENZI master canonical catalogue
+      operationId: stageMasterCatalogueImport
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MasterCatalogueImportRequest'
+      responses:
+        '202':
+          description: Import staged for validation and loading
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImportBatchResponse'
+        '409':
+          description: Same idempotency key already exists with a different file hash
+  /catalogues/master/imports/{importId}:
+    get:
+      summary: Get master catalogue import status
+      operationId: getMasterCatalogueImport
+      parameters:
+        - $ref: '#/components/parameters/ImportId'
+      responses:
+        '200':
+          description: Import status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImportBatchResponse'
+  /supplier-submissions:
+    post:
+      summary: Receive a supplier product submission
+      operationId: createSupplierProductSubmission
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SupplierProductSubmissionRequest'
+      responses:
+        '201':
+          description: Source submission retained and queued for matching
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupplierSubmissionResponse'
+  /supplier-submissions/{submissionId}/candidates:
+    post:
+      summary: Evaluate a supplier submission against canonical products and variants
+      operationId: evaluateSupplierSubmission
+      parameters:
+        - $ref: '#/components/parameters/SubmissionId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MatchEvaluationRequest'
+      responses:
+        '200':
+          description: Candidate matches and decision recommendation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MatchEvaluationResponse'
+  /supplier-submissions/{submissionId}/decision:
+    post:
+      summary: Record the authoritative canonicalization decision
+      operationId: decideSupplierCanonicalization
+      parameters:
+        - $ref: '#/components/parameters/SubmissionId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CanonicalizationDecisionRequest'
+      responses:
+        '200':
+          description: Decision recorded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CanonicalizationDecisionResponse'
+        '409':
+          description: Decision conflicts with existing identity or policy
+  /products/{productId}/canonicalization-keys:
+    get:
+      summary: Resolve canonical identity keys for a product
+      operationId: listProductIdentityKeys
+      parameters:
+        - $ref: '#/components/parameters/ProductId'
+      responses:
+        '200':
+          description: Identity keys and evidence
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductIdentityKey'
+components:
+  parameters:
+    ImportId:
+      name: importId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    SubmissionId:
+      name: submissionId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    ProductId:
+      name: productId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+  schemas:
+    MasterCatalogueImportRequest:
+      type: object
+      required: [catalogue_code, source_file_name, source_file_sha256, source_uri, schema_version, idempotency_key]
+      properties:
+        catalogue_code:
+          type: string
+          example: wajenzi-master-catalogue-v1
+        source_file_name:
+          type: string
+        source_file_sha256:
+          type: string
+          pattern: '^[a-fA-F0-9]{64}$'
+        source_uri:
+          type: string
+        schema_version:
+          type: string
+          example: woocommerce_export_118_columns
+        idempotency_key:
+          type: string
+        mode:
+          type: string
+          enum: [bootstrap_master, master_refresh]
+          default: bootstrap_master
+    ImportBatchResponse:
+      type: object
+      required: [import_id, status, rows_seen, roots_created, variants_created, review_count]
+      properties:
+        import_id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [staged, validated, loaded, partially_loaded, failed, rolled_back]
+        rows_seen:
+          type: integer
+        roots_created:
+          type: integer
+        variants_created:
+          type: integer
+        review_count:
+          type: integer
+        idempotent_replay:
+          type: boolean
+    SupplierProductSubmissionRequest:
+      type: object
+      required: [supplier_organization_id, supplier_submission_id, title, product_type, unit_of_sale]
+      properties:
+        supplier_organization_id:
+          type: string
+          format: uuid
+        supplier_submission_id:
+          type: string
+        supplier_sku:
+          type: string
+        title:
+          type: string
+        brand:
+          type: string
+        manufacturer_part_number:
+          type: string
+        barcode:
+          type: string
+        product_type:
+          type: string
+        category_path:
+          type: string
+        unit_of_sale:
+          type: string
+        pack_size:
+          type: object
+          additionalProperties: true
+        specification:
+          type: object
+          additionalProperties: true
+        dimensions:
+          type: object
+          additionalProperties: true
+        claimed_wajenzi_product_id:
+          type: string
+          format: uuid
+        evidence:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        commercial:
+          type: object
+          description: Price, stock, facility, lead-time and terms; never canonical identity.
+          additionalProperties: true
+    SupplierSubmissionResponse:
+      type: object
+      required: [submission_id, submission_status]
+      properties:
+        submission_id:
+          type: string
+          format: uuid
+        submission_status:
+          type: string
+          enum: [received, validated, candidate_matching, matched, new_candidate, review_required, rejected]
+        source_record_id:
+          type: string
+          format: uuid
+    MatchEvaluationRequest:
+      type: object
+      properties:
+        algorithm_version:
+          type: string
+        max_candidates:
+          type: integer
+          default: 10
+        allow_fuzzy_discovery:
+          type: boolean
+          default: true
+    MatchEvaluationResponse:
+      type: object
+      required: [submission_id, candidates, recommendation]
+      properties:
+        submission_id:
+          type: string
+          format: uuid
+        candidates:
+          type: array
+          items:
+            $ref: '#/components/schemas/CanonicalizationCandidate'
+        recommendation:
+          type: string
+          enum: [matched_existing_product, matched_existing_variant, review_required, new_canonical_candidate, rejected]
+    CanonicalizationCandidate:
+      type: object
+      required: [match_method, candidate_status]
+      properties:
+        candidate_product_id:
+          type: string
+          format: uuid
+        candidate_variant_id:
+          type: string
+          format: uuid
+        match_method:
+          type: string
+          enum: [authorized_entity_id, exact_gtin, exact_manufacturer_part_number, exact_identity_key, classification_and_attributes, fuzzy_discovery, no_candidate]
+        match_score:
+          type: number
+          minimum: 0
+          maximum: 1
+        matched_fields:
+          type: object
+          additionalProperties: true
+        conflicting_fields:
+          type: object
+          additionalProperties: true
+        evidence:
+          type: object
+          additionalProperties: true
+        algorithm_version:
+          type: string
+        candidate_status:
+          type: string
+          enum: [proposed, shortlisted, accepted, rejected, superseded, review_required]
+    CanonicalizationDecisionRequest:
+      type: object
+      required: [outcome, decision_reason, decided_by_entity_id]
+      properties:
+        outcome:
+          type: string
+          enum: [matched_existing_product, matched_existing_variant, review_required, new_canonical_product, new_canonical_variant, rejected]
+        selected_candidate_id:
+          type: string
+          format: uuid
+        decided_by_entity_id:
+          type: string
+          format: uuid
+        decision_reason:
+          type: string
+        decision_evidence:
+          type: object
+          additionalProperties: true
+        algorithm_version:
+          type: string
+    CanonicalizationDecisionResponse:
+      type: object
+      required: [decision_id, outcome, canonical_creation]
+      properties:
+        decision_id:
+          type: string
+          format: uuid
+        outcome:
+          type: string
+        canonical_creation:
+          type: boolean
+        resolved_product_id:
+          type: string
+          format: uuid
+        resolved_variant_id:
+          type: string
+          format: uuid
+        created_entity_id:
+          type: string
+          format: uuid
+        redirect_or_alias_created:
+          type: boolean
+    ProductIdentityKey:
+      type: object
+      required: [key_type, namespace, normalized_key_value, status]
+      properties:
+        key_type:
+          type: string
+          enum: [gtin, manufacturer_part_number, normalized_identity, classification_identity, supplier_claimed]
+        namespace:
+          type: string
+        key_value:
+          type: string
+        normalized_key_value:
+          type: string
+        confidence:
+          type: number
+          minimum: 0
+          maximum: 1
+        status:
+          type: string
+          enum: [active, deprecated, conflicted, review_required]
