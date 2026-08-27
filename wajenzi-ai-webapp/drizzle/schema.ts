@@ -101,6 +101,15 @@ export const projects = mysqlTable("projects", {
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });
 
+export const userContexts = mysqlTable("user_contexts", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().unique().references(() => users.id),
+  activeWorkspaceId: int("activeWorkspaceId").notNull().references(() => workspaces.id),
+  activeProjectEntityId: int("activeProjectEntityId").references(() => registryEntities.id),
+  activePersona: varchar("activePersona", { length: 64 }),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
 export const projectMemberships = mysqlTable("project_memberships", {
   id: int("id").autoincrement().primaryKey(),
   projectId: int("projectId").notNull().references(() => projects.id),
@@ -308,6 +317,103 @@ export const productOffers = mysqlTable("product_offers", {
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 }, table => [index("product_offer_product_idx").on(table.canonicalProductEntityId), index("product_offer_variant_idx").on(table.canonicalVariantEntityId), index("product_offer_supplier_idx").on(table.supplierOrganizationEntityId)]);
+
+export const procurementRequests = mysqlTable("procurement_requests", {
+  id: int("id").autoincrement().primaryKey(),
+  workspaceId: int("workspaceId").notNull().references(() => workspaces.id),
+  projectId: int("projectId").notNull().references(() => projects.id),
+  wajenziId: varchar("wajenziId", { length: 40 }).notNull().unique(),
+  requestingOrganizationEntityId: int("requestingOrganizationEntityId").references(() => registryEntities.id),
+  title: varchar("title", { length: 500 }).notNull(),
+  notes: text("notes"),
+  needBy: timestamp("needBy"),
+  closingAt: timestamp("closingAt"),
+  status: mysqlEnum("status", ["draft", "open", "closed", "awarded", "cancelled"]).default("draft").notNull(),
+  createdByUserId: int("createdByUserId").references(() => users.id),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, table => [index("rfq_workspace_status_idx").on(table.workspaceId, table.status), index("rfq_project_idx").on(table.projectId)]);
+
+export const procurementRequestLines = mysqlTable("procurement_request_lines", {
+  id: int("id").autoincrement().primaryKey(),
+  procurementRequestId: int("procurementRequestId").notNull().references(() => procurementRequests.id),
+  canonicalProductEntityId: int("canonicalProductEntityId").references(() => registryEntities.id),
+  canonicalVariantEntityId: int("canonicalVariantEntityId").references(() => registryEntities.id),
+  requestedDescription: varchar("requestedDescription", { length: 1000 }).notNull(),
+  quantity: decimal("quantity", { precision: 16, scale: 3 }).notNull(),
+  unitOfMeasure: varchar("unitOfMeasure", { length: 64 }).notNull(),
+  targetUnit: varchar("targetUnit", { length: 64 }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export const rfqInvitations = mysqlTable("rfq_invitations", {
+  id: int("id").autoincrement().primaryKey(),
+  procurementRequestId: int("procurementRequestId").notNull().references(() => procurementRequests.id),
+  supplierOrganizationEntityId: int("supplierOrganizationEntityId").notNull().references(() => registryEntities.id),
+  status: mysqlEnum("status", ["invited", "viewed", "declined", "quoted", "withdrawn"]).default("invited").notNull(),
+  invitedByUserId: int("invitedByUserId").references(() => users.id),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, table => [uniqueIndex("rfq_invitation_unique").on(table.procurementRequestId, table.supplierOrganizationEntityId)]);
+
+export const supplierQuotes = mysqlTable("supplier_quotes", {
+  id: int("id").autoincrement().primaryKey(),
+  procurementRequestId: int("procurementRequestId").notNull().references(() => procurementRequests.id),
+  workspaceId: int("workspaceId").notNull().references(() => workspaces.id),
+  wajenziId: varchar("wajenziId", { length: 40 }).notNull().unique(),
+  supplierOrganizationEntityId: int("supplierOrganizationEntityId").notNull().references(() => registryEntities.id),
+  currencyCode: varchar("currencyCode", { length: 3 }).default("KES").notNull(),
+  taxBasis: mysqlEnum("taxBasis", ["inclusive", "exclusive", "unknown"]).default("unknown").notNull(),
+  validUntil: timestamp("validUntil"),
+  notes: text("notes"),
+  status: mysqlEnum("status", ["draft", "submitted", "withdrawn", "accepted", "rejected", "expired"]).default("draft").notNull(),
+  submittedByUserId: int("submittedByUserId").references(() => users.id),
+  submittedAt: timestamp("submittedAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, table => [index("supplier_quote_rfq_idx").on(table.procurementRequestId), index("supplier_quote_supplier_idx").on(table.supplierOrganizationEntityId, table.status)]);
+
+export const supplierQuoteLines = mysqlTable("supplier_quote_lines", {
+  id: int("id").autoincrement().primaryKey(),
+  supplierQuoteId: int("supplierQuoteId").notNull().references(() => supplierQuotes.id),
+  procurementRequestLineId: int("procurementRequestLineId").notNull().references(() => procurementRequestLines.id),
+  offerId: int("offerId").references(() => productOffers.id),
+  quotedDescription: varchar("quotedDescription", { length: 1000 }).notNull(),
+  quantity: decimal("quantity", { precision: 16, scale: 3 }).notNull(),
+  unitOfMeasure: varchar("unitOfMeasure", { length: 64 }).notNull(),
+  unitPrice: decimal("unitPrice", { precision: 16, scale: 2 }).notNull(),
+  leadTimeHours: int("leadTimeHours"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, table => [uniqueIndex("quote_line_rfq_line_unique").on(table.supplierQuoteId, table.procurementRequestLineId)]);
+
+export const purchaseOrders = mysqlTable("purchase_orders", {
+  id: int("id").autoincrement().primaryKey(),
+  workspaceId: int("workspaceId").notNull().references(() => workspaces.id),
+  projectId: int("projectId").notNull().references(() => projects.id),
+  procurementRequestId: int("procurementRequestId").notNull().references(() => procurementRequests.id),
+  supplierQuoteId: int("supplierQuoteId").notNull().references(() => supplierQuotes.id),
+  wajenziId: varchar("wajenziId", { length: 40 }).notNull().unique(),
+  buyerOrganizationEntityId: int("buyerOrganizationEntityId").references(() => registryEntities.id),
+  supplierOrganizationEntityId: int("supplierOrganizationEntityId").notNull().references(() => registryEntities.id),
+  status: mysqlEnum("status", ["draft", "pending_approval", "approved", "issued", "acknowledged", "cancelled", "closed"]).default("draft").notNull(),
+  notes: text("notes"),
+  createdByUserId: int("createdByUserId").references(() => users.id),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, table => [uniqueIndex("purchase_order_quote_unique").on(table.supplierQuoteId), index("purchase_order_project_idx").on(table.projectId, table.status)]);
+
+export const deliveryIntents = mysqlTable("delivery_intents", {
+  id: int("id").autoincrement().primaryKey(),
+  purchaseOrderId: int("purchaseOrderId").notNull().references(() => purchaseOrders.id),
+  workspaceId: int("workspaceId").notNull().references(() => workspaces.id),
+  wajenziId: varchar("wajenziId", { length: 40 }).notNull().unique(),
+  status: mysqlEnum("status", ["planned", "scheduled", "in_transit", "delivered", "partially_delivered", "failed", "cancelled"]).default("planned").notNull(),
+  expectedAt: timestamp("expectedAt"),
+  deliveryAddress: text("deliveryAddress"),
+  notes: text("notes"),
+  createdByUserId: int("createdByUserId").references(() => users.id),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, table => [index("delivery_intent_order_idx").on(table.purchaseOrderId, table.status)]);
 
 export const priceObservations = mysqlTable("price_observations", {
   id: int("id").autoincrement().primaryKey(),

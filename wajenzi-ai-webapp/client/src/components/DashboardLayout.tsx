@@ -1,269 +1,63 @@
 import { useAuth } from "@/_core/hooks/useAuth";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarHeader,
-  SidebarInset,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarProvider,
-  SidebarTrigger,
-  useSidebar,
-} from "@/components/ui/sidebar";
 import { startLogin } from "@/const";
 import { useIsMobile } from "@/hooks/useMobile";
-import { Bot, BookOpen, Database, FileCheck2, Handshake, LayoutDashboard, LogOut, MapPinned, PanelLeft, SearchCheck, Tags } from "lucide-react";
-import { CSSProperties, useEffect, useRef, useState } from "react";
+import { defaultPersonaForWorkspaceRole, PERSONAS, type PersonaKey } from "@/lib/personas";
+import { trpc } from "@/lib/trpc";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarInset, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
+import { Bell, Bot, Building2, Check, ChevronDown, CircleHelp, FolderKanban, LayoutDashboard, ListChecks, LogOut, MessageSquareText, PanelLeft, Search, Settings2, ShieldCheck } from "lucide-react";
+import { createContext, type CSSProperties, type ReactNode, useContext, useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
 import { useLocation } from "wouter";
-import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
+import { DashboardLayoutSkeleton } from "./DashboardLayoutSkeleton";
 import { Button } from "./ui/button";
 
-const menuItems = [
-  { icon: LayoutDashboard, label: "Command center", path: "/" },
-  { icon: Bot, label: "AI agents", path: "/agents" },
-  { icon: Database, label: "Master catalogue", path: "/catalogue" },
-  { icon: Handshake, label: "Supplier matching", path: "/submissions" },
-  { icon: Tags, label: "Offers & observations", path: "/offers" },
-  { icon: SearchCheck, label: "Procurement query", path: "/procurement" },
-  { icon: MapPinned, label: "Locations", path: "/locations" },
-  { icon: FileCheck2, label: "Evidence vault", path: "/files" },
-  { icon: BookOpen, label: "Implementation", path: "/implementation" },
-];
-
 const SIDEBAR_WIDTH_KEY = "sidebar-width";
-const DEFAULT_WIDTH = 280;
-const MIN_WIDTH = 200;
-const MAX_WIDTH = 480;
+const DEFAULT_WIDTH = 288;
+const MIN_WIDTH = 220;
+const MAX_WIDTH = 420;
+type ProjectChoice = { entityId: number; wajenziId?: string; canonicalName?: string; status: string };
+type PersonaContextValue = { persona: PersonaKey; setPersona: (persona: PersonaKey) => void; workspaceRole?: string; workspaceName?: string; workspaceId?: number; projects: ProjectChoice[]; activeProjectEntityId?: number | null };
+const PersonaContext = createContext<PersonaContextValue | undefined>(undefined);
 
-export default function DashboardLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const [sidebarWidth, setSidebarWidth] = useState(() => {
-    const saved = localStorage.getItem(SIDEBAR_WIDTH_KEY);
-    return saved ? parseInt(saved, 10) : DEFAULT_WIDTH;
-  });
+export function usePersona() { const context = useContext(PersonaContext); if (!context) throw new Error("usePersona must be used inside DashboardLayout"); return context; }
+
+export default function DashboardLayout({ children }: { children: ReactNode }) {
+  const [sidebarWidth, setSidebarWidth] = useState(() => Number(localStorage.getItem(SIDEBAR_WIDTH_KEY) || DEFAULT_WIDTH));
   const { loading, user } = useAuth();
-
-  useEffect(() => {
-    localStorage.setItem(SIDEBAR_WIDTH_KEY, sidebarWidth.toString());
-  }, [sidebarWidth]);
-
-  if (loading) {
-    return <DashboardLayoutSkeleton />
-  }
-
-  if (!user) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="flex flex-col items-center gap-8 p-8 max-w-md w-full">
-          <div className="flex flex-col items-center gap-6">
-            <h1 className="text-2xl font-semibold tracking-tight text-center">
-              Sign in to continue
-            </h1>
-            <p className="text-sm text-muted-foreground text-center max-w-sm">
-              Access to this dashboard requires authentication. Continue to launch the login flow.
-            </p>
-          </div>
-          <Button
-            onClick={() => startLogin()}
-            size="lg"
-            className="w-full shadow-lg hover:shadow-xl transition-all"
-          >
-            Sign in
-          </Button>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <SidebarProvider
-      style={
-        {
-          "--sidebar-width": `${sidebarWidth}px`,
-        } as CSSProperties
-      }
-    >
-      <DashboardLayoutContent setSidebarWidth={setSidebarWidth}>
-        {children}
-      </DashboardLayoutContent>
-    </SidebarProvider>
-  );
+  useEffect(() => { localStorage.setItem(SIDEBAR_WIDTH_KEY, String(sidebarWidth)); }, [sidebarWidth]);
+  if (loading) return <DashboardLayoutSkeleton />;
+  if (!user) return <div className="flex min-h-screen items-center justify-center bg-[radial-gradient(circle_at_top_left,_#e4f7f3,_transparent_36%),#f8f7f2] p-6"><div className="w-full max-w-md rounded-3xl border border-slate-200 bg-white p-8 text-center shadow-xl shadow-slate-900/5"><span className="inline-flex rounded-2xl bg-teal-900 p-3 text-sm font-black tracking-[0.16em] text-teal-50">W</span><p className="mt-6 text-[11px] font-bold uppercase tracking-[0.18em] text-teal-800">wajenzi.ai workspace</p><h1 className="mt-2 font-display text-3xl text-slate-950">Sign in to your construction operating environment</h1><p className="mt-3 text-sm leading-6 text-slate-600">Your organization, permissions, projects, governed records, and role context load after authentication.</p><Button onClick={() => startLogin()} size="lg" className="mt-7 w-full bg-teal-800 hover:bg-teal-900">Sign in to wajenzi.ai</Button></div></div>;
+  return <SidebarProvider style={{ "--sidebar-width": `${sidebarWidth}px` } as CSSProperties}><DashboardLayoutContent setSidebarWidth={setSidebarWidth}>{children}</DashboardLayoutContent></SidebarProvider>;
 }
 
-type DashboardLayoutContentProps = {
-  children: React.ReactNode;
-  setSidebarWidth: (width: number) => void;
-};
-
-function DashboardLayoutContent({
-  children,
-  setSidebarWidth,
-}: DashboardLayoutContentProps) {
+function DashboardLayoutContent({ children, setSidebarWidth }: { children: ReactNode; setSidebarWidth: (width: number) => void }) {
   const { user, logout } = useAuth();
+  const utils = trpc.useUtils();
+  const workspaceContexts = trpc.registry.workspaceContexts.useQuery(undefined, { retry: false });
+  const dashboard = trpc.registry.dashboard.useQuery(undefined, { retry: false });
   const [location, setLocation] = useLocation();
   const { state, toggleSidebar } = useSidebar();
-  const isCollapsed = state === "collapsed";
   const [isResizing, setIsResizing] = useState(false);
   const sidebarRef = useRef<HTMLDivElement>(null);
-  const activeMenuItem = menuItems.find(item => item.path === location);
   const isMobile = useIsMobile();
-
-  useEffect(() => {
-    if (isCollapsed) {
-      setIsResizing(false);
-    }
-  }, [isCollapsed]);
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!isResizing) return;
-
-      const sidebarLeft = sidebarRef.current?.getBoundingClientRect().left ?? 0;
-      const newWidth = e.clientX - sidebarLeft;
-      if (newWidth >= MIN_WIDTH && newWidth <= MAX_WIDTH) {
-        setSidebarWidth(newWidth);
-      }
-    };
-
-    const handleMouseUp = () => {
-      setIsResizing(false);
-    };
-
-    if (isResizing) {
-      document.addEventListener("mousemove", handleMouseMove);
-      document.addEventListener("mouseup", handleMouseUp);
-      document.body.style.cursor = "col-resize";
-      document.body.style.userSelect = "none";
-    }
-
-    return () => {
-      document.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseup", handleMouseUp);
-      document.body.style.cursor = "";
-      document.body.style.userSelect = "";
-    };
-  }, [isResizing, setSidebarWidth]);
-
-  return (
-    <>
-      <div className="relative" ref={sidebarRef}>
-        <Sidebar
-          collapsible="icon"
-          className="border-r-0"
-          disableTransition={isResizing}
-        >
-          <SidebarHeader className="h-16 justify-center">
-            <div className="flex items-center gap-3 px-2 transition-all w-full">
-              <button
-                onClick={toggleSidebar}
-                className="h-8 w-8 flex items-center justify-center hover:bg-accent rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ring shrink-0"
-                aria-label="Toggle navigation"
-              >
-                <PanelLeft className="h-4 w-4 text-muted-foreground" />
-              </button>
-              {!isCollapsed ? (
-                <div className="flex items-center gap-2 min-w-0">
-                  <span className="font-semibold tracking-[0.02em] truncate text-sm">
-                    WAJENZI / DATA
-                  </span>
-                </div>
-              ) : null}
-            </div>
-          </SidebarHeader>
-
-          <SidebarContent className="gap-0">
-            <SidebarMenu className="px-2 py-1">
-              {menuItems.map(item => {
-                const isActive = location === item.path;
-                return (
-                  <SidebarMenuItem key={item.path}>
-                    <SidebarMenuButton
-                      isActive={isActive}
-                      onClick={() => setLocation(item.path)}
-                      tooltip={item.label}
-                      className={`h-10 transition-all font-normal`}
-                    >
-                      <item.icon
-                        className={`h-4 w-4 ${isActive ? "text-primary" : ""}`}
-                      />
-                      <span>{item.label}</span>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                );
-              })}
-            </SidebarMenu>
-          </SidebarContent>
-
-          <SidebarFooter className="p-3">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <button className="flex items-center gap-3 rounded-lg px-1 py-1 hover:bg-accent/50 transition-colors w-full text-left group-data-[collapsible=icon]:justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-ring">
-                  <Avatar className="h-9 w-9 border shrink-0">
-                    <AvatarFallback className="text-xs font-medium">
-                      {user?.name?.charAt(0).toUpperCase()}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="flex-1 min-w-0 group-data-[collapsible=icon]:hidden">
-                    <p className="text-sm font-medium truncate leading-none">
-                      {user?.name || "-"}
-                    </p>
-                    <p className="text-xs text-muted-foreground truncate mt-1.5">
-                      {user?.email || "-"}
-                    </p>
-                  </div>
-                </button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48">
-                <DropdownMenuItem
-                  onClick={logout}
-                  className="cursor-pointer text-destructive focus:text-destructive"
-                >
-                  <LogOut className="mr-2 h-4 w-4" />
-                  <span>Sign out</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </SidebarFooter>
-        </Sidebar>
-        <div
-          className={`absolute top-0 right-0 w-1 h-full cursor-col-resize hover:bg-primary/20 transition-colors ${isCollapsed ? "hidden" : ""}`}
-          onMouseDown={() => {
-            if (isCollapsed) return;
-            setIsResizing(true);
-          }}
-          style={{ zIndex: 50 }}
-        />
-      </div>
-
-      <SidebarInset>
-        {isMobile && (
-          <div className="flex border-b h-14 items-center justify-between bg-background/95 px-2 backdrop-blur supports-[backdrop-filter]:backdrop-blur sticky top-0 z-40">
-            <div className="flex items-center gap-2">
-              <SidebarTrigger className="h-9 w-9 rounded-lg bg-background" />
-              <div className="flex items-center gap-3">
-                <div className="flex flex-col gap-1">
-                  <span className="tracking-tight text-foreground">
-                    {activeMenuItem?.label ?? "Menu"}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-        <main className="flex-1 p-4">{children}</main>
-      </SidebarInset>
-    </>
-  );
+  const isCollapsed = state === "collapsed";
+  const activeContext = workspaceContexts.data?.contexts.find(context => context.workspaceId === workspaceContexts.data?.activeWorkspaceId);
+  const allowedPersonaKeys = (activeContext?.allowedPersonas || [defaultPersonaForWorkspaceRole(activeContext?.workspaceRole || dashboard.data?.membership.workspaceRole)]) as PersonaKey[];
+  useEffect(() => { const move = (event: MouseEvent) => { if (!isResizing) return; const left = sidebarRef.current?.getBoundingClientRect().left ?? 0; const width = event.clientX - left; if (width >= MIN_WIDTH && width <= MAX_WIDTH) setSidebarWidth(width); }; const up = () => setIsResizing(false); if (isResizing) { document.addEventListener("mousemove", move); document.addEventListener("mouseup", up); document.body.style.cursor = "col-resize"; document.body.style.userSelect = "none"; } return () => { document.removeEventListener("mousemove", move); document.removeEventListener("mouseup", up); document.body.style.cursor = ""; document.body.style.userSelect = ""; }; }, [isResizing, setSidebarWidth]);
+  const selectContext = trpc.registry.selectWorkspaceContext.useMutation({ onSuccess: async () => { await Promise.all([utils.registry.workspaceContexts.invalidate(), utils.registry.dashboard.invalidate(), utils.registry.catalogue.invalidate(), utils.registry.commercialRecords.invalidate(), utils.procurement.invalidate(), utils.files.invalidate(), utils.agents.invalidate()]); toast.success("Authorized workspace context updated."); setLocation("/"); }, onError: error => toast.error(error.message) });
+  const persona = (workspaceContexts.data?.activePersona as PersonaKey | null | undefined) || allowedPersonaKeys[0] || "custom";
+  const setPersona = (nextPersona: PersonaKey) => { if (!activeContext) return toast.error("No authorized workspace context is available."); if (!allowedPersonaKeys.includes(nextPersona)) return toast.error("This persona is not permitted by your active workspace membership."); selectContext.mutate({ workspaceId: activeContext.workspaceId, projectEntityId: workspaceContexts.data?.activeProjectEntityId ?? null, persona: nextPersona }); };
+  const definition = PERSONAS[persona];
+  const projects = (activeContext?.projects || dashboard.data?.projects || []).filter(project => Boolean(project.wajenziId && project.canonicalName)).map(project => ({ entityId: project.entityId, wajenziId: project.wajenziId, canonicalName: project.canonicalName, status: project.status }));
+  const activeProjectEntityId = workspaceContexts.data?.activeProjectEntityId;
+  const activeProject = projects.find(project => project.entityId === activeProjectEntityId);
+  const activeMenuItem = definition.navigation.find(item => item.path === location) || (location === "/" ? { label: "Command center" } : undefined);
+  const chooseWorkspace = (workspaceId: number) => { const target = workspaceContexts.data?.contexts.find(context => context.workspaceId === workspaceId); selectContext.mutate({ workspaceId, projectEntityId: target?.projects[0]?.entityId ?? null, persona: target?.allowedPersonas[0] }); };
+  const chooseProject = (projectEntityId: number | null) => { if (!activeContext) return; selectContext.mutate({ workspaceId: activeContext.workspaceId, projectEntityId, persona }); };
+  const navigateModule = (path: string, readiness: "live" | "guided" | "planned") => { setLocation(path); if (readiness !== "live") toast.info(`${readiness === "guided" ? "Guided workflow" : "Planned module"}: only backend-authorized actions are enabled.`); };
+  const contextValue = { persona, setPersona, workspaceRole: activeContext?.workspaceRole || dashboard.data?.membership.workspaceRole, workspaceName: activeContext?.workspaceName || dashboard.data?.workspace.name, workspaceId: activeContext?.workspaceId, projects, activeProjectEntityId };
+  if (workspaceContexts.isError || (workspaceContexts.data && !workspaceContexts.data.contexts.length)) return <div className="flex min-h-screen items-center justify-center bg-[#fbfaf7] p-6"><section className="max-w-lg rounded-3xl border border-amber-200 bg-amber-50 p-8 text-center shadow-lg shadow-amber-900/5"><ShieldCheck className="mx-auto h-7 w-7 text-amber-700" /><p className="mt-4 text-[11px] font-bold uppercase tracking-[0.16em] text-amber-800">Access required</p><h1 className="mt-2 font-display text-3xl text-amber-950">No authorized workspace is available</h1><p className="mt-3 text-sm leading-6 text-amber-900">You are signed in, but do not currently have an active organization/workspace membership. Ask an authorized administrator to assign the appropriate organization, role, and project scope before accessing wajenzi.ai records.</p></section></div>;
+  return <PersonaContext.Provider value={contextValue}><div className="relative" ref={sidebarRef}><Sidebar collapsible="icon" className="border-r border-slate-200/80 bg-[#f8f7f2]" disableTransition={isResizing}><SidebarHeader className="border-b border-slate-200/80 px-3 py-3"><div className="flex items-center gap-2"><button onClick={toggleSidebar} className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg hover:bg-slate-200/70 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-700" aria-label="Toggle navigation"><PanelLeft className="h-4 w-4 text-slate-600" /></button>{!isCollapsed ? <button type="button" onClick={() => setLocation("/")} className="min-w-0 text-left"><span className="block text-sm font-black tracking-[0.04em] text-slate-950">wajenzi<span className="text-teal-700">.ai</span></span><span className="block truncate text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-500">construction operating system</span></button> : null}</div></SidebarHeader><SidebarContent className="gap-0"><div className="space-y-2 px-3 pb-2 pt-4 group-data-[collapsible=icon]:hidden"><DropdownMenu><DropdownMenuTrigger asChild><button className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-left shadow-sm transition hover:border-teal-300"><span className="min-w-0"><span className="block truncate text-xs font-bold text-slate-900">{activeContext?.organizationName || activeContext?.workspaceName || "Loading organization…"}</span><span className="block truncate pt-0.5 text-[10px] text-slate-500">{activeContext?.workspaceRole?.replaceAll("_", " ") || "Loading authority…"}</span></span><Building2 className="h-3.5 w-3.5 text-slate-500" /></button></DropdownMenuTrigger><DropdownMenuContent align="start" className="w-72"><DropdownMenuLabel>Authorized organizations & workspaces</DropdownMenuLabel><DropdownMenuSeparator />{workspaceContexts.data?.contexts.map(context => <DropdownMenuItem key={context.workspaceId} onClick={() => chooseWorkspace(context.workspaceId)} className="cursor-pointer"><Building2 className="mr-2 h-4 w-4 text-slate-500" /><span className="min-w-0 flex-1"><span className="block truncate">{context.organizationName || context.workspaceName}</span><span className="block truncate text-[10px] text-slate-500">{context.workspaceRole.replaceAll("_", " ")}</span></span>{context.workspaceId === activeContext?.workspaceId ? <Check className="ml-2 h-4 w-4 text-teal-700" /> : null}</DropdownMenuItem>) || <DropdownMenuItem disabled>Loading authorized contexts…</DropdownMenuItem>}</DropdownMenuContent></DropdownMenu><DropdownMenu><DropdownMenuTrigger asChild><button className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-left shadow-sm transition hover:border-teal-300"><span className="min-w-0"><span className="block truncate text-xs font-semibold text-slate-800">{activeProject?.canonicalName || "All authorized projects"}</span><span className="block truncate pt-0.5 text-[10px] text-slate-500">Project context</span></span><FolderKanban className="h-3.5 w-3.5 text-slate-500" /></button></DropdownMenuTrigger><DropdownMenuContent align="start" className="w-72"><DropdownMenuLabel>Authorized project context</DropdownMenuLabel><DropdownMenuSeparator /><DropdownMenuItem onClick={() => chooseProject(null)} className="cursor-pointer">All authorized projects {!activeProjectEntityId ? <Check className="ml-auto h-4 w-4 text-teal-700" /> : null}</DropdownMenuItem>{projects.map(project => <DropdownMenuItem key={project.entityId} onClick={() => chooseProject(project.entityId)} className="cursor-pointer"><span className="min-w-0 flex-1 truncate">{project.canonicalName}</span>{project.entityId === activeProjectEntityId ? <Check className="ml-2 h-4 w-4 text-teal-700" /> : null}</DropdownMenuItem>)}</DropdownMenuContent></DropdownMenu><DropdownMenu><DropdownMenuTrigger asChild><button className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-left shadow-sm transition hover:border-teal-300"><span className="min-w-0"><span className="block truncate text-xs font-semibold text-slate-800">{definition.shortLabel} view</span><span className="block truncate pt-0.5 text-[10px] text-slate-500">Permitted by membership scope</span></span><ChevronDown className="h-3.5 w-3.5 text-slate-500" /></button></DropdownMenuTrigger><DropdownMenuContent align="start" className="w-72"><DropdownMenuLabel>Authorized role views</DropdownMenuLabel><p className="px-2 pb-2 text-xs leading-5 text-slate-500">Persona selection changes the contextual frontend; server-side authorization remains the decision authority.</p><DropdownMenuSeparator />{allowedPersonaKeys.map(key => <DropdownMenuItem key={key} onClick={() => setPersona(key)} className="cursor-pointer"><span className="mr-2 h-2 w-2 rounded-full bg-teal-600" /><span>{PERSONAS[key].label}</span>{persona === key ? <Check className="ml-auto h-4 w-4 text-teal-700" /> : null}</DropdownMenuItem>)}</DropdownMenuContent></DropdownMenu></div><SidebarMenu className="px-2 py-1"><SidebarMenuItem><SidebarMenuButton isActive={location === "/"} onClick={() => setLocation("/")} tooltip="Command center" className="h-10 font-medium"><LayoutDashboard className="h-4 w-4" /><span>Command center</span></SidebarMenuButton></SidebarMenuItem>{definition.navigation.map(item => <SidebarMenuItem key={`${item.path}-${item.label}`}><SidebarMenuButton isActive={location === item.path} onClick={() => navigateModule(item.path, item.readiness)} tooltip={item.label} className="h-10"><item.icon className="h-4 w-4" /><span>{item.label}</span>{!isCollapsed && item.readiness !== "live" ? <span className="ml-auto text-[9px] font-bold uppercase tracking-wide text-slate-400">{item.readiness}</span> : null}</SidebarMenuButton></SidebarMenuItem>)}</SidebarMenu><div className="mx-3 mt-4 rounded-xl border border-teal-900/10 bg-teal-50/70 p-3 group-data-[collapsible=icon]:hidden"><p className="text-[10px] font-bold uppercase tracking-[0.14em] text-teal-800">Governance</p><p className="mt-1 text-xs leading-5 text-teal-950">Actions use membership authority. Canonical IDs, evidence, and events travel with every record.</p></div></SidebarContent><SidebarFooter className="border-t border-slate-200/80 p-3"><DropdownMenu><DropdownMenuTrigger asChild><button className="flex w-full items-center gap-3 rounded-xl p-1 text-left transition hover:bg-slate-200/60 group-data-[collapsible=icon]:justify-center"><Avatar className="h-9 w-9 border border-slate-200"><AvatarFallback className="bg-white text-xs font-semibold text-slate-700">{user?.name?.charAt(0).toUpperCase()}</AvatarFallback></Avatar><div className="min-w-0 flex-1 group-data-[collapsible=icon]:hidden"><p className="truncate text-sm font-medium text-slate-900">{user?.name || "Account"}</p><p className="mt-0.5 truncate text-[11px] text-slate-500">{user?.email || "Authenticated account"}</p></div></button></DropdownMenuTrigger><DropdownMenuContent align="end" className="w-56"><DropdownMenuLabel>{user?.email}</DropdownMenuLabel><DropdownMenuSeparator /><DropdownMenuItem onClick={() => toast.info("Settings are introduced per governed service module.")}><Settings2 className="mr-2 h-4 w-4" />Settings</DropdownMenuItem><DropdownMenuItem onClick={logout} className="cursor-pointer text-rose-700 focus:text-rose-700"><LogOut className="mr-2 h-4 w-4" />Sign out</DropdownMenuItem></DropdownMenuContent></DropdownMenu></SidebarFooter></Sidebar><div className={`absolute right-0 top-0 z-50 h-full w-1 cursor-col-resize transition hover:bg-teal-500/25 ${isCollapsed ? "hidden" : ""}`} onMouseDown={() => setIsResizing(true)} /></div><SidebarInset className="bg-[radial-gradient(circle_at_top_right,_rgba(204,251,241,0.45),_transparent_27%),#fbfaf7]"><header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-slate-200/80 bg-[#fbfaf7]/90 px-4 backdrop-blur md:px-6"><div className="flex min-w-0 items-center gap-2">{isMobile ? <SidebarTrigger className="h-9 w-9 rounded-lg bg-white shadow-sm" /> : null}<div className="min-w-0"><p className="truncate text-sm font-semibold text-slate-900">{activeMenuItem?.label || "wajenzi.ai"}</p><p className="hidden truncate text-[10px] font-medium uppercase tracking-[0.12em] text-slate-500 sm:block">{definition.shortLabel} view · {activeContext?.workspaceName || "workspace context"}</p></div></div><div className="flex items-center gap-1.5"><button onClick={() => toast.info("Universal search will expand as indexed lifecycle records become available.")} className="hidden items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-600 shadow-sm transition hover:border-teal-300 sm:flex"><Search className="h-3.5 w-3.5" />Search <kbd className="rounded bg-slate-100 px-1.5 py-0.5 text-[9px]">⌘K</kbd></button><button onClick={() => setLocation("/agents")} className="rounded-lg border border-slate-200 bg-white p-2 text-teal-800 shadow-sm transition hover:border-teal-300" aria-label="Open AI workspace"><Bot className="h-4 w-4" /></button><button onClick={() => setLocation("/tasks")} className="rounded-lg border border-slate-200 bg-white p-2 text-slate-600 shadow-sm transition hover:border-teal-300" aria-label="Open tasks"><ListChecks className="h-4 w-4" /></button><button onClick={() => setLocation("/messages")} className="rounded-lg border border-slate-200 bg-white p-2 text-slate-600 shadow-sm transition hover:border-teal-300" aria-label="Open messages"><MessageSquareText className="h-4 w-4" /></button><button onClick={() => toast.info("Notifications activate as communication and workflow services are introduced.")} className="relative rounded-lg border border-slate-200 bg-white p-2 text-slate-600 shadow-sm transition hover:border-teal-300" aria-label="Open notifications"><Bell className="h-4 w-4" /><span className="absolute right-1 top-1 h-1.5 w-1.5 rounded-full bg-amber-500" /></button><button onClick={() => toast.info("Help will guide each role through available governed workflows.")} className="hidden rounded-lg p-2 text-slate-500 transition hover:bg-white sm:block" aria-label="Open help"><CircleHelp className="h-4 w-4" /></button></div></header><main className="flex-1 p-4 md:p-6">{children}</main></SidebarInset></PersonaContext.Provider>;
 }

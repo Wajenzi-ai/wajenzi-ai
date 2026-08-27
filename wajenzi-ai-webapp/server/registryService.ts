@@ -13,6 +13,9 @@ import {
   importBatches,
   organizations,
   priceObservations,
+  procurementRequestLines,
+  procurementRequests,
+  purchaseOrders,
   productCategories,
   productOffers,
   products,
@@ -21,7 +24,11 @@ import {
   registryEntities,
   sites,
   sourceRecords,
+  rfqInvitations,
+  supplierQuoteLines,
+  supplierQuotes,
   supplierSubmissions,
+  userContexts,
   workspaceMembers,
   workspaces,
 } from "../drizzle/schema";
@@ -36,6 +43,7 @@ import {
   scoreProductMatch,
 } from "./registryCore";
 import { storagePut } from "./storage";
+import { permittedPersonasForMembership, selectAuthorizedMembership } from "./contextCore";
 
 const DEMO_WORKSPACE_ID = "WJZ-WSP-DEMO-REGISTRY";
 const MASTER_SOURCE = "wajenzi-master-catalogue-v1";
@@ -273,15 +281,196 @@ async function ensureDemoWorkspace(db: Db, user: User) {
 
 export async function getWorkspaceContext(user: User): Promise<WorkspaceContext> {
   const db = await requireDb();
-  let membership = await first(db.select().from(workspaceMembers).where(and(eq(workspaceMembers.userId, user.id), eq(workspaceMembers.status, "active"))).limit(1));
-  if (!membership && user.role === "admin") {
+  let memberships = await db.select().from(workspaceMembers).where(and(eq(workspaceMembers.userId, user.id), eq(workspaceMembers.status, "active")));
+  if (!memberships.length && user.role === "admin") {
     await ensureDemoWorkspace(db, user);
-    membership = await first(db.select().from(workspaceMembers).where(and(eq(workspaceMembers.userId, user.id), eq(workspaceMembers.status, "active"))).limit(1));
+    memberships = await db.select().from(workspaceMembers).where(and(eq(workspaceMembers.userId, user.id), eq(workspaceMembers.status, "active")));
   }
+  const selected = await first(db.select().from(userContexts).where(eq(userContexts.userId, user.id)).limit(1));
+  const membership = selectAuthorizedMembership(memberships, selected?.activeWorkspaceId);
   if (!membership) throw new Error("You do not have an active WAJENZI workspace membership.");
   const workspace = await first(db.select().from(workspaces).where(eq(workspaces.id, membership.workspaceId)).limit(1));
   if (!workspace) throw new Error("Workspace record is unavailable.");
+  if (!selected) await db.insert(userContexts).values({ userId: user.id, activeWorkspaceId: workspace.id });
   return { workspace, membership };
+}
+
+function allowedPersonaKeys(membership: typeof workspaceMembers.$inferSelect) {
+  return permittedPersonasForMembership(membership.workspaceRole, membership.scope);
+}
+
+export async function listWorkspaceContexts(user: User) {
+  const db = await requireDb();
+  await getWorkspaceContext(user);
+  const memberships = await db.select().from(workspaceMembers).where(and(eq(workspaceMembers.userId, user.id), eq(workspaceMembers.status, "active")));
+  const active = await first(db.select().from(userContexts).where(eq(userContexts.userId, user.id)).limit(1));
+  const contexts = await Promise.all(memberships.map(async membership => {
+    const [workspace, organization, projectRows] = await Promise.all([
+      first(db.select().from(workspaces).where(eq(workspaces.id, membership.workspaceId)).limit(1)),
+      membership.organizationEntityId ? first(db.select().from(registryEntities).where(eq(registryEntities.id, membership.organizationEntityId)).limit(1)) : undefined,
+      db.select().from(projects).where(eq(projects.workspaceId, membership.workspaceId)),
+    ]);
+    const projectEntities = await Promise.all(projectRows.map(project => first(db.select().from(registryEntities).where(eq(registryEntities.id, project.entityId)).limit(1))));
+    return { workspaceId: membership.workspaceId, workspaceWajenziId: workspace?.wajenziId, workspaceName: workspace?.name, organizationEntityId: membership.organizationEntityId, organizationName: organization?.canonicalName ?? null, workspaceRole: membership.workspaceRole, allowedPersonas: allowedPersonaKeys(membership), projects: projectRows.map((project, index) => ({ entityId: project.entityId, wajenziId: projectEntities[index]?.wajenziId, canonicalName: projectEntities[index]?.canonicalName, status: project.status })) };
+  }));
+  const activeWorkspaceId = active?.activeWorkspaceId ?? contexts[0]?.workspaceId ?? null;
+  const activeContext = contexts.find(context => context.workspaceId === activeWorkspaceId);
+  const activePersona = activeContext?.allowedPersonas.includes(active?.activePersona as typeof activeContext.allowedPersonas[number]) ? active?.activePersona : activeContext?.allowedPersonas[0] ?? null;
+  return { activeWorkspaceId, activeProjectEntityId: active?.activeProjectEntityId ?? null, activePersona, contexts };
+}
+
+export async function selectWorkspaceContext(user: User, input: { workspaceId: number; projectEntityId?: number | null; persona?: string | null }) {
+  const db = await requireDb();
+  const membership = await first(db.select().from(workspaceMembers).where(and(eq(workspaceMembers.userId, user.id), eq(workspaceMembers.workspaceId, input.workspaceId), eq(workspaceMembers.status, "active"))).limit(1));
+  if (!membership) throw new Error("You cannot select a workspace without an active membership.");
+  if (input.projectEntityId) {
+    const project = await first(db.select().from(projects).where(and(eq(projects.entityId, input.projectEntityId), eq(projects.workspaceId, membership.workspaceId))).limit(1));
+    if (!project) throw new Error("The selected project does not belong to this workspace.");
+    if (membership.workspaceRole !== "registry_steward") {
+      const projectMember = await first(db.select().from(projectMemberships).where(and(eq(projectMemberships.projectId, project.id), eq(projectMemberships.workspaceMemberId, membership.id), eq(projectMemberships.status, "active"))).limit(1));
+      if (!projectMember) throw new Error("You do not have active access to the selected project.");
+    }
+  }
+  const existing = await first(db.select().from(userContexts).where(eq(userContexts.userId, user.id)).limit(1));
+  const permittedPersonas = allowedPersonaKeys(membership);
+  const requestedPersona = input.persona ?? (existing?.activeWorkspaceId === membership.workspaceId ? existing.activePersona : null) ?? permittedPersonas[0];
+  if (!requestedPersona || !permittedPersonas.includes(requestedPersona as typeof permittedPersonas[number])) throw new Error("The requested role view is not permitted by your active workspace membership.");
+  await db.insert(userContexts).values({ userId: user.id, activeWorkspaceId: membership.workspaceId, activeProjectEntityId: input.projectEntityId ?? null, activePersona: requestedPersona }).onDuplicateKeyUpdate({ set: { activeWorkspaceId: membership.workspaceId, activeProjectEntityId: input.projectEntityId ?? null, activePersona: requestedPersona, updatedAt: new Date() } });
+  await ensureAudit(db, { workspaceId: membership.workspaceId, actorUserId: user.id, eventType: "WORKSPACE_CONTEXT_SELECTED", rationale: "User selected an authorized organization/workspace, project, and role-view context.", relatedEntityIds: input.projectEntityId ? [input.projectEntityId] : [] });
+  return { success: true, activePersona: requestedPersona };
+}
+
+export async function createProjectWithSite(user: User, input: { projectName: string; projectType: string; siteName?: string; address?: string; latitude?: number; longitude?: number }) {
+  const db = await requireDb();
+  const context = await getWorkspaceContext(user);
+  if (!canAccessWorkspace(context.membership.workspaceRole, "project_write")) throw new Error("Your workspace role cannot create projects.");
+  const projectEntity = await ensureRegistryEntity(db, { wajenziId: createEntityWajenziId("project"), workspaceId: context.workspace.id, entityType: "project", canonicalName: input.projectName.trim(), lifecycleStatus: "draft", ownerOrganizationEntityId: context.membership.organizationEntityId ?? null, sourceSystem: "wajenzi-ai-project-workflow", sourceRecordKey: `user:${user.id}:${Date.now()}`, attributes: { dataClass: "operational", projectType: input.projectType.trim() }, createdByUserId: user.id });
+  await db.insert(projects).values({ entityId: projectEntity.id, workspaceId: context.workspace.id, ownerOrganizationEntityId: context.membership.organizationEntityId ?? null, projectType: input.projectType.trim(), status: "draft", metadata: { createdThrough: "project-workspace" } });
+  const project = await first(db.select().from(projects).where(eq(projects.entityId, projectEntity.id)).limit(1));
+  if (!project) throw new Error("The project record could not be created.");
+  await db.insert(projectMemberships).values({ projectId: project.id, workspaceMemberId: context.membership.id, projectRole: context.membership.workspaceRole, status: "active" });
+  let siteWajenziId: string | undefined;
+  const hasCoordinates = input.latitude != null && input.longitude != null;
+  if (input.siteName?.trim() || input.address?.trim() || hasCoordinates) {
+    const siteEntity = await ensureRegistryEntity(db, { wajenziId: createEntityWajenziId("site"), workspaceId: context.workspace.id, entityType: "site", canonicalName: input.siteName?.trim() || `${input.projectName.trim()} Site`, lifecycleStatus: hasCoordinates ? "active" : "draft", ownerOrganizationEntityId: context.membership.organizationEntityId ?? null, sourceSystem: "wajenzi-ai-project-workflow", sourceRecordKey: `project:${projectEntity.wajenziId}:site`, attributes: { dataClass: "operational", locationState: hasCoordinates ? "coordinates_entered" : "coordinates_required" }, createdByUserId: user.id });
+    await db.insert(sites).values({ entityId: siteEntity.id, projectId: project.id, addressRaw: input.address?.trim() || null, addressNormalized: input.address?.trim() || null, latitude: hasCoordinates ? String(input.latitude) : null, longitude: hasCoordinates ? String(input.longitude) : null, locationConfidence: hasCoordinates ? "0.9500" : null, status: hasCoordinates ? "active" : "draft", metadata: { createdThrough: "project-workspace" } });
+    siteWajenziId = siteEntity.wajenziId;
+  }
+  const existingContext = await first(db.select().from(userContexts).where(eq(userContexts.userId, user.id)).limit(1));
+  await db.insert(userContexts).values({ userId: user.id, activeWorkspaceId: context.workspace.id, activeProjectEntityId: projectEntity.id, activePersona: existingContext?.activePersona ?? allowedPersonaKeys(context.membership)[0] }).onDuplicateKeyUpdate({ set: { activeWorkspaceId: context.workspace.id, activeProjectEntityId: projectEntity.id, activePersona: existingContext?.activePersona ?? allowedPersonaKeys(context.membership)[0], updatedAt: new Date() } });
+  await ensureAudit(db, { workspaceId: context.workspace.id, actorUserId: user.id, eventType: "PROJECT_CREATED", subjectEntityId: projectEntity.id, rationale: "Created a governed project through the project workspace.", relatedEntityIds: [] });
+  if (siteWajenziId) await ensureAudit(db, { workspaceId: context.workspace.id, actorUserId: user.id, eventType: "PROJECT_SITE_CREATED", subjectEntityId: projectEntity.id, rationale: "Created an initial project site with separately governed location data.", relatedEntityIds: [] });
+  return { projectWajenziId: projectEntity.wajenziId, projectEntityId: projectEntity.id, siteWajenziId };
+}
+
+async function authorizedProject(db: Db, context: WorkspaceContext, projectEntityId: number) {
+  const project = await first(db.select().from(projects).where(and(eq(projects.entityId, projectEntityId), eq(projects.workspaceId, context.workspace.id))).limit(1));
+  if (!project) throw new Error("The selected project does not belong to your active workspace.");
+  if (context.membership.workspaceRole !== "registry_steward") {
+    const projectMember = await first(db.select().from(projectMemberships).where(and(eq(projectMemberships.projectId, project.id), eq(projectMemberships.workspaceMemberId, context.membership.id), eq(projectMemberships.status, "active"))).limit(1));
+    if (!projectMember) throw new Error("You do not have active project access for this procurement action.");
+  }
+  return project;
+}
+
+export async function createProcurementRequest(user: User, input: { projectEntityId: number; title: string; notes?: string; needBy?: Date; closingAt?: Date; lines: Array<{ canonicalProductEntityId?: number | null; canonicalVariantEntityId?: number | null; requestedDescription: string; quantity: number; unitOfMeasure: string; targetUnit?: string }>; supplierOrganizationEntityIds: number[] }) {
+  const db = await requireDb();
+  const context = await getWorkspaceContext(user);
+  if (!canAccessWorkspace(context.membership.workspaceRole, "project_write")) throw new Error("Your workspace role cannot create procurement requests.");
+  const project = await authorizedProject(db, context, input.projectEntityId);
+  if (!input.lines.length) throw new Error("An RFQ needs at least one material requirement line.");
+  const wajenziId = createWajenziId("RFQ");
+  await db.insert(procurementRequests).values({ workspaceId: context.workspace.id, projectId: project.id, wajenziId, requestingOrganizationEntityId: context.membership.organizationEntityId ?? null, title: input.title.trim(), notes: input.notes?.trim() || null, needBy: input.needBy ?? null, closingAt: input.closingAt ?? null, status: "open", createdByUserId: user.id });
+  const rfq = await first(db.select().from(procurementRequests).where(eq(procurementRequests.wajenziId, wajenziId)).limit(1));
+  if (!rfq) throw new Error("The procurement request could not be created.");
+  for (const line of input.lines) {
+    if (line.canonicalProductEntityId || line.canonicalVariantEntityId) {
+      const entity = await first(db.select().from(registryEntities).where(eq(registryEntities.id, line.canonicalVariantEntityId ?? line.canonicalProductEntityId!)).limit(1));
+      if (!entity || !["product", "product_variant"].includes(entity.entityType)) throw new Error("Each linked RFQ requirement must reference a canonical product or variant.");
+    }
+    await db.insert(procurementRequestLines).values({ procurementRequestId: rfq.id, canonicalProductEntityId: line.canonicalProductEntityId ?? null, canonicalVariantEntityId: line.canonicalVariantEntityId ?? null, requestedDescription: line.requestedDescription.trim(), quantity: String(line.quantity), unitOfMeasure: line.unitOfMeasure.trim(), targetUnit: line.targetUnit?.trim() || null });
+  }
+  for (const supplierOrganizationEntityId of Array.from(new Set(input.supplierOrganizationEntityIds))) {
+    const supplier = await first(db.select().from(organizations).where(eq(organizations.entityId, supplierOrganizationEntityId)).limit(1));
+    if (!supplier || !["supplier", "manufacturer", "distributor"].includes(supplier.organizationKind)) throw new Error("RFQ invitations must target a registered supplier, manufacturer, or distributor organization.");
+    await db.insert(rfqInvitations).values({ procurementRequestId: rfq.id, supplierOrganizationEntityId, status: "invited", invitedByUserId: user.id });
+  }
+  await ensureAudit(db, { workspaceId: context.workspace.id, actorUserId: user.id, eventType: "RFQ_OPENED", rationale: "Created a governed material procurement request with controlled product requirements and supplier invitations.", relatedEntityIds: [project.entityId] });
+  return { wajenziId, status: rfq.status };
+}
+
+export async function listProcurementRequests(user: User) {
+  const db = await requireDb();
+  const context = await getWorkspaceContext(user);
+  const rows = await db.select().from(procurementRequests).where(eq(procurementRequests.workspaceId, context.workspace.id)).orderBy(desc(procurementRequests.createdAt));
+  const visible = context.membership.workspaceRole === "registry_steward" ? rows : (await Promise.all(rows.map(async row => ({ row, access: await first(db.select().from(projectMemberships).where(and(eq(projectMemberships.projectId, row.projectId), eq(projectMemberships.workspaceMemberId, context.membership.id), eq(projectMemberships.status, "active"))).limit(1)) })))).filter(item => item.access).map(item => item.row);
+  return Promise.all(visible.map(async row => {
+    const [project, lines, invitations, quoteRows] = await Promise.all([first(db.select().from(projects).where(eq(projects.id, row.projectId)).limit(1)), db.select().from(procurementRequestLines).where(eq(procurementRequestLines.procurementRequestId, row.id)), db.select().from(rfqInvitations).where(eq(rfqInvitations.procurementRequestId, row.id)), db.select().from(supplierQuotes).where(eq(supplierQuotes.procurementRequestId, row.id))]);
+    const projectEntity = project ? await first(db.select().from(registryEntities).where(eq(registryEntities.id, project.entityId)).limit(1)) : undefined;
+    return { ...row, projectEntity, lines, invitations, quotes: quoteRows, quoteCount: quoteRows.length };
+  }));
+}
+
+export async function supplierRfqInbox(user: User) {
+  const db = await requireDb();
+  const context = await getWorkspaceContext(user);
+  if (context.membership.workspaceRole !== "supplier" || !context.membership.organizationEntityId) throw new Error("Only a supplier organization member can access the RFQ response inbox.");
+  const supplierOrganizationEntityId = context.membership.organizationEntityId;
+  const invitations = await db.select().from(rfqInvitations).where(eq(rfqInvitations.supplierOrganizationEntityId, supplierOrganizationEntityId));
+  const items = await Promise.all(invitations.map(async invitation => {
+    const rfq = await first(db.select().from(procurementRequests).where(eq(procurementRequests.id, invitation.procurementRequestId)).limit(1));
+    if (!rfq) return null;
+    const [lines, project, quotes] = await Promise.all([db.select().from(procurementRequestLines).where(eq(procurementRequestLines.procurementRequestId, rfq.id)), first(db.select().from(projects).where(eq(projects.id, rfq.projectId)).limit(1)), db.select().from(supplierQuotes).where(and(eq(supplierQuotes.procurementRequestId, rfq.id), eq(supplierQuotes.supplierOrganizationEntityId, supplierOrganizationEntityId)))]);
+    const projectEntity = project ? await first(db.select().from(registryEntities).where(eq(registryEntities.id, project.entityId)).limit(1)) : undefined;
+    return { invitation, rfq, lines, projectEntity, quotes };
+  }));
+  const offers = await db.select().from(productOffers).where(and(eq(productOffers.workspaceId, context.workspace.id), eq(productOffers.supplierOrganizationEntityId, supplierOrganizationEntityId), eq(productOffers.status, "active")));
+  return { invitations: items.filter((item): item is NonNullable<typeof item> => Boolean(item)), offers };
+}
+
+export async function submitSupplierQuote(user: User, input: { procurementRequestId: number; validUntil?: Date; notes?: string; currencyCode: string; taxBasis: "inclusive" | "exclusive" | "unknown"; lines: Array<{ procurementRequestLineId: number; offerId?: number | null; quotedDescription: string; quantity: number; unitOfMeasure: string; unitPrice: number; leadTimeHours?: number }> }) {
+  const db = await requireDb();
+  const context = await getWorkspaceContext(user);
+  if (context.membership.workspaceRole !== "supplier" || !context.membership.organizationEntityId) throw new Error("Only a supplier organization member can submit a quote.");
+  const invitation = await first(db.select().from(rfqInvitations).where(and(eq(rfqInvitations.procurementRequestId, input.procurementRequestId), eq(rfqInvitations.supplierOrganizationEntityId, context.membership.organizationEntityId))).limit(1));
+  if (!invitation) throw new Error("Your supplier organization was not invited to this RFQ.");
+  const rfq = await first(db.select().from(procurementRequests).where(eq(procurementRequests.id, input.procurementRequestId)).limit(1));
+  if (!rfq || rfq.status !== "open") throw new Error("This RFQ is not open for a supplier response.");
+  const existing = await first(db.select().from(supplierQuotes).where(and(eq(supplierQuotes.procurementRequestId, rfq.id), eq(supplierQuotes.supplierOrganizationEntityId, context.membership.organizationEntityId), eq(supplierQuotes.status, "submitted"))).limit(1));
+  if (existing) throw new Error("Your organization has already submitted a quote for this RFQ. Withdraw it before submitting a revised response.");
+  const requiredLines = await db.select().from(procurementRequestLines).where(eq(procurementRequestLines.procurementRequestId, rfq.id));
+  if (input.lines.length !== requiredLines.length || input.lines.some(line => !requiredLines.some(required => required.id === line.procurementRequestLineId))) throw new Error("A supplier quote must respond to every requirement line in the invited RFQ.");
+  const wajenziId = createWajenziId("QTE");
+  await db.insert(supplierQuotes).values({ procurementRequestId: rfq.id, workspaceId: context.workspace.id, wajenziId, supplierOrganizationEntityId: context.membership.organizationEntityId, currencyCode: input.currencyCode, taxBasis: input.taxBasis, validUntil: input.validUntil ?? null, notes: input.notes?.trim() || null, status: "submitted", submittedByUserId: user.id, submittedAt: new Date() });
+  const quote = await first(db.select().from(supplierQuotes).where(eq(supplierQuotes.wajenziId, wajenziId)).limit(1));
+  if (!quote) throw new Error("The supplier quote could not be created.");
+  for (const line of input.lines) {
+    if (line.offerId) {
+      const offer = await first(db.select().from(productOffers).where(and(eq(productOffers.id, line.offerId), eq(productOffers.supplierOrganizationEntityId, context.membership.organizationEntityId), eq(productOffers.workspaceId, context.workspace.id))).limit(1));
+      if (!offer) throw new Error("A quote line may only reference an active offer owned by your supplier organization.");
+    }
+    await db.insert(supplierQuoteLines).values({ supplierQuoteId: quote.id, procurementRequestLineId: line.procurementRequestLineId, offerId: line.offerId ?? null, quotedDescription: line.quotedDescription.trim(), quantity: String(line.quantity), unitOfMeasure: line.unitOfMeasure.trim(), unitPrice: String(line.unitPrice), leadTimeHours: line.leadTimeHours ?? null });
+  }
+  await db.update(rfqInvitations).set({ status: "quoted" }).where(eq(rfqInvitations.id, invitation.id));
+  await ensureAudit(db, { workspaceId: context.workspace.id, actorUserId: user.id, eventType: "SUPPLIER_QUOTE_SUBMITTED", rationale: "Supplier submitted a governed response to an invited RFQ. The quote remains separate from canonical product identity and requires buyer review before any order.", relatedEntityIds: [] });
+  return { wajenziId, status: quote.status };
+}
+
+export async function createPurchaseOrderDraft(user: User, input: { supplierQuoteId: number; notes?: string }) {
+  const db = await requireDb();
+  const context = await getWorkspaceContext(user);
+  if (!canAccessWorkspace(context.membership.workspaceRole, "project_write")) throw new Error("Your workspace role cannot create a purchase-order approval draft.");
+  const quote = await first(db.select().from(supplierQuotes).where(and(eq(supplierQuotes.id, input.supplierQuoteId), eq(supplierQuotes.workspaceId, context.workspace.id))).limit(1));
+  if (!quote || quote.status !== "submitted") throw new Error("Only a submitted supplier quotation can become a purchase-order approval draft.");
+  const rfq = await first(db.select().from(procurementRequests).where(eq(procurementRequests.id, quote.procurementRequestId)).limit(1));
+  if (!rfq) throw new Error("The source RFQ is unavailable.");
+  await authorizedProject(db, context, (await first(db.select().from(projects).where(eq(projects.id, rfq.projectId)).limit(1)))?.entityId ?? 0);
+  const existing = await first(db.select().from(purchaseOrders).where(eq(purchaseOrders.supplierQuoteId, quote.id)).limit(1));
+  if (existing) throw new Error("A purchase-order record already exists for this supplier quotation.");
+  const wajenziId = createWajenziId("PO");
+  await db.insert(purchaseOrders).values({ workspaceId: context.workspace.id, projectId: rfq.projectId, procurementRequestId: rfq.id, supplierQuoteId: quote.id, wajenziId, buyerOrganizationEntityId: context.membership.organizationEntityId ?? null, supplierOrganizationEntityId: quote.supplierOrganizationEntityId, status: "pending_approval", notes: input.notes?.trim() || null, createdByUserId: user.id });
+  await ensureAudit(db, { workspaceId: context.workspace.id, actorUserId: user.id, eventType: "PURCHASE_ORDER_APPROVAL_REQUESTED", rationale: "Created a pending-approval purchase-order draft from a submitted supplier quote. No order was issued, paid, or dispatched.", relatedEntityIds: [] });
+  return { wajenziId, status: "pending_approval" as const };
 }
 
 export async function getDashboard(user: User) {

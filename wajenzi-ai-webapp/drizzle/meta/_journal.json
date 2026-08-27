@@ -29,6 +29,27 @@
       "when": 1787848870798,
       "tag": "0003_optimal_black_queen",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1787850631283,
+      "tag": "0004_chilly_oracle",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1787851215762,
+      "tag": "0005_lame_blur",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1787852082797,
+      "tag": "0006_smooth_jigsaw",
+      "breakpoints": true
     }
   ]
 }

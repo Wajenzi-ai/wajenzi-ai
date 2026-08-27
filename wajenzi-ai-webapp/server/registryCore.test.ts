@@ -4,6 +4,7 @@ import {
   createWajenziId,
   determineCanonicalOutcome,
   filterComparableOffers,
+  hasCompleteCoordinatePair,
   haversineDistanceKm,
   normalizedProductKey,
   scoreProductMatch,
@@ -36,6 +37,13 @@ describe("workspace access boundaries", () => {
     expect(canAccessWorkspace("supplier", "supplier_write")).toBe(true);
     expect(canAccessWorkspace("project_user", "project_write")).toBe(true);
     expect(canAccessWorkspace("viewer", "project_write")).toBe(false);
+  });
+
+  it("requires both coordinates or neither when creating a project site", () => {
+    expect(hasCompleteCoordinatePair(-1.286389, 36.817223)).toBe(true);
+    expect(hasCompleteCoordinatePair(undefined, undefined)).toBe(true);
+    expect(hasCompleteCoordinatePair(-1.286389, undefined)).toBe(false);
+    expect(hasCompleteCoordinatePair(undefined, 36.817223)).toBe(false);
   });
 });
 

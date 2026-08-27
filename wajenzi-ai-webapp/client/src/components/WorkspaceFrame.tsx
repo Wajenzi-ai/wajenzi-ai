@@ -1,6 +1,7 @@
 import DashboardLayout from "@/components/DashboardLayout";
 import { BadgeCheck, DatabaseZap, ShieldCheck } from "lucide-react";
 import type { ReactNode } from "react";
+import { usePersona } from "./DashboardLayout";
 
 export function StatusPill({ value }: { value?: string | null }) {
   const normalized = (value || "unknown").replaceAll("_", " ");
@@ -19,9 +20,13 @@ export function WajenziId({ value }: { value?: string | null }) {
   return <span className="font-mono-data text-[11px] tracking-tight text-slate-600">{value}</span>;
 }
 
-export function WorkspaceFrame({ eyebrow, title, description, children, action, demo = true }: { eyebrow: string; title: string; description: string; children: ReactNode; action?: ReactNode; demo?: boolean }) {
+export function WorkspaceFrame({ eyebrow, title, description, children, action, demo = true }: { eyebrow: string; title: string; description: string; children: ReactNode | ((context: ReturnType<typeof usePersona>) => ReactNode); action?: ReactNode; demo?: boolean }) {
+  return <DashboardLayout><WorkspaceFrameBody eyebrow={eyebrow} title={title} description={description} action={action} demo={demo}>{children}</WorkspaceFrameBody></DashboardLayout>;
+}
+
+function WorkspaceFrameBody({ eyebrow, title, description, children, action, demo = true }: { eyebrow: string; title: string; description: string; children: ReactNode | ((context: ReturnType<typeof usePersona>) => ReactNode); action?: ReactNode; demo?: boolean }) {
+  const personaContext = usePersona();
   return (
-    <DashboardLayout>
       <div className="min-h-[calc(100vh-2rem)]">
         <section className="relative overflow-hidden rounded-2xl border border-slate-800 bg-[#20323a] px-6 py-7 text-stone-100 shadow-[0_24px_60px_rgba(25,42,48,0.15)] sm:px-8">
           <div className="absolute inset-0 opacity-30 surface-grid" />
@@ -36,10 +41,11 @@ export function WorkspaceFrame({ eyebrow, title, description, children, action, 
           </div>
         </section>
         {demo ? <div className="mt-5 flex gap-3 rounded-xl border border-teal-900/10 bg-teal-50/70 px-4 py-3 text-xs leading-5 text-teal-950"><BadgeCheck className="mt-0.5 h-4 w-4 shrink-0 text-teal-700" /><span><strong>Demonstration workspace.</strong> Seeded organizations, supplier offers, locations, prices, stock, and evidence are clearly labelled illustrative records. They are not live market, customer, or supplier claims.</span></div> : null}
-        <main className="mt-6">{children}</main>
+        {!personaContext.projects.length ? <div className="mt-5 flex gap-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-xs leading-5 text-amber-950"><ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-amber-700" /><span><strong>No authorized project context.</strong> You may have workspace access but no project membership or project has been created for this workspace. Project-specific procurement, field, document, and collaboration actions remain unavailable until an authorized project is selected.</span></div> : null}
+        <main className="mt-6">{typeof children === "function" ? children(personaContext) : children}</main>
         <footer className="mt-10 flex items-center gap-2 border-t soft-divider py-5 text-xs text-muted-foreground"><ShieldCheck className="h-3.5 w-3.5 text-teal-700" /> Immutable WAJENZI IDs, source provenance, evidence, and audit events remain attached to the governed record.</footer>
       </div>
-    </DashboardLayout>
+    
   );
 }
 

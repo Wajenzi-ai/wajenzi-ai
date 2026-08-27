@@ -1,6 +1,6 @@
 import { createHash, randomUUID } from "crypto";
 
-export type WajenziIdPrefix = "ORG" | "USR" | "PRJ" | "PRD" | "SUP" | "LOC" | "DOC" | "BOQ" | "PO" | "EVT" | "OFR" | "IMP" | "EVD" | "WSP" | "SUB" | "AGN" | "PRP";
+export type WajenziIdPrefix = "ORG" | "USR" | "PRJ" | "PRD" | "SUP" | "LOC" | "DOC" | "BOQ" | "PO" | "EVT" | "OFR" | "IMP" | "EVD" | "WSP" | "SUB" | "AGN" | "PRP" | "RFQ" | "QTE" | "DLV";
 
 const prefixByEntityType: Record<string, WajenziIdPrefix> = {
   organization: "ORG",
@@ -74,6 +74,10 @@ export function haversineDistanceKm(
   const dLon = radians(to.longitude - from.longitude);
   const a = Math.sin(dLat / 2) ** 2 + Math.cos(radians(from.latitude)) * Math.cos(radians(to.latitude)) * Math.sin(dLon / 2) ** 2;
   return earthRadiusKm * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
+export function hasCompleteCoordinatePair(latitude?: number | null, longitude?: number | null) {
+  return (latitude == null && longitude == null) || (latitude != null && longitude != null);
 }
 
 export type ComparableOffer = {

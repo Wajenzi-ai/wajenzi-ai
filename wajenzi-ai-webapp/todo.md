@@ -17,7 +17,7 @@
 - [x] Add in-app implementation documentation and a clearly labelled end-to-end demonstration dataset without fabricated customer reviews or live-market claims.
 - [x] Write and run Vitest coverage for ID generation, membership access, canonicalization, procurement query guards, and audit/provenance behavior.
 - [x] Verify desktop and mobile workspace usability, resolve runtime and visual issues, and mark completed items accurately.
-- [ ] Save a final implementation checkpoint and sync the completed platform code to GitHub.
+- [x] Save a final implementation checkpoint and sync the completed platform code to GitHub.
 - [x] Rerun the master-catalogue importer after demonstration-link reconciliation and prove stable actual counts with no duplicate canonical IDs or source-row-key collisions.
 - [x] Verify successful interactive map loading and marker visualization from the public preview origin; the protected local preview retains a clear coordinate fallback when its local origin is rejected by the map proxy.
 - [ ] Complete authenticated desktop and mobile end-to-end validation for dashboard, catalogue, supplier matching, commercial observations, procurement, locations, and evidence flows after a supported sign-in route is available.
@@ -30,3 +30,20 @@
 - [x] Add agent-unit tests, visual browser validation, and implementation documentation covering prompts, data use, approvals, failure states, and demonstration labelling.
 - [x] Connect Product Intelligence to actual supplier submissions and stored catalogue files, preserve their source references, and generate canonicalization proposals tied to those records.
 - [x] Remove the remaining legacy product-name reference from configuration/template files and verify no user-facing or configuration branding still says “Wajenzi AI Platform”.
+- [ ] After supported sign-in, complete authenticated desktop/mobile interaction testing and save a fresh final checkpoint plus GitHub sync that reflects that validated state.
+- [x] Reconcile the full persona-dashboard specification with existing registry, procurement, evidence, and AI-agent workflows; document implementable versus future data-model dependencies.
+- [x] Replace the current registry-first navigation with a universal wajenzi.ai shell featuring organization, role, project, search, AI, notification, message, task, approval, help, and settings entry points.
+- [x] Build role-aware command centers and navigation for client, contractor, developer, architect, engineer, quantity surveyor, project manager, supplier, manufacturer, logistics provider, financier, government/institutional client, Wajenzi administrator, operations, and custom roles.
+- [x] Add real organization and project switchers, plus task and message entry points with governed loading, empty, and unauthorized states.
+- [x] Bind persona selection and post-login routing to actual authenticated workspace memberships and permitted roles, replacing local blueprint state as the source of authority.
+- [x] Add explicit unauthorized states for unavailable organization/project contexts and task/message workspaces, rather than relying only on authenticated routing or absent options.
+- [x] Replace localStorage-based persona landing and selection with a server-backed active persona context validated against the active membership scope, and derive post-login routing from that context.
+- [ ] Build the contractor-first project lifecycle frontend: project setup, site operations, WBS/BOQ/estimating, material requirements, RFQs, quotation comparison, purchase-order approval, delivery, inventory, progress, risks, quality, safety, variations, and project closeout states.
+- [x] Activate governed project and optional initial-site creation with immutable IDs, workspace/project membership, coordinate-pair validation, selected-project context, map handoff, and audit events.
+- [x] Activate governed contractor RFQ creation with project-bound material requirements, optional canonical product links, registered-supplier invitations, immutable IDs, and audit events.
+- [x] Activate supplier-organization RFQ inbox visibility and complete-line commercial quotation submission, kept separate from canonical product identity and restricted to explicit invitations.
+- [x] Activate buyer-side submitted-quote review and pending-approval purchase-order draft creation; issuance, payment, and dispatch remain separate controlled actions.
+- [ ] Build supplier/manufacturer selling and operational views for catalogue, offers, stock, prices, quotations, orders, deliveries, invoices, performance, documents, and AI assistance, preserving the canonical-identity boundary.
+- [ ] Build client/developer/consultant/financier/logistics personas with their relevant portfolio, design, cost, reporting, payment, delivery, and approval entry points.
+- [ ] Integrate persona-specific AI assistant entry points, structured agent requests, approval confirmation UX, event/audit visibility, and clear labels for unimplemented or non-live workflow actions.
+- [ ] Validate responsive persona navigation, data states, and routing; update the governed implementation guide, tests, checkpoint, and GitHub source after the frontend redesign.

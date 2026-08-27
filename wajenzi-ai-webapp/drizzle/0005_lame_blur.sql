@@ -1,0 +1,1 @@
+ALTER TABLE `user_contexts` ADD `activePersona` varchar(64);
