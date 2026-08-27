@@ -7,6 +7,7 @@ import Implementation from "@/pages/Implementation";
 import Locations from "@/pages/Locations";
 import NotFound from "@/pages/NotFound";
 import Offers from "@/pages/Offers";
+import Marketplace from "@/pages/Marketplace";
 import Procurement from "@/pages/Procurement";
 import Submissions from "@/pages/Submissions";
 import GuidedWorkspace from "@/pages/GuidedWorkspace";
@@ -48,7 +49,7 @@ function Router() {
       <Route path={"/reports"}>{() => <GuidedWorkspace module="reports" />}</Route>
       <Route path={"/quality"}>{() => <GuidedWorkspace module="quality" />}</Route>
       <Route path={"/operations"}>{() => <GuidedWorkspace module="operations" />}</Route>
-      <Route path={"/marketplace"} component={Offers} />
+      <Route path={"/marketplace"} component={Marketplace} />
       <Route path={"/client"}>{() => <PersonaLanding persona="client" />}</Route>
       <Route path={"/contractor"}>{() => <PersonaLanding persona="contractor" />}</Route>
       <Route path={"/developer"}>{() => <PersonaLanding persona="developer" />}</Route>

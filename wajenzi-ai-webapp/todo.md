@@ -43,7 +43,17 @@
 - [x] Activate governed contractor RFQ creation with project-bound material requirements, optional canonical product links, registered-supplier invitations, immutable IDs, and audit events.
 - [x] Activate supplier-organization RFQ inbox visibility and complete-line commercial quotation submission, kept separate from canonical product identity and restricted to explicit invitations.
 - [x] Activate buyer-side submitted-quote review and pending-approval purchase-order draft creation; issuance, payment, and dispatch remain separate controlled actions.
+- [ ] Add auditable purchase-order visibility, human approval, and explicit issue/acknowledgement transitions with project/tenant authority and no automatic RFQ award, payment, or dispatch.
+- [ ] Add post-issue delivery-intent creation, role-safe lifecycle updates, and buyer/supplier delivery views; do not represent a delivery intent as a confirmed inspection or goods receipt.
+- [ ] Add pure policy tests and responsive validation for order approval, issue/acknowledgement, delivery-intent eligibility, scope, and denied transitions.
 - [ ] Build supplier/manufacturer selling and operational views for catalogue, offers, stock, prices, quotations, orders, deliveries, invoices, performance, documents, and AI assistance, preserving the canonical-identity boundary.
 - [ ] Build client/developer/consultant/financier/logistics personas with their relevant portfolio, design, cost, reporting, payment, delivery, and approval entry points.
 - [ ] Integrate persona-specific AI assistant entry points, structured agent requests, approval confirmation UX, event/audit visibility, and clear labels for unimplemented or non-live workflow actions.
 - [ ] Validate responsive persona navigation, data states, and routing; update the governed implementation guide, tests, checkpoint, and GitHub source after the frontend redesign.
+- [ ] Replace the prior authenticated workspace interface with the attached market-ready wajenzi.ai frontend specification; retire superseded visual/navigation patterns without deleting governed backend contracts.
+- [ ] Finish replacing remaining active authenticated module pages with the attached market-ready design system and remove superseded legacy visual patterns from primary user journeys.
+- [ ] Validate the rebuilt replacement frontend end-to-end across all active authenticated routes so no legacy interface remains in the primary user journey.
+- [ ] Build the market-ready product marketplace from canonical catalogue and supplier commercial offers, clearly separating canonical identity from supplier price, stock, and fulfilment terms.
+- [ ] Build differentiated authenticated dashboards for administrators, suppliers, contractors, and other authorized personas using real governed workflow data and honest empty/planned states.
+- [x] Add host-aware subdomain entry routing for supported wajenzi.ai roles, including admin.wajenzi.ai behavior, while retaining server-side workspace/persona authorization and a single safe local-preview fallback.
+- [ ] Validate the replacement frontend across desktop and mobile, then checkpoint and synchronize it to the private source repository.

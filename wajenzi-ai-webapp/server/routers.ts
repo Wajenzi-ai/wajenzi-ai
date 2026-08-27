@@ -4,6 +4,7 @@ import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
 import { agentsRouter } from "./routers/agents";
 import { filesRouter } from "./routers/files";
+import { marketplaceRouter } from "./routers/marketplace";
 import { procurementRouter } from "./routers/procurement";
 import { registryRouter } from "./routers/registry";
 
@@ -21,6 +22,7 @@ export const appRouter = router({
     }),
   }),
   registry: registryRouter,
+  marketplace: marketplaceRouter,
   procurement: procurementRouter,
   files: filesRouter,
   agents: agentsRouter,

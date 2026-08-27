@@ -51,6 +51,8 @@ button, input, select, textarea { font: inherit; }
 .surface-grid { background-image: linear-gradient(oklch(0.35 0.04 245 / 0.045) 1px, transparent 1px), linear-gradient(90deg, oklch(0.35 0.04 245 / 0.045) 1px, transparent 1px); background-size: 28px 28px; }
 .data-card { border: 1px solid oklch(0.88 0.015 85); background: oklch(0.995 0.004 88 / 0.90); box-shadow: 0 16px 38px oklch(0.22 0.04 245 / 0.045); }
 .soft-divider { border-color: oklch(0.86 0.015 85 / 0.7); }
+.public-grid { background-image: linear-gradient(rgba(117, 235, 214, 0.10) 1px, transparent 1px), linear-gradient(90deg, rgba(117, 235, 214, 0.10) 1px, transparent 1px); background-size: 54px 54px; mask-image: linear-gradient(to bottom, black, transparent 86%); }
+.public-orb { background: radial-gradient(circle at 35% 35%, rgba(91, 235, 208, 0.20), transparent 56%); filter: blur(1px); }
 
 @media (prefers-reduced-motion: no-preference) {
   .lift-on-hover { transition: transform 180ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 180ms cubic-bezier(0.23, 1, 0.32, 1); }

@@ -515,6 +515,16 @@ export async function listCatalogue(user: User, search?: string) {
   return productRows.map(row => ({ ...row.entity, detail: row.product }));
 }
 
+export async function listPublicMarketplaceProducts(search?: string) {
+  const db = await requireDb();
+  const where = search?.trim()
+    ? and(eq(registryEntities.entityType, "product"), ne(registryEntities.lifecycleStatus, "merged"), like(registryEntities.canonicalName, `%${search.trim()}%`))
+    : and(eq(registryEntities.entityType, "product"), ne(registryEntities.lifecycleStatus, "merged"));
+  const entities = await db.select().from(registryEntities).where(where).orderBy(desc(registryEntities.updatedAt)).limit(24);
+  const details = await Promise.all(entities.map(entity => first(db.select().from(products).where(eq(products.entityId, entity.id)).limit(1))));
+  return entities.map((entity, index) => ({ id: entity.id, wajenziId: entity.wajenziId, canonicalName: entity.canonicalName, detail: details[index] ?? null }));
+}
+
 export async function listLocations(user: User) {
   const db = await requireDb();
   const context = await getWorkspaceContext(user);
