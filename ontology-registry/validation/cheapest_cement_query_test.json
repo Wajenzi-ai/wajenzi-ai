@@ -1,0 +1,208 @@
+{
+  "query": "Find the cheapest cement supplier within 50km of Nairobi project site with verified stock",
+  "semantic_parameters": {
+    "product_intent": "cement product or cement-compatible product; exact specification required before final selection",
+    "anchor": "project site geometry; not substituted with Nairobi centroid",
+    "radius_m": 50000,
+    "price_objective": "lowest comparable current price per normalized unit and currency",
+    "stock_requirement": "availability observation explicitly verified by an accepted verification status/evidence",
+    "freshness_requirement": "must be supplied by caller or policy; no silent real-time assumption"
+  },
+  "ontology_hops": [
+    "Project → Site → Geometry/Address",
+    "Site → spatial distance → Facility",
+    "Facility → Organization",
+    "Product/ProductVariant → ProductOffer → SupplierOrganization",
+    "ProductOffer → PriceObservation",
+    "ProductOffer → AvailabilityObservation → verification evidence/status"
+  ],
+  "loaded_data": {
+    "canonical_product_roots": 12663,
+    "cement_candidate_canonical_roots": 76,
+    "cement_candidate_sample": [
+      {
+        "id": "af75f040-cc89-55a9-9c05-a6d06f7714a2",
+        "source_row_id": "11379",
+        "name": "TAC2144052 – Diamond Disc for Concrete Cutting Laser Welded Rim",
+        "family": "tools",
+        "unit": "piece",
+        "pack": "1 piece"
+      },
+      {
+        "id": "d55551a7-1f6c-591f-aa11-6dd4c0e7e682",
+        "source_row_id": "11709",
+        "name": "Bosch Concrete Grinder 5\", 1500W",
+        "family": "tools",
+        "unit": "piece",
+        "pack": "1 piece"
+      },
+      {
+        "id": "c82d9c2f-2512-5de0-8774-ac972c8a9b28",
+        "source_row_id": "11711",
+        "name": "Bosch Concrete Grinder Dust Guard 4.5\"/5\"",
+        "family": "tools",
+        "unit": "piece",
+        "pack": "1 piece"
+      },
+      {
+        "id": "d99650ff-221f-5d0e-b826-447fcb457ff0",
+        "source_row_id": "11723",
+        "name": "Bosch Concrete Vibrator 2200W",
+        "family": "tools",
+        "unit": "piece",
+        "pack": "1 piece"
+      },
+      {
+        "id": "bd8d5dd6-a37b-5305-bf3b-21e11d224b3b",
+        "source_row_id": "12071",
+        "name": "THT4421219 – Concrete chisel 19mm",
+        "family": "tools",
+        "unit": "piece",
+        "pack": "1 piece"
+      },
+      {
+        "id": "30871cd8-2f5f-5560-b7eb-0bd8cf425124",
+        "source_row_id": "12073",
+        "name": "THT4421216 – Concrete chisel 16mm",
+        "family": "tools",
+        "unit": "piece",
+        "pack": "1 piece"
+      },
+      {
+        "id": "b2b2afeb-bed4-5c6b-82c0-1f0ffa19a1b9",
+        "source_row_id": "12078",
+        "name": "TP630-2 Gasoline Concrete Vibrator – 40KW",
+        "family": "tools",
+        "unit": "piece",
+        "pack": "1 piece"
+      },
+      {
+        "id": "0672b5f4-b5c5-59af-93ef-92e96c54f99b",
+        "source_row_id": "12102",
+        "name": "TP630-1 – Gasoline Concrete Vibrator",
+        "family": "tools",
+        "unit": "piece",
+        "pack": "1 piece"
+      },
+      {
+        "id": "7755be87-2b73-5d14-ad11-9d21ce5cbaad",
+        "source_row_id": "16535",
+        "name": "Pro Grip White Mosaic Adhesive & Grout - 5 Kg",
+        "family": "tiles",
+        "unit": "piece",
+        "pack": "1 piece"
+      },
+      {
+        "id": "6f8d7f1a-d564-5ac4-a858-dcc2010ed862",
+        "source_row_id": "16545",
+        "name": "Pro Grip White Waterproof Tile Grout - 5 Kg",
+        "family": "roofing",
+        "unit": "sheet",
+        "pack": "1 sheet"
+      },
+      {
+        "id": "6fa2ea14-2b87-5109-ab0c-cab7027eb6a1",
+        "source_row_id": "16547",
+        "name": "Pro Grip Light Grey Waterproof Tile Grout - 5 Kg",
+        "family": "roofing",
+        "unit": "sheet",
+        "pack": "1 sheet"
+      },
+      {
+        "id": "3267a811-6d9a-5329-acc7-115163564732",
+        "source_row_id": "16551",
+        "name": "Pro Grip Black Waterproof Tile Grout - 5 Kg",
+        "family": "roofing",
+        "unit": "sheet",
+        "pack": "1 sheet"
+      },
+      {
+        "id": "1cce9553-e3ce-5433-9fde-b561ebed7b91",
+        "source_row_id": "16553",
+        "name": "Pro Grip Travertine Waterproof Tile Grout - 5 Kg",
+        "family": "roofing",
+        "unit": "sheet",
+        "pack": "1 sheet"
+      },
+      {
+        "id": "d57c1384-4001-5ea5-8004-9f0ba351eb25",
+        "source_row_id": "16928",
+        "name": "Blue triangle Cement",
+        "family": "concrete_chemicals",
+        "unit": "piece",
+        "pack": "1 piece"
+      },
+      {
+        "id": "6bcfe099-cbc0-5bb4-9e83-21bc08449a39",
+        "source_row_id": "16930",
+        "name": "Mombasa cement",
+        "family": "concrete_chemicals",
+        "unit": "piece",
+        "pack": "1 piece"
+      },
+      {
+        "id": "f2e1a1ae-a10c-52ef-b973-b78e31fb83c9",
+        "source_row_id": "16931",
+        "name": "Rai cement",
+        "family": "concrete_chemicals",
+        "unit": "piece",
+        "pack": "1 piece"
+      },
+      {
+        "id": "d5c9294e-925c-5452-a363-9dc51d889f8d",
+        "source_row_id": "16932",
+        "name": "Bamburi cement",
+        "family": "concrete_chemicals",
+        "unit": "piece",
+        "pack": "1 piece"
+      },
+      {
+        "id": "502922a8-2811-5634-beec-2870926cc4df",
+        "source_row_id": "16933",
+        "name": "Simba Cement",
+        "family": "concrete_chemicals",
+        "unit": "piece",
+        "pack": "1 piece"
+      },
+      {
+        "id": "f7637d62-c7c8-5c63-b976-c61aea138374",
+        "source_row_id": "16934",
+        "name": "Rhino cement",
+        "family": "concrete_chemicals",
+        "unit": "piece",
+        "pack": "1 piece"
+      },
+      {
+        "id": "3b457e18-c582-57cf-b6f9-176f90bb7af9",
+        "source_row_id": "16958",
+        "name": "Blue Triangle Cement",
+        "family": "concrete_chemicals",
+        "unit": "piece",
+        "pack": "1 piece"
+      }
+    ],
+    "ppra_reference_rows_containing_cement": 2,
+    "ppra_reference_is_supplier_offer": false,
+    "operational_record_file_indicators": {
+      "supplier_organizations": [],
+      "offers": [],
+      "price_observations": [],
+      "availability_observations": [],
+      "project_sites": [
+        ".project",
+        "wajenzi-project-procurement.mmd",
+        "wajenzi-project-procurement.png"
+      ]
+    }
+  },
+  "gate_results": {
+    "canonical_product_resolution": "PASS",
+    "project_site_anchor": "FAIL: no project/site geometry supplied; Nairobi centroid must not be silently substituted",
+    "supplier_offer_resolution": "FAIL: no supplier organizations/offers loaded",
+    "price_observation_resolution": "FAIL: no supplier-specific price observations loaded",
+    "distance_filter": "NOT_EXECUTED: requires project-site and facility geometries",
+    "verified_stock_filter": "FAIL: no availability observations loaded and no explicit observation verification status is present in the current schema",
+    "cheapest_supplier_result": "NOT_ANSWERABLE_WITH_CURRENT_DATA"
+  },
+  "interpretation": "The ontology contains the required conceptual path, and the canonical catalogue contains cement candidates, but the current package cannot return a cheapest supplier because operational supplier offers, facility coordinates, project-site coordinates, supplier-specific price observations, and verified availability evidence are not loaded."
+}

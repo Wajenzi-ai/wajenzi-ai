@@ -660,3 +660,12 @@ A supplier’s existing match means **no new canonical creation**. The supplier 
 The match hierarchy is deterministic identifiers first: authorized WAJENZI ID, exact GTIN, exact manufacturer part number with verified manufacturer/brand, exact identity-bearing attribute key, classification plus attributes, and finally fuzzy discovery. Fuzzy name or image similarity may propose a candidate but cannot create or merge canonical identity. Conflicts, non-unique keys, or incomplete identity-bearing specifications must produce `review_required`.
 
 The master export contains data-quality conditions that the registry must preserve: 1,871 blank SKU rows, 74 duplicate nonempty SKU groups, 1,388 candidate-key collision groups, three variable roots without variation rows after the parent-ID fallback, and classification fields with varying confidence. These facts do not invalidate the master catalogue; they define the fields and cases that require provenance, conflict states, and stewardship rather than silent deduplication.
+
+
+## 12. Query-readiness extension for verified procurement answers
+
+A multi-hop procurement answer that compares suppliers requires more than a product match. `AvailabilityObservation` must distinguish an observed availability state from a verified stock claim. Verification is represented through `verification_status`, `verified_by_entity_id`, `verified_at`, and `verification_evidence_id`, while the supporting object is a `VerificationEvidence` or `Evidence` entity.
+
+`PriceObservation` retains the raw amount, currency, unit, quantity basis, and tax basis. For cross-supplier comparison it may additionally carry a normalized comparison amount, comparison currency, comparison unit, comparison basis, normalization method, and normalization evidence. The system must not rank raw values from different pack sizes, units, currencies, or tax bases as if they were comparable.
+
+A query policy should provide the freshness window for stock, the accepted verification statuses, the distance method, the required product specification, and the price normalization basis. The answer should return the policy version and all observation timestamps so that “cheapest” and “verified stock” remain auditable and time-bounded.
