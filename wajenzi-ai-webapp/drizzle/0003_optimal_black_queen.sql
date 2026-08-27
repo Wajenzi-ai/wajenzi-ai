@@ -1,0 +1,2 @@
+ALTER TABLE `agent_proposals` ADD `supplierSubmissionId` int;--> statement-breakpoint
+ALTER TABLE `agent_proposals` ADD CONSTRAINT `agent_proposals_supplierSubmissionId_supplier_submissions_id_fk` FOREIGN KEY (`supplierSubmissionId`) REFERENCES `supplier_submissions`(`id`) ON DELETE no action ON UPDATE no action;

@@ -1,0 +1,7 @@
+{
+  "id": "wajenzi-ai-governed-workspace",
+  "name": "wajenzi.ai",
+  "description": "Governed construction data, procurement, and AI-agent workspace.",
+  "capabilities": ["server", "db", "user"],
+  "files": {}
+}

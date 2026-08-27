@@ -1,0 +1,58 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --background: oklch(0.977 0.008 86);
+  --foreground: oklch(0.225 0.025 250);
+  --card: oklch(0.995 0.003 88);
+  --card-foreground: oklch(0.225 0.025 250);
+  --popover: oklch(0.995 0.003 88);
+  --popover-foreground: oklch(0.225 0.025 250);
+  --primary: oklch(0.35 0.075 178);
+  --primary-foreground: oklch(0.985 0.008 86);
+  --secondary: oklch(0.93 0.016 88);
+  --secondary-foreground: oklch(0.275 0.03 250);
+  --muted: oklch(0.945 0.01 88);
+  --muted-foreground: oklch(0.50 0.025 245);
+  --accent: oklch(0.90 0.045 175);
+  --accent-foreground: oklch(0.255 0.06 176);
+  --destructive: oklch(0.57 0.20 27);
+  --destructive-foreground: oklch(0.98 0.01 86);
+  --border: oklch(0.88 0.015 85);
+  --input: oklch(0.88 0.015 85);
+  --ring: oklch(0.47 0.11 178);
+  --radius: 0.8rem;
+  --sidebar: oklch(0.245 0.03 245);
+  --sidebar-foreground: oklch(0.93 0.012 88);
+  --sidebar-primary: oklch(0.73 0.12 175);
+  --sidebar-primary-foreground: oklch(0.20 0.025 245);
+  --sidebar-accent: oklch(0.31 0.035 240);
+  --sidebar-accent-foreground: oklch(0.97 0.008 86);
+  --sidebar-border: oklch(0.37 0.025 240);
+  --sidebar-ring: oklch(0.73 0.12 175);
+}
+
+* { border-color: var(--border); }
+
+body {
+  min-width: 320px;
+  color: var(--foreground);
+  background:
+    radial-gradient(circle at 87% 4%, oklch(0.90 0.05 172 / 0.22), transparent 28rem),
+    linear-gradient(135deg, oklch(0.982 0.009 90), oklch(0.965 0.01 84));
+  font-family: "DM Sans", sans-serif;
+}
+
+button, input, select, textarea { font: inherit; }
+
+.font-display { font-family: "Fraunces", Georgia, serif; }
+.font-mono-data { font-family: "DM Mono", monospace; }
+.surface-grid { background-image: linear-gradient(oklch(0.35 0.04 245 / 0.045) 1px, transparent 1px), linear-gradient(90deg, oklch(0.35 0.04 245 / 0.045) 1px, transparent 1px); background-size: 28px 28px; }
+.data-card { border: 1px solid oklch(0.88 0.015 85); background: oklch(0.995 0.004 88 / 0.90); box-shadow: 0 16px 38px oklch(0.22 0.04 245 / 0.045); }
+.soft-divider { border-color: oklch(0.86 0.015 85 / 0.7); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .lift-on-hover { transition: transform 180ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 180ms cubic-bezier(0.23, 1, 0.32, 1); }
+  .lift-on-hover:hover { transform: translateY(-2px); box-shadow: 0 18px 42px oklch(0.22 0.04 245 / 0.10); }
+}

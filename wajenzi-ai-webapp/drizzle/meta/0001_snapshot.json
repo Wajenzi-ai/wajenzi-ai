@@ -1,0 +1,3574 @@
+{
+  "version": "5",
+  "dialect": "mysql",
+  "id": "662d24b7-2d24-454f-9cfc-f667aaee8aa5",
+  "prevId": "559cb2ad-9040-41ad-9a55-e5618ba96511",
+  "tables": {
+    "audit_events": {
+      "name": "audit_events",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "wajenziId": {
+          "name": "wajenziId",
+          "type": "varchar(40)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "workspaceId": {
+          "name": "workspaceId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "actorUserId": {
+          "name": "actorUserId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "eventType": {
+          "name": "eventType",
+          "type": "varchar(160)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "subjectEntityId": {
+          "name": "subjectEntityId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "relatedEntityIds": {
+          "name": "relatedEntityIds",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "beforeState": {
+          "name": "beforeState",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "afterState": {
+          "name": "afterState",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "rationale": {
+          "name": "rationale",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "occurredAt": {
+          "name": "occurredAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
+        }
+      },
+      "indexes": {
+        "audit_event_workspace_time_idx": {
+          "name": "audit_event_workspace_time_idx",
+          "columns": [
+            "workspaceId",
+            "occurredAt"
+          ],
+          "isUnique": false
+        },
+        "audit_event_subject_idx": {
+          "name": "audit_event_subject_idx",
+          "columns": [
+            "subjectEntityId"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "audit_events_workspaceId_workspaces_id_fk": {
+          "name": "audit_events_workspaceId_workspaces_id_fk",
+          "tableFrom": "audit_events",
+          "tableTo": "workspaces",
+          "columnsFrom": [
+            "workspaceId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "audit_events_actorUserId_users_id_fk": {
+          "name": "audit_events_actorUserId_users_id_fk",
+          "tableFrom": "audit_events",
+          "tableTo": "users",
+          "columnsFrom": [
+            "actorUserId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "audit_events_subjectEntityId_registry_entities_id_fk": {
+          "name": "audit_events_subjectEntityId_registry_entities_id_fk",
+          "tableFrom": "audit_events",
+          "tableTo": "registry_entities",
+          "columnsFrom": [
+            "subjectEntityId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "audit_events_id": {
+          "name": "audit_events_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "audit_events_wajenziId_unique": {
+          "name": "audit_events_wajenziId_unique",
+          "columns": [
+            "wajenziId"
+          ]
+        }
+      },
+      "checkConstraint": {}
+    },
+    "availability_observations": {
+      "name": "availability_observations",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "offerId": {
+          "name": "offerId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "quantity": {
+          "name": "quantity",
+          "type": "decimal(16,3)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "unitOfMeasure": {
+          "name": "unitOfMeasure",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "availabilityState": {
+          "name": "availabilityState",
+          "type": "enum('available','reserved','allocated','in_transit','damaged','unavailable')",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "observedAt": {
+          "name": "observedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
+        },
+        "freshnessUntil": {
+          "name": "freshnessUntil",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "verificationStatus": {
+          "name": "verificationStatus",
+          "type": "enum('unverified','pending','verified','expired','rejected')",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'unverified'"
+        },
+        "verifiedAt": {
+          "name": "verifiedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "evidenceId": {
+          "name": "evidenceId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
+        }
+      },
+      "indexes": {
+        "availability_observation_offer_time_idx": {
+          "name": "availability_observation_offer_time_idx",
+          "columns": [
+            "offerId",
+            "observedAt"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "availability_observations_offerId_product_offers_id_fk": {
+          "name": "availability_observations_offerId_product_offers_id_fk",
+          "tableFrom": "availability_observations",
+          "tableTo": "product_offers",
+          "columnsFrom": [
+            "offerId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "availability_observations_id": {
+          "name": "availability_observations_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "canonical_match_candidates": {
+      "name": "canonical_match_candidates",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "supplierSubmissionId": {
+          "name": "supplierSubmissionId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "candidateEntityId": {
+          "name": "candidateEntityId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "matchMethod": {
+          "name": "matchMethod",
+          "type": "varchar(120)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "confidence": {
+          "name": "confidence",
+          "type": "decimal(5,4)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "evidence": {
+          "name": "evidence",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
+        }
+      },
+      "indexes": {
+        "match_candidate_unique": {
+          "name": "match_candidate_unique",
+          "columns": [
+            "supplierSubmissionId",
+            "candidateEntityId"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {
+        "canonical_match_candidates_supplierSubmissionId_supplier_submissions_id_fk": {
+          "name": "canonical_match_candidates_supplierSubmissionId_supplier_submissions_id_fk",
+          "tableFrom": "canonical_match_candidates",
+          "tableTo": "supplier_submissions",
+          "columnsFrom": [
+            "supplierSubmissionId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "canonical_match_candidates_candidateEntityId_registry_entities_id_fk": {
+          "name": "canonical_match_candidates_candidateEntityId_registry_entities_id_fk",
+          "tableFrom": "canonical_match_candidates",
+          "tableTo": "registry_entities",
+          "columnsFrom": [
+            "candidateEntityId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "canonical_match_candidates_id": {
+          "name": "canonical_match_candidates_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "canonicalization_decisions": {
+      "name": "canonicalization_decisions",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "supplierSubmissionId": {
+          "name": "supplierSubmissionId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "outcome": {
+          "name": "outcome",
+          "type": "enum('matched_existing_product','matched_existing_variant','review_required','new_canonical_product','new_canonical_variant','rejected')",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "resolvedEntityId": {
+          "name": "resolvedEntityId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "rationale": {
+          "name": "rationale",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "decidedByUserId": {
+          "name": "decidedByUserId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "decidedAt": {
+          "name": "decidedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "canonicalization_decisions_supplierSubmissionId_supplier_submissions_id_fk": {
+          "name": "canonicalization_decisions_supplierSubmissionId_supplier_submissions_id_fk",
+          "tableFrom": "canonicalization_decisions",
+          "tableTo": "supplier_submissions",
+          "columnsFrom": [
+            "supplierSubmissionId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "canonicalization_decisions_resolvedEntityId_registry_entities_id_fk": {
+          "name": "canonicalization_decisions_resolvedEntityId_registry_entities_id_fk",
+          "tableFrom": "canonicalization_decisions",
+          "tableTo": "registry_entities",
+          "columnsFrom": [
+            "resolvedEntityId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "canonicalization_decisions_decidedByUserId_users_id_fk": {
+          "name": "canonicalization_decisions_decidedByUserId_users_id_fk",
+          "tableFrom": "canonicalization_decisions",
+          "tableTo": "users",
+          "columnsFrom": [
+            "decidedByUserId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "canonicalization_decisions_id": {
+          "name": "canonicalization_decisions_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "controlled_values": {
+      "name": "controlled_values",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "vocabularyId": {
+          "name": "vocabularyId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "code": {
+          "name": "code",
+          "type": "varchar(160)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "label": {
+          "name": "label",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "parentValueId": {
+          "name": "parentValueId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "status": {
+          "name": "status",
+          "type": "enum('active','deprecated','draft')",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'active'"
+        },
+        "metadata": {
+          "name": "metadata",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
+        }
+      },
+      "indexes": {
+        "controlled_value_unique": {
+          "name": "controlled_value_unique",
+          "columns": [
+            "vocabularyId",
+            "code"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {
+        "controlled_values_vocabularyId_controlled_vocabularies_id_fk": {
+          "name": "controlled_values_vocabularyId_controlled_vocabularies_id_fk",
+          "tableFrom": "controlled_values",
+          "tableTo": "controlled_vocabularies",
+          "columnsFrom": [
+            "vocabularyId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "controlled_values_id": {
+          "name": "controlled_values_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "controlled_vocabularies": {
+      "name": "controlled_vocabularies",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "code": {
+          "name": "code",
+          "type": "varchar(120)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "isSystemManaged": {
+          "name": "isSystemManaged",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": true
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "controlled_vocabularies_id": {
+          "name": "controlled_vocabularies_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "controlled_vocabularies_code_unique": {
+          "name": "controlled_vocabularies_code_unique",
+          "columns": [
+            "code"
+          ]
+        }
+      },
+      "checkConstraint": {}
+    },
+    "entity_relations": {
+      "name": "entity_relations",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "workspaceId": {
+          "name": "workspaceId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "subjectEntityId": {
+          "name": "subjectEntityId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "predicate": {
+          "name": "predicate",
+          "type": "varchar(160)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "objectEntityId": {
+          "name": "objectEntityId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "status": {
+          "name": "status",
+          "type": "enum('asserted','verified','retracted','superseded')",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'asserted'"
+        },
+        "provenance": {
+          "name": "provenance",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "validFrom": {
+          "name": "validFrom",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
+        },
+        "validTo": {
+          "name": "validTo",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
+        }
+      },
+      "indexes": {
+        "entity_relation_subject_idx": {
+          "name": "entity_relation_subject_idx",
+          "columns": [
+            "subjectEntityId",
+            "predicate"
+          ],
+          "isUnique": false
+        },
+        "entity_relation_object_idx": {
+          "name": "entity_relation_object_idx",
+          "columns": [
+            "objectEntityId",
+            "predicate"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "entity_relations_workspaceId_workspaces_id_fk": {
+          "name": "entity_relations_workspaceId_workspaces_id_fk",
+          "tableFrom": "entity_relations",
+          "tableTo": "workspaces",
+          "columnsFrom": [
+            "workspaceId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "entity_relations_subjectEntityId_registry_entities_id_fk": {
+          "name": "entity_relations_subjectEntityId_registry_entities_id_fk",
+          "tableFrom": "entity_relations",
+          "tableTo": "registry_entities",
+          "columnsFrom": [
+            "subjectEntityId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "entity_relations_objectEntityId_registry_entities_id_fk": {
+          "name": "entity_relations_objectEntityId_registry_entities_id_fk",
+          "tableFrom": "entity_relations",
+          "tableTo": "registry_entities",
+          "columnsFrom": [
+            "objectEntityId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "entity_relations_id": {
+          "name": "entity_relations_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "evidence": {
+      "name": "evidence",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "entityId": {
+          "name": "entityId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "workspaceId": {
+          "name": "workspaceId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "fileAssetId": {
+          "name": "fileAssetId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "evidenceType": {
+          "name": "evidenceType",
+          "type": "varchar(120)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "statement": {
+          "name": "statement",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "sourceSystem": {
+          "name": "sourceSystem",
+          "type": "varchar(120)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "capturedAt": {
+          "name": "capturedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "expiresAt": {
+          "name": "expiresAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "verificationStatus": {
+          "name": "verificationStatus",
+          "type": "enum('unverified','pending','verified','expired','rejected')",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'unverified'"
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "evidence_entityId_registry_entities_id_fk": {
+          "name": "evidence_entityId_registry_entities_id_fk",
+          "tableFrom": "evidence",
+          "tableTo": "registry_entities",
+          "columnsFrom": [
+            "entityId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "evidence_workspaceId_workspaces_id_fk": {
+          "name": "evidence_workspaceId_workspaces_id_fk",
+          "tableFrom": "evidence",
+          "tableTo": "workspaces",
+          "columnsFrom": [
+            "workspaceId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "evidence_fileAssetId_file_assets_id_fk": {
+          "name": "evidence_fileAssetId_file_assets_id_fk",
+          "tableFrom": "evidence",
+          "tableTo": "file_assets",
+          "columnsFrom": [
+            "fileAssetId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "evidence_id": {
+          "name": "evidence_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "evidence_links": {
+      "name": "evidence_links",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "evidenceId": {
+          "name": "evidenceId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "subjectEntityId": {
+          "name": "subjectEntityId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "assertionType": {
+          "name": "assertionType",
+          "type": "varchar(160)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
+        }
+      },
+      "indexes": {
+        "evidence_link_unique": {
+          "name": "evidence_link_unique",
+          "columns": [
+            "evidenceId",
+            "subjectEntityId",
+            "assertionType"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {
+        "evidence_links_evidenceId_evidence_id_fk": {
+          "name": "evidence_links_evidenceId_evidence_id_fk",
+          "tableFrom": "evidence_links",
+          "tableTo": "evidence",
+          "columnsFrom": [
+            "evidenceId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "evidence_links_subjectEntityId_registry_entities_id_fk": {
+          "name": "evidence_links_subjectEntityId_registry_entities_id_fk",
+          "tableFrom": "evidence_links",
+          "tableTo": "registry_entities",
+          "columnsFrom": [
+            "subjectEntityId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "evidence_links_id": {
+          "name": "evidence_links_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "external_identifiers": {
+      "name": "external_identifiers",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "entityId": {
+          "name": "entityId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "namespace": {
+          "name": "namespace",
+          "type": "varchar(120)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "value": {
+          "name": "value",
+          "type": "varchar(500)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "isPrimary": {
+          "name": "isPrimary",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": false
+        },
+        "verifiedAt": {
+          "name": "verifiedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
+        }
+      },
+      "indexes": {
+        "external_identifier_unique": {
+          "name": "external_identifier_unique",
+          "columns": [
+            "namespace",
+            "value"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {
+        "external_identifiers_entityId_registry_entities_id_fk": {
+          "name": "external_identifiers_entityId_registry_entities_id_fk",
+          "tableFrom": "external_identifiers",
+          "tableTo": "registry_entities",
+          "columnsFrom": [
+            "entityId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "external_identifiers_id": {
+          "name": "external_identifiers_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "facilities": {
+      "name": "facilities",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "entityId": {
+          "name": "entityId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "organizationEntityId": {
+          "name": "organizationEntityId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "facilityType": {
+          "name": "facilityType",
+          "type": "enum('store','warehouse','yard','plant','office','other')",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "addressRaw": {
+          "name": "addressRaw",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "latitude": {
+          "name": "latitude",
+          "type": "decimal(10,7)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "longitude": {
+          "name": "longitude",
+          "type": "decimal(10,7)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "verificationStatus": {
+          "name": "verificationStatus",
+          "type": "enum('unverified','pending','verified','expired')",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'unverified'"
+        },
+        "coverage": {
+          "name": "coverage",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "metadata": {
+          "name": "metadata",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "onUpdate": true,
+          "default": "(now())"
+        }
+      },
+      "indexes": {
+        "facilities_organization_idx": {
+          "name": "facilities_organization_idx",
+          "columns": [
+            "organizationEntityId"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "facilities_entityId_registry_entities_id_fk": {
+          "name": "facilities_entityId_registry_entities_id_fk",
+          "tableFrom": "facilities",
+          "tableTo": "registry_entities",
+          "columnsFrom": [
+            "entityId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "facilities_organizationEntityId_registry_entities_id_fk": {
+          "name": "facilities_organizationEntityId_registry_entities_id_fk",
+          "tableFrom": "facilities",
+          "tableTo": "registry_entities",
+          "columnsFrom": [
+            "organizationEntityId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "facilities_id": {
+          "name": "facilities_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "facilities_entityId_unique": {
+          "name": "facilities_entityId_unique",
+          "columns": [
+            "entityId"
+          ]
+        }
+      },
+      "checkConstraint": {}
+    },
+    "file_assets": {
+      "name": "file_assets",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "workspaceId": {
+          "name": "workspaceId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "wajenziId": {
+          "name": "wajenziId",
+          "type": "varchar(40)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "storageKey": {
+          "name": "storageKey",
+          "type": "varchar(500)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "storageUrl": {
+          "name": "storageUrl",
+          "type": "varchar(1000)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "originalFilename": {
+          "name": "originalFilename",
+          "type": "varchar(500)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "mimeType": {
+          "name": "mimeType",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "byteSize": {
+          "name": "byteSize",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "assetKind": {
+          "name": "assetKind",
+          "type": "enum('supplier_catalogue','product_image','datasheet','certificate','csv_import','verification_evidence','other')",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "uploadedByUserId": {
+          "name": "uploadedByUserId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "file_assets_workspaceId_workspaces_id_fk": {
+          "name": "file_assets_workspaceId_workspaces_id_fk",
+          "tableFrom": "file_assets",
+          "tableTo": "workspaces",
+          "columnsFrom": [
+            "workspaceId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "file_assets_uploadedByUserId_users_id_fk": {
+          "name": "file_assets_uploadedByUserId_users_id_fk",
+          "tableFrom": "file_assets",
+          "tableTo": "users",
+          "columnsFrom": [
+            "uploadedByUserId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "file_assets_id": {
+          "name": "file_assets_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "file_assets_wajenziId_unique": {
+          "name": "file_assets_wajenziId_unique",
+          "columns": [
+            "wajenziId"
+          ]
+        },
+        "file_assets_storageKey_unique": {
+          "name": "file_assets_storageKey_unique",
+          "columns": [
+            "storageKey"
+          ]
+        }
+      },
+      "checkConstraint": {}
+    },
+    "import_batches": {
+      "name": "import_batches",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "workspaceId": {
+          "name": "workspaceId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "wajenziId": {
+          "name": "wajenziId",
+          "type": "varchar(40)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "sourceSystem": {
+          "name": "sourceSystem",
+          "type": "varchar(120)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "sourceHash": {
+          "name": "sourceHash",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "fileAssetId": {
+          "name": "fileAssetId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "importType": {
+          "name": "importType",
+          "type": "enum('master_catalogue','supplier_catalogue','location_reference','price_reference','other')",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "status": {
+          "name": "status",
+          "type": "enum('received','validated','processing','completed','failed','rejected')",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'received'"
+        },
+        "receivedRows": {
+          "name": "receivedRows",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 0
+        },
+        "processedRows": {
+          "name": "processedRows",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 0
+        },
+        "rejectedRows": {
+          "name": "rejectedRows",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 0
+        },
+        "report": {
+          "name": "report",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "initiatedByUserId": {
+          "name": "initiatedByUserId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
+        },
+        "completedAt": {
+          "name": "completedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "import_batch_hash_unique": {
+          "name": "import_batch_hash_unique",
+          "columns": [
+            "workspaceId",
+            "sourceSystem",
+            "sourceHash"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {
+        "import_batches_workspaceId_workspaces_id_fk": {
+          "name": "import_batches_workspaceId_workspaces_id_fk",
+          "tableFrom": "import_batches",
+          "tableTo": "workspaces",
+          "columnsFrom": [
+            "workspaceId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "import_batches_initiatedByUserId_users_id_fk": {
+          "name": "import_batches_initiatedByUserId_users_id_fk",
+          "tableFrom": "import_batches",
+          "tableTo": "users",
+          "columnsFrom": [
+            "initiatedByUserId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "import_batches_id": {
+          "name": "import_batches_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "import_batches_wajenziId_unique": {
+          "name": "import_batches_wajenziId_unique",
+          "columns": [
+            "wajenziId"
+          ]
+        }
+      },
+      "checkConstraint": {}
+    },
+    "organizations": {
+      "name": "organizations",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "entityId": {
+          "name": "entityId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "organizationKind": {
+          "name": "organizationKind",
+          "type": "enum('supplier','manufacturer','contractor','distributor','professional_firm','client','public_authority','other')",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "legalName": {
+          "name": "legalName",
+          "type": "varchar(500)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "verificationStatus": {
+          "name": "verificationStatus",
+          "type": "enum('unverified','pending','verified','rejected','expired')",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'unverified'"
+        },
+        "countryCode": {
+          "name": "countryCode",
+          "type": "varchar(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'KEN'"
+        },
+        "metadata": {
+          "name": "metadata",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "onUpdate": true,
+          "default": "(now())"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "organizations_entityId_registry_entities_id_fk": {
+          "name": "organizations_entityId_registry_entities_id_fk",
+          "tableFrom": "organizations",
+          "tableTo": "registry_entities",
+          "columnsFrom": [
+            "entityId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "organizations_id": {
+          "name": "organizations_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "organizations_entityId_unique": {
+          "name": "organizations_entityId_unique",
+          "columns": [
+            "entityId"
+          ]
+        }
+      },
+      "checkConstraint": {}
+    },
+    "price_observations": {
+      "name": "price_observations",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "offerId": {
+          "name": "offerId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "amount": {
+          "name": "amount",
+          "type": "decimal(16,2)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "currencyCode": {
+          "name": "currencyCode",
+          "type": "varchar(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "unitOfMeasure": {
+          "name": "unitOfMeasure",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "taxBasis": {
+          "name": "taxBasis",
+          "type": "enum('inclusive','exclusive','unknown')",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'unknown'"
+        },
+        "normalizedAmount": {
+          "name": "normalizedAmount",
+          "type": "decimal(16,4)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "normalizedUnit": {
+          "name": "normalizedUnit",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "normalizationMethod": {
+          "name": "normalizationMethod",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "observedAt": {
+          "name": "observedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
+        },
+        "validUntil": {
+          "name": "validUntil",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "verificationStatus": {
+          "name": "verificationStatus",
+          "type": "enum('unverified','pending','verified','expired','rejected')",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'unverified'"
+        },
+        "evidenceId": {
+          "name": "evidenceId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
+        }
+      },
+      "indexes": {
+        "price_observation_offer_time_idx": {
+          "name": "price_observation_offer_time_idx",
+          "columns": [
+            "offerId",
+            "observedAt"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "price_observations_offerId_product_offers_id_fk": {
+          "name": "price_observations_offerId_product_offers_id_fk",
+          "tableFrom": "price_observations",
+          "tableTo": "product_offers",
+          "columnsFrom": [
+            "offerId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "price_observations_id": {
+          "name": "price_observations_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "product_categories": {
+      "name": "product_categories",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "code": {
+          "name": "code",
+          "type": "varchar(160)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "parentId": {
+          "name": "parentId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "status": {
+          "name": "status",
+          "type": "enum('active','deprecated','draft')",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'active'"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "product_categories_id": {
+          "name": "product_categories_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "product_categories_code_unique": {
+          "name": "product_categories_code_unique",
+          "columns": [
+            "code"
+          ]
+        }
+      },
+      "checkConstraint": {}
+    },
+    "product_offers": {
+      "name": "product_offers",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "workspaceId": {
+          "name": "workspaceId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "wajenziId": {
+          "name": "wajenziId",
+          "type": "varchar(40)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "supplierOrganizationEntityId": {
+          "name": "supplierOrganizationEntityId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "facilityId": {
+          "name": "facilityId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "canonicalProductEntityId": {
+          "name": "canonicalProductEntityId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "canonicalVariantEntityId": {
+          "name": "canonicalVariantEntityId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "supplierSku": {
+          "name": "supplierSku",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "commercialName": {
+          "name": "commercialName",
+          "type": "varchar(500)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "leadTimeHours": {
+          "name": "leadTimeHours",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "minimumOrderQuantity": {
+          "name": "minimumOrderQuantity",
+          "type": "decimal(14,3)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "orderUnit": {
+          "name": "orderUnit",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "commercialTerms": {
+          "name": "commercialTerms",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "status": {
+          "name": "status",
+          "type": "enum('draft','active','suspended','archived')",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'draft'"
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "onUpdate": true,
+          "default": "(now())"
+        }
+      },
+      "indexes": {
+        "product_offer_product_idx": {
+          "name": "product_offer_product_idx",
+          "columns": [
+            "canonicalProductEntityId"
+          ],
+          "isUnique": false
+        },
+        "product_offer_variant_idx": {
+          "name": "product_offer_variant_idx",
+          "columns": [
+            "canonicalVariantEntityId"
+          ],
+          "isUnique": false
+        },
+        "product_offer_supplier_idx": {
+          "name": "product_offer_supplier_idx",
+          "columns": [
+            "supplierOrganizationEntityId"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "product_offers_workspaceId_workspaces_id_fk": {
+          "name": "product_offers_workspaceId_workspaces_id_fk",
+          "tableFrom": "product_offers",
+          "tableTo": "workspaces",
+          "columnsFrom": [
+            "workspaceId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "product_offers_supplierOrganizationEntityId_registry_entities_id_fk": {
+          "name": "product_offers_supplierOrganizationEntityId_registry_entities_id_fk",
+          "tableFrom": "product_offers",
+          "tableTo": "registry_entities",
+          "columnsFrom": [
+            "supplierOrganizationEntityId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "product_offers_facilityId_facilities_id_fk": {
+          "name": "product_offers_facilityId_facilities_id_fk",
+          "tableFrom": "product_offers",
+          "tableTo": "facilities",
+          "columnsFrom": [
+            "facilityId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "product_offers_canonicalProductEntityId_registry_entities_id_fk": {
+          "name": "product_offers_canonicalProductEntityId_registry_entities_id_fk",
+          "tableFrom": "product_offers",
+          "tableTo": "registry_entities",
+          "columnsFrom": [
+            "canonicalProductEntityId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "product_offers_canonicalVariantEntityId_registry_entities_id_fk": {
+          "name": "product_offers_canonicalVariantEntityId_registry_entities_id_fk",
+          "tableFrom": "product_offers",
+          "tableTo": "registry_entities",
+          "columnsFrom": [
+            "canonicalVariantEntityId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "product_offers_id": {
+          "name": "product_offers_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "product_offers_wajenziId_unique": {
+          "name": "product_offers_wajenziId_unique",
+          "columns": [
+            "wajenziId"
+          ]
+        }
+      },
+      "checkConstraint": {}
+    },
+    "product_variants": {
+      "name": "product_variants",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "entityId": {
+          "name": "entityId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "productId": {
+          "name": "productId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "variantLabel": {
+          "name": "variantLabel",
+          "type": "varchar(500)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "sku": {
+          "name": "sku",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "unitOfMeasure": {
+          "name": "unitOfMeasure",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "packSize": {
+          "name": "packSize",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "attributes": {
+          "name": "attributes",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "status": {
+          "name": "status",
+          "type": "enum('active','draft','archived')",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'active'"
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "onUpdate": true,
+          "default": "(now())"
+        }
+      },
+      "indexes": {
+        "product_variants_product_idx": {
+          "name": "product_variants_product_idx",
+          "columns": [
+            "productId"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "product_variants_entityId_registry_entities_id_fk": {
+          "name": "product_variants_entityId_registry_entities_id_fk",
+          "tableFrom": "product_variants",
+          "tableTo": "registry_entities",
+          "columnsFrom": [
+            "entityId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "product_variants_productId_products_id_fk": {
+          "name": "product_variants_productId_products_id_fk",
+          "tableFrom": "product_variants",
+          "tableTo": "products",
+          "columnsFrom": [
+            "productId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "product_variants_id": {
+          "name": "product_variants_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "product_variants_entityId_unique": {
+          "name": "product_variants_entityId_unique",
+          "columns": [
+            "entityId"
+          ]
+        }
+      },
+      "checkConstraint": {}
+    },
+    "products": {
+      "name": "products",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "entityId": {
+          "name": "entityId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "categoryId": {
+          "name": "categoryId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "productKind": {
+          "name": "productKind",
+          "type": "enum('simple','family')",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "brand": {
+          "name": "brand",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "manufacturerOrganizationEntityId": {
+          "name": "manufacturerOrganizationEntityId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "unitOfMeasure": {
+          "name": "unitOfMeasure",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "packSize": {
+          "name": "packSize",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "material": {
+          "name": "material",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "finish": {
+          "name": "finish",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "attributes": {
+          "name": "attributes",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "classifications": {
+          "name": "classifications",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "searchTerms": {
+          "name": "searchTerms",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "verificationStatus": {
+          "name": "verificationStatus",
+          "type": "enum('unverified','pending','verified','rejected')",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'unverified'"
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "onUpdate": true,
+          "default": "(now())"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "products_entityId_registry_entities_id_fk": {
+          "name": "products_entityId_registry_entities_id_fk",
+          "tableFrom": "products",
+          "tableTo": "registry_entities",
+          "columnsFrom": [
+            "entityId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "products_categoryId_product_categories_id_fk": {
+          "name": "products_categoryId_product_categories_id_fk",
+          "tableFrom": "products",
+          "tableTo": "product_categories",
+          "columnsFrom": [
+            "categoryId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "products_manufacturerOrganizationEntityId_registry_entities_id_fk": {
+          "name": "products_manufacturerOrganizationEntityId_registry_entities_id_fk",
+          "tableFrom": "products",
+          "tableTo": "registry_entities",
+          "columnsFrom": [
+            "manufacturerOrganizationEntityId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "products_id": {
+          "name": "products_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "products_entityId_unique": {
+          "name": "products_entityId_unique",
+          "columns": [
+            "entityId"
+          ]
+        }
+      },
+      "checkConstraint": {}
+    },
+    "project_memberships": {
+      "name": "project_memberships",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "projectId": {
+          "name": "projectId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "workspaceMemberId": {
+          "name": "workspaceMemberId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "projectRole": {
+          "name": "projectRole",
+          "type": "varchar(120)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "status": {
+          "name": "status",
+          "type": "enum('invited','active','suspended','ended')",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'active'"
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
+        }
+      },
+      "indexes": {
+        "project_member_unique": {
+          "name": "project_member_unique",
+          "columns": [
+            "projectId",
+            "workspaceMemberId"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {
+        "project_memberships_projectId_projects_id_fk": {
+          "name": "project_memberships_projectId_projects_id_fk",
+          "tableFrom": "project_memberships",
+          "tableTo": "projects",
+          "columnsFrom": [
+            "projectId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "project_memberships_workspaceMemberId_workspace_members_id_fk": {
+          "name": "project_memberships_workspaceMemberId_workspace_members_id_fk",
+          "tableFrom": "project_memberships",
+          "tableTo": "workspace_members",
+          "columnsFrom": [
+            "workspaceMemberId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "project_memberships_id": {
+          "name": "project_memberships_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "projects": {
+      "name": "projects",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "entityId": {
+          "name": "entityId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "workspaceId": {
+          "name": "workspaceId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "ownerOrganizationEntityId": {
+          "name": "ownerOrganizationEntityId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "projectType": {
+          "name": "projectType",
+          "type": "varchar(120)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "status": {
+          "name": "status",
+          "type": "enum('draft','active','paused','completed','cancelled','archived')",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'draft'"
+        },
+        "plannedStartAt": {
+          "name": "plannedStartAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "plannedEndAt": {
+          "name": "plannedEndAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "metadata": {
+          "name": "metadata",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "onUpdate": true,
+          "default": "(now())"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "projects_entityId_registry_entities_id_fk": {
+          "name": "projects_entityId_registry_entities_id_fk",
+          "tableFrom": "projects",
+          "tableTo": "registry_entities",
+          "columnsFrom": [
+            "entityId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "projects_workspaceId_workspaces_id_fk": {
+          "name": "projects_workspaceId_workspaces_id_fk",
+          "tableFrom": "projects",
+          "tableTo": "workspaces",
+          "columnsFrom": [
+            "workspaceId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "projects_ownerOrganizationEntityId_registry_entities_id_fk": {
+          "name": "projects_ownerOrganizationEntityId_registry_entities_id_fk",
+          "tableFrom": "projects",
+          "tableTo": "registry_entities",
+          "columnsFrom": [
+            "ownerOrganizationEntityId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "projects_id": {
+          "name": "projects_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "projects_entityId_unique": {
+          "name": "projects_entityId_unique",
+          "columns": [
+            "entityId"
+          ]
+        }
+      },
+      "checkConstraint": {}
+    },
+    "registry_entities": {
+      "name": "registry_entities",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "wajenziId": {
+          "name": "wajenziId",
+          "type": "varchar(40)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "workspaceId": {
+          "name": "workspaceId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "entityType": {
+          "name": "entityType",
+          "type": "enum('organization','person','user_account','project','site','facility','product','product_variant','document','boq_item','purchase_order','event','evidence')",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "canonicalName": {
+          "name": "canonicalName",
+          "type": "varchar(500)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "lifecycleStatus": {
+          "name": "lifecycleStatus",
+          "type": "enum('draft','active','pending_review','verified','suspended','merged','archived')",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'draft'"
+        },
+        "mergedIntoEntityId": {
+          "name": "mergedIntoEntityId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "sourceSystem": {
+          "name": "sourceSystem",
+          "type": "varchar(120)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "sourceRecordKey": {
+          "name": "sourceRecordKey",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "ownerOrganizationEntityId": {
+          "name": "ownerOrganizationEntityId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "attributes": {
+          "name": "attributes",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "createdByUserId": {
+          "name": "createdByUserId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "onUpdate": true,
+          "default": "(now())"
+        }
+      },
+      "indexes": {
+        "registry_entity_workspace_idx": {
+          "name": "registry_entity_workspace_idx",
+          "columns": [
+            "workspaceId",
+            "entityType"
+          ],
+          "isUnique": false
+        },
+        "registry_entity_name_idx": {
+          "name": "registry_entity_name_idx",
+          "columns": [
+            "canonicalName"
+          ],
+          "isUnique": false
+        },
+        "registry_entity_source_unique": {
+          "name": "registry_entity_source_unique",
+          "columns": [
+            "workspaceId",
+            "entityType",
+            "sourceSystem",
+            "sourceRecordKey"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {
+        "registry_entities_workspaceId_workspaces_id_fk": {
+          "name": "registry_entities_workspaceId_workspaces_id_fk",
+          "tableFrom": "registry_entities",
+          "tableTo": "workspaces",
+          "columnsFrom": [
+            "workspaceId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "registry_entities_createdByUserId_users_id_fk": {
+          "name": "registry_entities_createdByUserId_users_id_fk",
+          "tableFrom": "registry_entities",
+          "tableTo": "users",
+          "columnsFrom": [
+            "createdByUserId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "registry_entities_id": {
+          "name": "registry_entities_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "registry_entities_wajenziId_unique": {
+          "name": "registry_entities_wajenziId_unique",
+          "columns": [
+            "wajenziId"
+          ]
+        }
+      },
+      "checkConstraint": {}
+    },
+    "sites": {
+      "name": "sites",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "entityId": {
+          "name": "entityId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "projectId": {
+          "name": "projectId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "addressRaw": {
+          "name": "addressRaw",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "addressNormalized": {
+          "name": "addressNormalized",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "latitude": {
+          "name": "latitude",
+          "type": "decimal(10,7)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "longitude": {
+          "name": "longitude",
+          "type": "decimal(10,7)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "locationConfidence": {
+          "name": "locationConfidence",
+          "type": "decimal(5,4)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "status": {
+          "name": "status",
+          "type": "enum('draft','active','inactive','archived')",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'active'"
+        },
+        "metadata": {
+          "name": "metadata",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "onUpdate": true,
+          "default": "(now())"
+        }
+      },
+      "indexes": {
+        "sites_project_idx": {
+          "name": "sites_project_idx",
+          "columns": [
+            "projectId"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "sites_entityId_registry_entities_id_fk": {
+          "name": "sites_entityId_registry_entities_id_fk",
+          "tableFrom": "sites",
+          "tableTo": "registry_entities",
+          "columnsFrom": [
+            "entityId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "sites_projectId_projects_id_fk": {
+          "name": "sites_projectId_projects_id_fk",
+          "tableFrom": "sites",
+          "tableTo": "projects",
+          "columnsFrom": [
+            "projectId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "sites_id": {
+          "name": "sites_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "sites_entityId_unique": {
+          "name": "sites_entityId_unique",
+          "columns": [
+            "entityId"
+          ]
+        }
+      },
+      "checkConstraint": {}
+    },
+    "source_records": {
+      "name": "source_records",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "importBatchId": {
+          "name": "importBatchId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "sourceRowKey": {
+          "name": "sourceRowKey",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "sourcePayload": {
+          "name": "sourcePayload",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "sourceHash": {
+          "name": "sourceHash",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "mappedEntityId": {
+          "name": "mappedEntityId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "processingStatus": {
+          "name": "processingStatus",
+          "type": "enum('received','normalized','matched','review_required','rejected','created')",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'received'"
+        },
+        "qualityFlags": {
+          "name": "qualityFlags",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "onUpdate": true,
+          "default": "(now())"
+        }
+      },
+      "indexes": {
+        "source_record_batch_row_unique": {
+          "name": "source_record_batch_row_unique",
+          "columns": [
+            "importBatchId",
+            "sourceRowKey"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {
+        "source_records_importBatchId_import_batches_id_fk": {
+          "name": "source_records_importBatchId_import_batches_id_fk",
+          "tableFrom": "source_records",
+          "tableTo": "import_batches",
+          "columnsFrom": [
+            "importBatchId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "source_records_mappedEntityId_registry_entities_id_fk": {
+          "name": "source_records_mappedEntityId_registry_entities_id_fk",
+          "tableFrom": "source_records",
+          "tableTo": "registry_entities",
+          "columnsFrom": [
+            "mappedEntityId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "source_records_id": {
+          "name": "source_records_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "supplier_submissions": {
+      "name": "supplier_submissions",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "workspaceId": {
+          "name": "workspaceId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "wajenziId": {
+          "name": "wajenziId",
+          "type": "varchar(40)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "supplierOrganizationEntityId": {
+          "name": "supplierOrganizationEntityId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "sourceRecordId": {
+          "name": "sourceRecordId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "supplierSku": {
+          "name": "supplierSku",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "submittedName": {
+          "name": "submittedName",
+          "type": "varchar(500)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "submittedAttributes": {
+          "name": "submittedAttributes",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "status": {
+          "name": "status",
+          "type": "enum('received','matching','matched_existing_product','matched_existing_variant','review_required','approved_new_canonical','rejected')",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'received'"
+        },
+        "submittedAt": {
+          "name": "submittedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
+        },
+        "resolvedAt": {
+          "name": "resolvedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "supplier_submissions_workspaceId_workspaces_id_fk": {
+          "name": "supplier_submissions_workspaceId_workspaces_id_fk",
+          "tableFrom": "supplier_submissions",
+          "tableTo": "workspaces",
+          "columnsFrom": [
+            "workspaceId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "supplier_submissions_sourceRecordId_source_records_id_fk": {
+          "name": "supplier_submissions_sourceRecordId_source_records_id_fk",
+          "tableFrom": "supplier_submissions",
+          "tableTo": "source_records",
+          "columnsFrom": [
+            "sourceRecordId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "supplier_submissions_id": {
+          "name": "supplier_submissions_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "supplier_submissions_wajenziId_unique": {
+          "name": "supplier_submissions_wajenziId_unique",
+          "columns": [
+            "wajenziId"
+          ]
+        }
+      },
+      "checkConstraint": {}
+    },
+    "users": {
+      "name": "users",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "openId": {
+          "name": "openId",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar(320)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "loginMethod": {
+          "name": "loginMethod",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "role": {
+          "name": "role",
+          "type": "enum('user','admin')",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'user'"
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "onUpdate": true,
+          "default": "(now())"
+        },
+        "lastSignedIn": {
+          "name": "lastSignedIn",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "users_id": {
+          "name": "users_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "users_openId_unique": {
+          "name": "users_openId_unique",
+          "columns": [
+            "openId"
+          ]
+        }
+      },
+      "checkConstraint": {}
+    },
+    "workspace_members": {
+      "name": "workspace_members",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "workspaceId": {
+          "name": "workspaceId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "userId": {
+          "name": "userId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "workspaceRole": {
+          "name": "workspaceRole",
+          "type": "enum('registry_steward','supplier','contractor','project_user','viewer')",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "organizationEntityId": {
+          "name": "organizationEntityId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "status": {
+          "name": "status",
+          "type": "enum('invited','active','suspended','ended')",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'active'"
+        },
+        "scope": {
+          "name": "scope",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "onUpdate": true,
+          "default": "(now())"
+        }
+      },
+      "indexes": {
+        "workspace_member_unique": {
+          "name": "workspace_member_unique",
+          "columns": [
+            "workspaceId",
+            "userId"
+          ],
+          "isUnique": true
+        },
+        "workspace_members_user_idx": {
+          "name": "workspace_members_user_idx",
+          "columns": [
+            "userId"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "workspace_members_workspaceId_workspaces_id_fk": {
+          "name": "workspace_members_workspaceId_workspaces_id_fk",
+          "tableFrom": "workspace_members",
+          "tableTo": "workspaces",
+          "columnsFrom": [
+            "workspaceId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "workspace_members_userId_users_id_fk": {
+          "name": "workspace_members_userId_users_id_fk",
+          "tableFrom": "workspace_members",
+          "tableTo": "users",
+          "columnsFrom": [
+            "userId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "workspace_members_id": {
+          "name": "workspace_members_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "workspaces": {
+      "name": "workspaces",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "wajenziId": {
+          "name": "wajenziId",
+          "type": "varchar(40)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "status": {
+          "name": "status",
+          "type": "enum('active','suspended','archived')",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'active'"
+        },
+        "isDemo": {
+          "name": "isDemo",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "onUpdate": true,
+          "default": "(now())"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "workspaces_id": {
+          "name": "workspaces_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "workspaces_wajenziId_unique": {
+          "name": "workspaces_wajenziId_unique",
+          "columns": [
+            "wajenziId"
+          ]
+        }
+      },
+      "checkConstraint": {}
+    }
+  },
+  "views": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  },
+  "internal": {
+    "tables": {},
+    "indexes": {}
+  }
+}

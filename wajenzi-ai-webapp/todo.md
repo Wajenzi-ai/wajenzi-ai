@@ -1,0 +1,32 @@
+# Project TODO
+
+- [x] Inventory and map the completed ontology, schema, product catalogue, public-reference, and GitHub foundation artifacts into the application build boundary.
+- [x] Model database entities for immutable registry IDs, organizations, roles, workspace membership, projects, sites, facilities, identifiers, lifecycle state, provenance, evidence, audit events, and controlled vocabularies.
+- [x] Generate and apply the first database migration for the governed WAJENZI data foundation.
+- [x] Implement authenticated role-aware access for registry stewards, suppliers, contractors, and project users with organization and project membership boundaries.
+- [x] Implement master-catalogue import batches, source-row provenance, product families, variants, immutable canonical IDs, import-quality reporting, and actual-count idempotency validation.
+- [x] Implement supplier product submissions, deterministic candidate matching, canonicalization decisions, steward-review queues, and duplicate-prevention rules.
+- [x] Implement supplier offers separate from canonical identity with supplier SKU, facility, commercial terms, lead time, price, tax basis, and availability.
+- [x] Implement evidence-backed pending price and availability observations with freshness, normalization, verification workflow, and audit history.
+- [x] Implement project-site and supplier-facility location records with coordinates, coverage, and distance-ready procurement data.
+- [x] Implement the guarded comparable-offer procurement query, including cheapest verified cement within 50 km only when complete operational data exists.
+- [x] Build a polished registry stewardship dashboard with imports, match candidates, data-quality flags, decisions, audit events, and canonical catalogue browsing.
+- [x] Build supplier, project, and procurement workspace views with role-relevant workflows and clear empty states.
+- [x] Add supported interactive map selection and visualization for sites and facilities, with a clear coordinate fallback if the map proxy cannot load in a local preview context.
+- [x] Add secure file metadata and upload flows for supplier catalogues, images, datasheets, certificates, CSV imports, and verification evidence, using object storage outside the database.
+- [x] Add in-app implementation documentation and a clearly labelled end-to-end demonstration dataset without fabricated customer reviews or live-market claims.
+- [x] Write and run Vitest coverage for ID generation, membership access, canonicalization, procurement query guards, and audit/provenance behavior.
+- [x] Verify desktop and mobile workspace usability, resolve runtime and visual issues, and mark completed items accurately.
+- [ ] Save a final implementation checkpoint and sync the completed platform code to GitHub.
+- [x] Rerun the master-catalogue importer after demonstration-link reconciliation and prove stable actual counts with no duplicate canonical IDs or source-row-key collisions.
+- [x] Verify successful interactive map loading and marker visualization from the public preview origin; the protected local preview retains a clear coordinate fallback when its local origin is rejected by the map proxy.
+- [ ] Complete authenticated desktop and mobile end-to-end validation for dashboard, catalogue, supplier matching, commercial observations, procurement, locations, and evidence flows after a supported sign-in route is available.
+- [x] Review the attached agent requirements and translate them into governed wajenzi.ai agent roles, data inputs, outputs, and approval gates.
+- [x] Build an agent control center and a supplier-catalogue intake agent that produces provenance-backed, steward-reviewable canonicalization proposals.
+- [x] Build a procurement assistant agent that explains eligible comparable offers and missing eligibility evidence without claiming unverified market facts.
+- [x] Build an evidence-review agent that identifies missing provenance, expired freshness, and verification gaps without auto-approving records.
+- [x] Enforce agent policy boundaries: no silent canonical product changes, supplier approvals, price/stock verification, order placement, or external communication without human authorization.
+- [x] Update all user-facing product title, navigation, auth, page content, and configuration branding from “Wajenzi AI Platform” to “wajenzi.ai”.
+- [x] Add agent-unit tests, visual browser validation, and implementation documentation covering prompts, data use, approvals, failure states, and demonstration labelling.
+- [x] Connect Product Intelligence to actual supplier submissions and stored catalogue files, preserve their source references, and generate canonicalization proposals tied to those records.
+- [x] Remove the remaining legacy product-name reference from configuration/template files and verify no user-facing or configuration branding still says “Wajenzi AI Platform”.

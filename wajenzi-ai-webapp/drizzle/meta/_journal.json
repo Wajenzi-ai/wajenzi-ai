@@ -1,0 +1,34 @@
+{
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1787841377318,
+      "tag": "0000_true_black_bird",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1787842154213,
+      "tag": "0001_kind_dreadnoughts",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1787848092772,
+      "tag": "0002_wild_wiccan",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1787848870798,
+      "tag": "0003_optimal_black_queen",
+      "breakpoints": true
+    }
+  ]
+}
