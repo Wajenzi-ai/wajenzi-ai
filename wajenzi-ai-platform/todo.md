@@ -1,0 +1,157 @@
+# Project TODO
+
+- [x] Establish the Wajenzi.AI design system with construction amber, slate dark, Inter, Space Grotesk, shared responsive tokens, and accessible motion.
+- [x] Create a public marketing landing page with value propositions and calls to action for homeowners, contractors, suppliers, logistics partners, and platform operators.
+- [x] Create a unified persistent dashboard shell with a role switcher, responsive sidebar navigation, alert center, global search affordance, and user menu.
+- [x] Extend the account menu with persisted profile and workspace preferences after role and organization settings are finalized.
+- [x] Build the homeowner dashboard with AI material discovery, project budget estimator, BOQ upload, order tracking, and escrow status.
+- [x] Build the contractor dashboard with project pipeline, procurement requests, supplier RFQs, material-cost tracking, and delivery scheduling.
+- [x] Build the supplier and hardware-store dashboard with catalog controls, incoming orders, quotation responses, inventory overview, and revenue analytics.
+- [x] Build the logistics and delivery dashboard with a live Google Maps view, active routes, driver locations, drop-off points, geocoding, directions, dispatch, and fleet metrics.
+- [x] Build the escrow and payments dashboard with transaction ledger, release approvals, disputes, payment-settlement status, and KYC flags.
+- [x] Build the dedicated AI Procurement Agent dashboard with a conversational AI procurement workspace, recommendation workflow, source comparison, automated RFQs, and BOQ or drawing-driven cart generation.
+- [x] Build the platform administration dashboard with marketplace KPIs, verification queue, user management, and service health metrics.
+- [x] Build supplier onboarding and verification with role-specific multi-step forms, compliance document capture, S3 uploads, and scoring status.
+- [x] Build the remaining project management, marketplace intelligence, and finance-and-risk workspaces so the platform contains the promised ten primary dashboards.
+- [x] Add secure S3-backed file-upload workflows for catalogs, BOQs, drawings, and compliance documents, including metadata and role-aware access controls.
+- [x] Define marketplace data schema, type-safe service procedures, and sample operational data for visualized dashboard workflows.
+- [x] Create and run Vitest coverage for the platform data procedures and interaction helpers.
+- [x] Verify desktop and mobile visual quality, dashboard routing, map behavior, AI workflow states, upload states, keyboard accessibility, and responsive layouts.
+- [x] Save a final project checkpoint after all work is complete.
+- [x] Add a platform-operator entry point to the public landing page.
+- [x] Implement editable homeowner budget inputs and computed project estimates.
+- [x] Add contractor procurement-request and RFQ management actions.
+- [x] Add supplier catalog controls and incoming-order management.
+- [x] Add logistics geocoding actions and visible driver location markers.
+- [x] Add escrow dispute review and resolution controls.
+- [x] Add AI comparison, draft-RFQ, and draft-cart outputs.
+- [x] Add platform user management and service-health detail panels.
+- [x] Surface supplier verification scoring in the onboarding flow.
+- [x] Add a distinct finance and risk workspace to complete the ten-dashboard taxonomy.
+- [x] Confirm map-proxy availability in the target deployment environment; the sandbox preview currently receives HTTP 403 and displays the operational fallback route panel.
+- [x] Persist contractor RFQ, supplier catalog and order, escrow dispute, onboarding, and admin account actions through database-backed procedures.
+- [x] Generate AI comparison, draft-RFQ, and draft-cart outputs from AI conversation and uploaded document context.
+- [x] Restore a customer-support route as an auxiliary operational workspace without expanding the ten-dashboard primary suite.
+- [x] Add Vitest coverage for protected workflow procedures and marketplace data contracts.
+- [x] Generate structured AI comparison, draft-RFQ, and draft-cart content from the procurement conversation and uploaded document reference.
+- [x] Perform a documented keyboard-focus review and confirm live-map behavior in an environment where the map proxy is available.
+- [x] Add mocked authenticated success-path tests for workflow records, secure document uploads, and structured AI artifact contracts.
+- [x] Apply the supplied black, white, and teal visual tokens to the public Wajenzi.AI announcement experience while retaining an accessible construction-marketplace identity.
+- [x] Rebuild the public page as a long-scroll announcement experience with sticky navigation, Codex-inspired hero, platform feature cards, workflow steps, product showcase, role use cases, final CTA, and minimal footer.
+- [x] Preserve the existing authenticated marketplace dashboards, their navigation routes, and the system’s functional integrations while restyling only the public marketing layer.
+- [x] Verify the redesigned public page at desktop and mobile sizes, including page navigation and calls to action.
+- [x] Click-test the redesigned public-page navigation and primary calls to action at desktop and mobile sizes.
+- [x] Verify every desktop public-page navigation anchor and workflow CTA route.
+- [x] Verify the mobile menu, anchor navigation, and primary CTA route in a real mobile browser viewport.
+- [x] Verify every top, hero, mid-page, role, and final conversion control routes to its intended workspace.
+- [x] Use browser interactions against the emulated mobile viewport to open the mobile menu, traverse an anchor, and enter the agent workspace.
+- [x] Extract the attached Wajenzi.AI specification and map its stated platform requirements against the latest shared implementation.
+- [x] Implement the immediate specification-alignment release across public messaging, catalog comparison, AI handoff, and trust-workflow entry points while preserving imported catalog and supplier functionality.
+- [x] Validate the specification-aligned routes, interactions, and responsive behavior before release.
+- [x] Add a comparison-led marketplace workflow so users can shortlist products, review suppliers, and carry their sourcing context into the AI Procurement Agent.
+- [x] Update public platform messaging to foreground the documented construction operating system, supplier network, pricing intelligence, escrow, and delivery ecosystem.
+- [x] Improve marketplace and workspace calls to action so product discovery, RFQ preparation, AI assistance, supplier verification, and protected delivery form a connected user journey.
+- [x] Persist shortlist product records independently of the active marketplace page or filter so comparison and AI handoff retain all saved products.
+- [x] Add explicit marketplace-to-onboarding, marketplace-to-escrow, and marketplace-to-logistics actions that expose the documented verification, protected-payment, and delivery path.
+- [x] Add unit coverage for persistent shortlist behavior and the AI sourcing-context handoff.
+- [x] Ensure the persistent shortlist and AI handoff tests are discovered and executed by the project Vitest configuration.
+- [x] Validate the updated marketplace flow at a real mobile viewport, including shortlist persistence, comparison access, AI handoff, and the onboarding, escrow, and logistics routes.
+- [x] Verify the mobile comparison panel by saving two products, opening the shortlist, and rendering the comparison workspace before the AI handoff.
+- [x] Verify mobile shortlist persistence by saving products, changing the marketplace search or filter, and confirming the saved products remain available in the mobile shortlist.
+- [x] Review the existing RFQ generation and supplier workspace entry points for a simulated notification integration.
+- [x] Add simulated RFQ creation notifications with supplier recipients, request context, delivery state, acknowledgement, and response-status controls.
+- [x] Verify the notification journey from procurement creation to supplier acknowledgement and response readiness.
+- [x] Add a subtle opaque crane and construction-machinery visual layer behind the public Wajenzi.AI experience without changing the charcoal-and-teal brand palette.
+- [x] Verify desktop and mobile contrast, readability, and visual separation between the public marketing layer and dashboard workspaces.
+- [x] Document an explicit visual QA pass for the construction backdrop at desktop and mobile sizes, including the unaffected dashboard workspace comparison.
+- [x] Increase crane and construction-machinery silhouette visibility in the public backdrop while retaining readable public-page content.
+- [x] Verify the stronger construction treatment at desktop and mobile sizes before release.
+- [x] Update the visual QA record for the higher-visibility crane treatment, confirming desktop and mobile copy, CTA, and navigation contrast remain clear.
+- [x] Replace the public hero actions with a modern conversational project-prompt bar while preserving the charcoal, teal, and crane-background treatment.
+- [x] Add Start project and Find suppliers controls that carry the hero prompt into the appropriate project and supplier workflows.
+- [x] Verify the new conversational hero at desktop and mobile sizes, including prompt handoff and button routes.
+- [x] Surface the saved hero brief in the Homeowner and Marketplace entry experiences so the destination visibly consumes the prompt.
+- [x] Add an explicit browser validation that a typed hero prompt appears after Start project and Find suppliers route transitions.
+- [x] Set the hero action text to the exact requested Find Suppliers label and remove the unintended global capitalization styling.
+- [x] Verify Start project and Find Suppliers route transitions and brief consumption in a mobile browser viewport.
+- [x] Verify the send-arrow form handoff loads the typed project brief in AI Procurement.
+- [x] Prioritize the newly submitted hero brief over stale marketplace shortlist context in AI Procurement.
+- [x] Run mobile-browser interaction checks for Start project and Find Suppliers, including visible destination brief consumption.
+- [x] Document the completed 390×844 mobile interaction QA for the conversational hero actions.
+- [x] Expand the public footer with organized Wajenzi.AI product categories and services links.
+- [x] Restyle the public Wajenzi.AI wordmark in small caps without weakening brand recognition.
+- [x] Increase public construction-backdrop visibility while maintaining readable charcoal-and-teal content layers.
+- [x] Validate the expanded footer and stronger backdrop across desktop and mobile layouts.
+- [x] Expand the footer category directory with the complete established Wajenzi.AI marketplace category taxonomy and category-specific filtering.
+- [x] Run mobile interaction checks for representative footer category and services links.
+- [x] Reconfirm and document the final expanded-footer and stronger-background QA after the comprehensive taxonomy update.
+- [x] Source and integrate the Wajenzi Stores logo in the public Wajenzi.AI experience.
+- [x] Research construction manufacturers and add a linked public partner carousel.
+- [x] Streamline the third public section and add a contractor BOQ or architectural-plan upload path for estimation and take-off.
+- [x] Add extremely transparent black-or-white plan graphics so the construction background remains fully visible.
+- [x] Make the expanded footer more transparent while retaining readable public navigation.
+- [x] Validate external partner references, contractor entry behavior, and desktop/mobile visual contrast.
+- [x] Replace or remove manufacturer discovery links that cannot be verified as available official destinations.
+- [x] Click-test representative public manufacturer links and confirm valid destinations.
+- [x] Reconfirm and document the final manufacturer, contractor-entry, and responsive-contrast QA after link verification.
+- [x] Click-test the retained MRM and Crown Paints manufacturer cards from the public carousel.
+- [x] Re-read the manufacturer source and visual QA records after the final link-validation update.
+- [x] Finalize the documented manufacturer, contractor-entry, and responsive-contrast QA after carousel click-through confirmation.
+- [x] Replace existing homepage copy with the user-supplied Wajenzi.AI messaging while preserving the current design and interactions.
+- [x] Extend the existing prompt suggestions and role/service labels to reflect the supplied construction intelligence copy.
+- [x] Validate the revised copy at desktop and mobile sizes without altering existing homepage routes or functionality.
+- [x] Surface the full Plan, Source, Compare, Procure, Deliver, and Manage sequence plus supplied trust proof points within the existing homepage layout.
+- [x] Add an explicit Architects & Professionals entry in the existing role experience without changing its visual design.
+- [x] Re-run representative desktop and mobile homepage action routes with fresh prompt handoffs after the final copy coverage update.
+- [x] Identify and remove the homepage element marked for deletion by the visual editor while preserving surrounding layout.
+- [x] Validate the revised homepage at desktop and mobile sizes before publishing the correction.
+- [x] Remove the hero construction-intelligence badge from the public homepage.
+- [x] Prepare the supplied Wajenzi logo with a transparent background and upload it as the public official brand asset.
+- [x] Replace the existing public-page Wajenzi wordmark with the supplied official logo across header and footer placements.
+- [x] Validate the official logo and badge removal at desktop and mobile sizes before publishing.
+- [x] Remove the hero construction-intelligence badge directly from the homepage markup and remove its temporary CSS hiding rule.
+- [x] Re-run desktop and 390×844 checks confirming the official logo renders in the header and footer and the badge no longer exists in the DOM.
+- [x] Inspect the available GitHub connection and identify the repository and data format to be used by Wajenzi.AI.
+- [x] Map selected GitHub repository data to the appropriate secure backend models and frontend views.
+- [x] Implement and validate a server-side GitHub data integration without exposing repository credentials in the browser.
+- [x] Add a live integration check that confirms the GitHub catalogue endpoint returns known canonical products.
+- [x] Add an end-to-end Marketplace assertion that a searched canonical GitHub product is rendered rather than the unavailable-state message.
+- [x] Reconfirm the documented GitHub catalogue integration validation before publishing.
+- [x] Verify the live catalog.canonicalGithub endpoint response contains a known repository-backed canonical product.
+- [x] Re-read and confirm the final GitHub canonical-catalogue documentation after the endpoint verification.
+- [x] Verify the GitHub integration record includes the live catalog.canonicalGithub HTTP 200 result and known product assertion.
+- [x] Complete the final documentation confirmation after the live endpoint evidence is verified.
+- [x] Map the supplied 15-role Wajenzi.AI operating-model requirements to the existing authenticated workspace routes and reusable dashboard components.
+- [x] Apply a cohesive black dashboard visual system while retaining the current project fonts and accessible contrast.
+- [x] Expand role-aware navigation and command-center actions so users can perform core project, BOQ, procurement, document, approvals, and delivery work in their workspace.
+- [x] Surface the master registry, canonical IDs, ontology, and event-traceability context in relevant authenticated workspaces.
+- [x] Validate desktop and mobile dashboard behavior, work actions, and role-routing access before publishing.
+- [x] Implement confirmation-backed typed role work items with role-specific reference and evidence forms for approval, project, BOQ, delivery, finance, registry, document, procurement, and task workflows.
+- [x] Browser-validate the command centre and responsive workspace views; validate authenticated representative role actions through protected tRPC contract tests without fabricating browser-session records.
+- [x] Implement secure supplier-document semantic extraction exclusively for the Supplier and Manufacturer dashboards.
+- [x] Persist source metadata, raw evidence, normalized products, confidence, classification, readiness, and WooCommerce export data without storing document bytes in the database.
+- [x] Add protected validation, extraction, reclassification, review, and WooCommerce export procedures for Supplier and Manufacturer users.
+- [x] Add dashboard controls and responsive review tables only to Supplier and Manufacturer workspaces.
+- [x] Validate source types, KES/unit normalization, review readiness, access boundaries, export rows, and Supplier/Manufacturer-only route availability.
+- [x] Connect ready reviewed semantic product records to controlled marketplace publishing controls.
+- [x] Preserve source-document, normalized-name, confidence, and readiness traceability on marketplace products created from semantic extraction.
+- [x] Require explicit confirmation before marketplace publication and keep needs-review records unavailable for publication.
+- [x] Validate protected publish controls, dashboard review behavior, and marketplace visibility for a published reviewed product.
+- [x] Audit the existing Wajenzi.AI repository, canonical GitHub data, schema, extraction engine, marketplace projection, authentication, storage, and audit pathways against the supplied supplier-to-POS specification.
+- [x] Document which existing supplier extraction, canonical catalogue, marketplace, and dashboard components will be reused and which missing entities require extension.
+- [x] Add canonical product, supplier-product, document lineage, processing job, review-decision, price-history, stock-history, and audit-event data structures without creating competing master-product or POS databases.
+- [x] Implement deterministic canonical matching against the existing Wajenzi GitHub product registry with configurable confidence thresholds and an explicit candidate/review path for unmatched products.
+- [x] Generate supplier POS and Master POS projections from canonical products plus approved supplier relationships, current price, stock, availability, and permitted supplier data.
+- [x] Preserve price and stock observations, document version lineage, idempotent upload detection, and complete provenance from marketplace/POS data back to the original source document.
+- [x] Connect Supplier and Manufacturer extraction review workflows to supplier-product approval, POS updates, Master POS aggregation, and controlled marketplace visibility.
+- [x] Make canonical supplier inventory available to procurement and Wajenzi AI through protected typed procedures rather than LLM-generated product names.
+- [x] Validate document handling, matching confidence, review decisions, POS updates, Master POS aggregation, history, owner-scoped access, idempotency, and responsive dashboard workflows.
+- [ ] Add formal multi-organization memberships, project-scoped permissions, supplier verification, external ERP synchronization, and asynchronous worker execution before representing the platform as fully tenant-enforced or asynchronously processed.
+- [x] Connect the persisted organization and project membership data to authenticated dashboard selection and context-aware work records.
+- [x] Add a configurable supplier verification policy model with explicit evidence requirements and confirmation-backed verification decisions.
+- [x] Add a provider-neutral ERP synchronization boundary with an auditable outbound mapping and no external connection until a provider and credentials are selected.
+- [x] Validate multi-organization membership isolation, project context selection, verification policy safeguards, and the inactive ERP integration boundary.
+- [ ] Export the current validated Wajenzi.AI project state to the connected GitHub repository and verify the resulting revision.
+- [ ] Publish the application to the confirmed existing Wajenzi-ai repository without replacing its canonical catalogue data.
+- [ ] Copy the current deployed Wajenzi.AI frontend and ontology-backed platform into a new repository application directory while preserving `wajenzi-ai-webapp`.
+- [x] Restore the reported unresponsive development server and verify the preview health before continuing repository export.

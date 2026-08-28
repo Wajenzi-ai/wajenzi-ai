@@ -1,0 +1,1 @@
+ALTER TABLE `semanticSourceDocuments` MODIFY COLUMN `rawText` mediumtext;
