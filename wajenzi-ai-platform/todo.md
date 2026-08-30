@@ -151,7 +151,15 @@
 - [x] Add a configurable supplier verification policy model with explicit evidence requirements and confirmation-backed verification decisions.
 - [x] Add a provider-neutral ERP synchronization boundary with an auditable outbound mapping and no external connection until a provider and credentials are selected.
 - [x] Validate multi-organization membership isolation, project context selection, verification policy safeguards, and the inactive ERP integration boundary.
-- [ ] Export the current validated Wajenzi.AI project state to the connected GitHub repository and verify the resulting revision.
-- [ ] Publish the application to the confirmed existing Wajenzi-ai repository without replacing its canonical catalogue data.
-- [ ] Copy the current deployed Wajenzi.AI frontend and ontology-backed platform into a new repository application directory while preserving `wajenzi-ai-webapp`.
+- [x] Export the current validated Wajenzi.AI project state to the connected GitHub repository and verify the resulting revision.
+- [x] Publish the application to the confirmed existing Wajenzi-ai repository without replacing its canonical catalogue data.
+- [x] Copy the current deployed Wajenzi.AI frontend and ontology-backed platform into a new repository application directory while preserving `wajenzi-ai-webapp`.
+- [x] Prepare the exported Wajenzi.AI frontend for Vercel deployment while retaining ontology and product data through supported read-only sources.
+- [x] Diagnose and correct the reported Vercel frontend deployment visibility failure without changing existing ontology or product data sources.
+- [x] Inspect the provided Vercel deployment URL and correct the specific served-directory, build, or runtime issue found.
 - [x] Restore the reported unresponsive development server and verify the preview health before continuing repository export.
+- [x] Verify and document that the deployed frontend remains connected to the original Wajenzi ontology, canonical catalogue, supplier products, and existing platform data boundaries.
+- [x] Connect the Wajenzi.AI application to the intended database through server-side access without duplicating or exposing ontology and product data.
+- [x] Finish and validate the attached multi-role platform implementation against the master prompt, documenting provider-dependent limits instead of claiming unsupported capabilities.
+- [x] Push the latest validated Wajenzi.AI project changes through the authorized GitHub and Vercel connections and verify both publication results.
+- [ ] Implement only the missing shared subdomain routing, centralized role/domain/permission configuration, and safe deployment/domain configuration from pasted_content_2.txt; preserve existing infrastructure and publish through linked connectors.
