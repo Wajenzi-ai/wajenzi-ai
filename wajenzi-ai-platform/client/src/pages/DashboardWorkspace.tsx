@@ -10,6 +10,8 @@ import { MetricCard, PageHeader, SectionCard, StatePill } from "@/components/das
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { clearHeroBrief, readAiProcurementBrief, readHeroBrief, saveHeroBrief } from "@/lib/heroBrief";
+import { getHostnameDefinition, hasHostnameWorkspaceAccess } from "@/lib/subdomainRouting";
+import { useAuth } from "@/_core/hooks/useAuth";
 import { dashboardByKey, dashboardNavigation, formatKES, type DashboardKey } from "@/lib/wajenzi";
 import { trpc } from "@/lib/trpc";
 import { cn } from "@/lib/utils";
@@ -127,8 +129,32 @@ function WorkspaceRouter({ current }: { current: DashboardKey }) {
   return <DashboardEnhancements current={current}>{content}</DashboardEnhancements>;
 }
 
+function HostnameAccessGate({ children }: { children: React.ReactNode }) {
+  const { user, isAuthenticated, loading } = useAuth({ redirectOnUnauthenticated: false });
+  const organizations = trpc.context.organizations.useQuery(undefined, { enabled: isAuthenticated });
+  const projectsInput = useMemo(() => ({}), []);
+  const projects = trpc.context.projects.useQuery(projectsInput, { enabled: isAuthenticated });
+  const definition = typeof window === "undefined" ? null : getHostnameDefinition(window.location.hostname);
+
+  if (!definition) return <>{children}</>;
+  if (loading || organizations.isLoading || projects.isLoading) return <div className="surface-soft mx-auto max-w-xl p-8 text-center"><p className="eyebrow">Secure workspace</p><h1 className="mt-3 font-display text-2xl font-semibold">Checking your Wajenzi access…</h1><p className="mt-3 text-sm text-muted-foreground">Your identity and active memberships are being verified before this role workspace opens.</p></div>;
+  if (!isAuthenticated || !user) return <AccessMessage title="Sign in required" detail={`Sign in with your Wajenzi identity to open the ${definition.label.toLowerCase()}.`} action="Sign in to continue" />;
+
+  const workspaceRoles = (organizations.data ?? []).map((entry) => entry.membership.workspaceRole);
+  const projectRoles = (projects.data ?? []).map((entry) => entry.membership.projectRole);
+  if (!hasHostnameWorkspaceAccess(definition.access, { userRole: user.role, workspaceRoles, projectRoles })) {
+    return <AccessMessage title="Workspace access required" detail={`This hostname is reserved for ${definition.label.toLowerCase()}. Your current identity has not been granted a matching active membership.`} action="Open universal workspace" />;
+  }
+  return <>{children}</>;
+}
+
+function AccessMessage({ title, detail, action }: { title: string; detail: string; action: string }) {
+  const [, setLocation] = useLocation();
+  return <div className="surface-soft mx-auto max-w-xl p-8 text-center"><p className="eyebrow">Wajenzi identity control</p><h1 className="mt-3 font-display text-2xl font-semibold">{title}</h1><p className="mt-3 text-sm leading-6 text-muted-foreground">{detail}</p><Button onClick={() => setLocation("/app")} className="btn-press mt-6 bg-foreground text-background hover:bg-foreground/90">{action}</Button></div>;
+}
+
 export default function DashboardWorkspace() {
   const [location] = useLocation();
   const dashboard = useMemo(() => dashboardNavigation.find((item) => item.path === location) ?? dashboardNavigation[0], [location]);
-  return <DashboardLayout><div className="motion-in"><WorkspaceRouter current={dashboard.key} /></div><p className="mt-6 text-center text-[10px] text-muted-foreground">Illustrative workspace data is shown until your verified marketplace data sources are connected.</p></DashboardLayout>;
+  return <DashboardLayout><HostnameAccessGate><div className="motion-in"><WorkspaceRouter current={dashboard.key} /></div><p className="mt-6 text-center text-[10px] text-muted-foreground">Illustrative workspace data is shown until your verified marketplace data sources are connected.</p></HostnameAccessGate></DashboardLayout>;
 }

@@ -12,7 +12,7 @@ export function GitHubCanonicalCataloguePanel() {
   return <aside className="fixed bottom-4 right-4 z-40 w-[min(23rem,calc(100vw-2rem))] rounded-2xl border border-teal-300/25 bg-[#07110f]/95 p-3 text-white shadow-[0_24px_65px_-26px_rgba(4,18,15,.8)] backdrop-blur-xl">
     <button onClick={() => setOpen((value) => !value)} aria-expanded={open} className="btn-press flex w-full items-center gap-3 rounded-xl px-2 py-1 text-left hover:bg-white/[.04]">
       <span className="grid size-9 shrink-0 place-items-center rounded-lg border border-teal-300/20 bg-teal-400/10 text-teal-200"><Github className="size-4" /></span>
-      <span className="min-w-0 flex-1"><span className="block font-mono text-[10px] font-semibold uppercase tracking-[.14em] text-teal-200">GitHub catalogue source</span><span className="mt-0.5 block truncate text-xs text-zinc-300">Canonical product identity reference</span></span>
+      <span className="min-w-0 flex-1"><span className="block truncate text-xs text-zinc-300">Canonical product identity reference</span></span>
       <ChevronDown className={`size-4 text-zinc-400 transition ${open ? "rotate-180" : ""}`} />
     </button>
     {open && <div className="px-2 pb-2 pt-4">
