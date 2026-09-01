@@ -19,7 +19,7 @@ id uuid primary key references auth.users(id) on delete cascade,
 full_name text,
 email text,
 company_name text,
-role text check (role in ('contractor', 'supplier', 'manufacturer')),
+role text check (role in ('contractor', 'supplier', 'manufacturer', 'admin')),
 created_at timestamptz default now()
 ```
 

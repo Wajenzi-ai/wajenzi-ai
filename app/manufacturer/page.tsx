@@ -1,6 +1,6 @@
 "use client";
 
-import { Boxes, PackageCheck } from "lucide-react";
+import { Boxes, Factory, PackageCheck, TrendingUp } from "lucide-react";
 import { AuthGuard } from "@/components/AuthGuard";
 import { DashboardShell } from "@/components/DashboardShell";
 
@@ -10,22 +10,24 @@ export default function ManufacturerDashboard() {
       {(profile) => (
         <DashboardShell
           profile={profile}
-          title="Manufacturer Dashboard"
-          subtitle="Prepare product availability and monitor procurement orders."
+          title="Manufacturer hub"
+          subtitle="Keep product availability trusted across the marketplace and monitor the demand flowing to your distribution network."
         >
           <section className="dashboard-grid two">
             <article className="dashboard-card">
               <Boxes size={22} />
               <span>Products</span>
-              <strong>Catalog draft</strong>
-              <p>Placeholder area for SKUs, inventory status, and product specifications.</p>
+              <strong>248 live SKUs</strong>
+              <p>Product identity, pack sizes and technical specifications are current.</p>
             </article>
             <article className="dashboard-card">
               <PackageCheck size={22} />
               <span>Orders</span>
               <strong>6 pending</strong>
-              <p>Placeholder area for purchase order status and fulfillment notes.</p>
+              <p>Purchase orders awaiting allocation to your distribution network.</p>
             </article>
+            <article className="dashboard-card"><Factory size={22} /><span>Availability signal</span><strong>96% healthy</strong><p>Two products are approaching stock thresholds at Nairobi facilities.</p></article>
+            <article className="dashboard-card"><TrendingUp size={22} /><span>Demand trend</span><strong>+24%</strong><p>Demand for cement and coatings versus last month.</p></article>
           </section>
         </DashboardShell>
       )}
