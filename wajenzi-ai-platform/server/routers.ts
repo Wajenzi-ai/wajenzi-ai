@@ -13,6 +13,7 @@ import { getGitHubCanonicalCatalogue, getGitHubCanonicalProductIndex } from "./g
 import { parseSemanticDocument, semanticWorkspaces, toWooCommerceCsv } from "./semanticExtraction";
 import { storageGetSignedUrl } from "./storage";
 import { matchCanonicalProduct } from "./canonicalMatching";
+import { marketOperationsRouter } from "./marketOperationsRouter";
 
 const uploadInput = z.object({
   originalName: z.string().min(1).max(255),
@@ -24,7 +25,7 @@ const uploadInput = z.object({
 });
 
 const agentHistory = z.array(z.object({ role: z.enum(["user", "assistant"]), content: z.string().min(1).max(3000) })).max(8);
-const catalogFilters = z.object({ search: z.string().trim().max(120).optional(), category: z.string().trim().max(100).optional(), sort: z.enum(["featured", "price_asc", "price_desc", "name_asc"]).optional(), page: z.number().int().min(1).default(1), pageSize: z.number().int().min(12).max(60).default(48) });
+const catalogFilters = z.object({ search: z.string().trim().max(120).optional(), category: z.string().trim().max(100).optional(), brand: z.string().trim().max(120).optional(), supplier: z.string().trim().max(180).optional(), location: z.string().trim().max(180).optional(), minPriceKes: z.number().int().nonnegative().optional(), maxPriceKes: z.number().int().nonnegative().optional(), minLeadTimeDays: z.number().int().nonnegative().max(365).optional(), maxLeadTimeDays: z.number().int().nonnegative().max(365).optional(), verification: z.enum(["verified", "review"]).optional(), inStockOnly: z.boolean().optional(), sort: z.enum(["featured", "price_asc", "price_desc", "name_asc"]).optional(), page: z.number().int().min(1).default(1), pageSize: z.number().int().min(12).max(60).default(48) });
 const catalogImportInput = z.object({ originalName: z.string().min(1).max(255), contentType: z.string().min(3).max(160), base64: z.string().min(1), supplierId: z.number().int().nonnegative().default(0) });
 const roleWorkItemInput = z.object({ workspace: z.enum(workspaceSlugs), workType: z.enum(["project", "boq", "procurement", "document", "approval", "delivery", "finance", "registry", "task"]), title: z.string().trim().min(2).max(220), description: z.string().trim().max(2000).optional(), status: z.enum(["draft", "in_progress", "review", "approved", "completed", "cancelled"]).default("draft"), organizationId: z.number().int().positive().optional(), projectId: z.number().int().positive().optional(), context: z.record(z.string(), z.string()).optional() });
 const adminProcedure = protectedProcedure.use(({ ctx, next }) => {
@@ -301,6 +302,7 @@ export const appRouter = router({
       return { marketplaceProductId: product.marketplaceProductId, status: "unpublished" as const };
     }),
   }),
+  marketOperations: marketOperationsRouter,
   ai: router({
     procure: protectedProcedure.input(z.object({ message: z.string().min(2).max(5000), projectContext: z.string().max(3000).optional(), history: agentHistory.default([]) })).mutation(async ({ input }) => {
       const { data } = await listLLMModels();

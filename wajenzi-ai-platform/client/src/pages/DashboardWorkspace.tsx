@@ -5,6 +5,7 @@ import { DeliveryMap } from "@/components/DeliveryMap";
 import DashboardLayout from "@/components/DashboardLayout";
 import { RoleOperatingDashboard } from "@/components/RoleOperatingDashboard";
 import { SemanticExtractionPanel } from "@/components/SemanticExtractionPanel";
+import { MarketOperationsPanel } from "@/components/MarketOperationsPanel";
 import { DocumentUpload } from "@/components/DocumentUpload";
 import { MetricCard, PageHeader, SectionCard, StatePill } from "@/components/dashboard-ui";
 import { Button } from "@/components/ui/button";
@@ -156,5 +157,5 @@ function AccessMessage({ title, detail, action }: { title: string; detail: strin
 export default function DashboardWorkspace() {
   const [location] = useLocation();
   const dashboard = useMemo(() => dashboardNavigation.find((item) => item.path === location) ?? dashboardNavigation[0], [location]);
-  return <DashboardLayout><HostnameAccessGate><div className="motion-in"><WorkspaceRouter current={dashboard.key} /></div><p className="mt-6 text-center text-[10px] text-muted-foreground">Illustrative workspace data is shown until your verified marketplace data sources are connected.</p></HostnameAccessGate></DashboardLayout>;
+  return <DashboardLayout><HostnameAccessGate><div className="motion-in"><WorkspaceRouter current={dashboard.key} />{["homeowner", "contractor"].includes(dashboard.key) && <div className="mt-5"><MarketOperationsPanel mode="buyer" /></div>}{dashboard.key === "supplier" && <div className="mt-5"><MarketOperationsPanel mode="supplier" /></div>}{dashboard.key === "projects" && <div className="mt-5"><MarketOperationsPanel mode="project" /></div>}</div><p className="mt-6 text-center text-[10px] text-muted-foreground">Illustrative workspace data is shown until your verified marketplace data sources are connected.</p></HostnameAccessGate></DashboardLayout>;
 }

@@ -458,3 +458,254 @@ export type InsertProductCatalogItem = typeof productCatalogItems.$inferInsert;
 export type InsertRoleWorkItem = typeof roleWorkItems.$inferInsert;
 export type InsertSemanticSourceDocument = typeof semanticSourceDocuments.$inferInsert;
 export type InsertSemanticProductRecord = typeof semanticProductRecords.$inferInsert;
+
+
+/** Additive market-ready operating entities. Existing catalog, POS, project, and audit tables remain unchanged. */
+export const marketplaceSavedLists = mysqlTable("marketplaceSavedLists", {
+  id: int("id").autoincrement().primaryKey(),
+  ownerUserId: int("ownerUserId").notNull(),
+  organizationId: int("organizationId"),
+  name: varchar("name", { length: 180 }).notNull(),
+  status: mysqlEnum("status", ["active", "archived"]).default("active").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => [index("saved_list_owner_idx").on(table.ownerUserId), index("saved_list_org_idx").on(table.organizationId), index("saved_list_status_idx").on(table.status)]);
+
+export const marketplaceSavedItems = mysqlTable("marketplaceSavedItems", {
+  id: int("id").autoincrement().primaryKey(),
+  listId: int("listId").notNull(),
+  ownerUserId: int("ownerUserId").notNull(),
+  productCatalogItemId: int("productCatalogItemId"),
+  supplierProductId: int("supplierProductId"),
+  canonicalProductId: int("canonicalProductId"),
+  notes: text("notes"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => [index("saved_item_list_idx").on(table.listId), index("saved_item_owner_idx").on(table.ownerUserId), uniqueIndex("saved_item_list_product_unique").on(table.listId, table.productCatalogItemId, table.supplierProductId)]);
+
+export const marketplaceCarts = mysqlTable("marketplaceCarts", {
+  id: int("id").autoincrement().primaryKey(),
+  ownerUserId: int("ownerUserId").notNull(),
+  organizationId: int("organizationId"),
+  projectId: int("projectId"),
+  status: mysqlEnum("status", ["open", "submitted", "converted", "abandoned"]).default("open").notNull(),
+  deliveryLocation: varchar("deliveryLocation", { length: 255 }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => [index("cart_owner_idx").on(table.ownerUserId), index("cart_org_idx").on(table.organizationId), index("cart_project_idx").on(table.projectId), index("cart_status_idx").on(table.status)]);
+
+export const marketplaceCartItems = mysqlTable("marketplaceCartItems", {
+  id: int("id").autoincrement().primaryKey(),
+  cartId: int("cartId").notNull(),
+  ownerUserId: int("ownerUserId").notNull(),
+  productCatalogItemId: int("productCatalogItemId"),
+  supplierProductId: int("supplierProductId"),
+  canonicalProductId: int("canonicalProductId"),
+  quantity: int("quantity").notNull(),
+  requiredBy: timestamp("requiredBy"),
+  sourceSnapshot: json("sourceSnapshot"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => [index("cart_item_cart_idx").on(table.cartId), index("cart_item_owner_idx").on(table.ownerUserId)]);
+
+export const marketplaceRfqRequests = mysqlTable("marketplaceRfqRequests", {
+  id: int("id").autoincrement().primaryKey(),
+  ownerUserId: int("ownerUserId").notNull(),
+  organizationId: int("organizationId"),
+  projectId: int("projectId"),
+  title: varchar("title", { length: 220 }).notNull(),
+  deliveryLocation: varchar("deliveryLocation", { length: 255 }),
+  needBy: timestamp("needBy"),
+  status: mysqlEnum("status", ["draft", "sent", "quoted", "awarded", "cancelled"]).default("draft").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => [index("market_rfq_owner_idx").on(table.ownerUserId), index("market_rfq_org_idx").on(table.organizationId), index("market_rfq_project_idx").on(table.projectId), index("market_rfq_status_idx").on(table.status)]);
+
+export const marketplaceRfqItems = mysqlTable("marketplaceRfqItems", {
+  id: int("id").autoincrement().primaryKey(),
+  rfqId: int("rfqId").notNull(),
+  ownerUserId: int("ownerUserId").notNull(),
+  productCatalogItemId: int("productCatalogItemId"),
+  supplierProductId: int("supplierProductId"),
+  canonicalProductId: int("canonicalProductId"),
+  description: varchar("description", { length: 500 }).notNull(),
+  quantity: int("quantity").notNull(),
+  unit: varchar("unit", { length: 40 }),
+  requiredBy: timestamp("requiredBy"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => [index("market_rfq_item_rfq_idx").on(table.rfqId), index("market_rfq_item_owner_idx").on(table.ownerUserId), index("market_rfq_item_canonical_idx").on(table.canonicalProductId)]);
+
+export const marketplaceQuotes = mysqlTable("marketplaceQuotes", {
+  id: int("id").autoincrement().primaryKey(),
+  rfqId: int("rfqId").notNull(),
+  supplierOrganizationId: int("supplierOrganizationId").notNull(),
+  supplierUserId: int("supplierUserId").notNull(),
+  status: mysqlEnum("status", ["draft", "submitted", "accepted", "declined", "expired"]).default("draft").notNull(),
+  subtotalKes: int("subtotalKes").default(0).notNull(),
+  deliveryKes: int("deliveryKes").default(0).notNull(),
+  totalKes: int("totalKes").default(0).notNull(),
+  validUntil: timestamp("validUntil"),
+  leadTimeDays: int("leadTimeDays"),
+  deliveryPromise: varchar("deliveryPromise", { length: 255 }),
+  evidence: json("evidence"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => [index("market_quote_rfq_idx").on(table.rfqId), index("market_quote_supplier_idx").on(table.supplierOrganizationId), index("market_quote_status_idx").on(table.status)]);
+
+export const marketplacePurchaseOrders = mysqlTable("marketplacePurchaseOrders", {
+  id: int("id").autoincrement().primaryKey(),
+  rfqId: int("rfqId"),
+  quoteId: int("quoteId"),
+  ownerUserId: int("ownerUserId").notNull(),
+  organizationId: int("organizationId"),
+  projectId: int("projectId"),
+  reference: varchar("reference", { length: 90 }).notNull().unique(),
+  status: mysqlEnum("status", ["pending_approval", "approved", "submitted", "fulfilling", "delivered", "invoiced", "cancelled"]).default("pending_approval").notNull(),
+  subtotalKes: int("subtotalKes").default(0).notNull(),
+  deliveryKes: int("deliveryKes").default(0).notNull(),
+  totalKes: int("totalKes").default(0).notNull(),
+  approvedByUserId: int("approvedByUserId"),
+  approvedAt: timestamp("approvedAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => [index("market_po_owner_idx").on(table.ownerUserId), index("market_po_org_idx").on(table.organizationId), index("market_po_project_idx").on(table.projectId), index("market_po_status_idx").on(table.status)]);
+
+export const marketplaceOrderTrackingEvents = mysqlTable("marketplaceOrderTrackingEvents", {
+  id: int("id").autoincrement().primaryKey(),
+  purchaseOrderId: int("purchaseOrderId").notNull(),
+  ownerUserId: int("ownerUserId").notNull(),
+  status: varchar("status", { length: 80 }).notNull(),
+  location: varchar("location", { length: 255 }),
+  note: text("note"),
+  evidenceFileId: int("evidenceFileId"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => [index("order_event_order_idx").on(table.purchaseOrderId), index("order_event_owner_idx").on(table.ownerUserId)]);
+
+export const supplierFacilities = mysqlTable("supplierFacilities", {
+  id: int("id").autoincrement().primaryKey(),
+  supplierOrganizationId: int("supplierOrganizationId").notNull(),
+  name: varchar("name", { length: 180 }).notNull(),
+  location: varchar("location", { length: 255 }).notNull(),
+  deliveryZones: json("deliveryZones"),
+  businessHours: json("businessHours"),
+  paymentTerms: varchar("paymentTerms", { length: 180 }),
+  status: mysqlEnum("status", ["draft", "active", "suspended"]).default("draft").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => [index("facility_supplier_idx").on(table.supplierOrganizationId), index("facility_status_idx").on(table.status)]);
+
+export const supplierReliabilityMetrics = mysqlTable("supplierReliabilityMetrics", {
+  id: int("id").autoincrement().primaryKey(),
+  supplierOrganizationId: int("supplierOrganizationId").notNull().unique(),
+  fulfilmentRate: int("fulfilmentRate").default(0).notNull(),
+  onTimeRate: int("onTimeRate").default(0).notNull(),
+  responseRate: int("responseRate").default(0).notNull(),
+  disputeRate: int("disputeRate").default(0).notNull(),
+  completedOrders: int("completedOrders").default(0).notNull(),
+  evidence: json("evidence"),
+  calculatedAt: timestamp("calculatedAt").defaultNow().notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export const supplierVerifiedReviews = mysqlTable("supplierVerifiedReviews", {
+  id: int("id").autoincrement().primaryKey(),
+  supplierOrganizationId: int("supplierOrganizationId").notNull(),
+  reviewerUserId: int("reviewerUserId").notNull(),
+  purchaseOrderId: int("purchaseOrderId").notNull(),
+  rating: int("rating").notNull(),
+  reviewText: text("reviewText"),
+  verificationEvidence: json("verificationEvidence"),
+  status: mysqlEnum("status", ["submitted", "published", "hidden"]).default("submitted").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => [index("supplier_review_supplier_idx").on(table.supplierOrganizationId), index("supplier_review_order_idx").on(table.purchaseOrderId), uniqueIndex("supplier_review_order_reviewer_unique").on(table.purchaseOrderId, table.reviewerUserId)]);
+
+export const projectOperations = mysqlTable("projectOperations", {
+  id: int("id").autoincrement().primaryKey(),
+  projectId: int("projectId").notNull().unique(),
+  organizationId: int("organizationId").notNull(),
+  projectType: varchar("projectType", { length: 120 }),
+  scope: text("scope"),
+  stage: varchar("stage", { length: 100 }),
+  timelineStart: timestamp("timelineStart"),
+  timelineEnd: timestamp("timelineEnd"),
+  ownerUserId: int("ownerUserId"),
+  contractorOrganizationId: int("contractorOrganizationId"),
+  forecastKes: int("forecastKes").default(0).notNull(),
+  actualSpendKes: int("actualSpendKes").default(0).notNull(),
+  cashFlow: json("cashFlow"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => [index("project_ops_org_idx").on(table.organizationId), index("project_ops_owner_idx").on(table.ownerUserId)]);
+
+export const projectSites = mysqlTable("projectSites", {
+  id: int("id").autoincrement().primaryKey(),
+  projectId: int("projectId").notNull(),
+  organizationId: int("organizationId").notNull(),
+  name: varchar("name", { length: 180 }).notNull(),
+  address: varchar("address", { length: 255 }),
+  latitude: varchar("latitude", { length: 40 }),
+  longitude: varchar("longitude", { length: 40 }),
+  metadata: json("metadata"),
+  status: mysqlEnum("status", ["planning", "active", "closed"]).default("planning").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => [index("project_site_project_idx").on(table.projectId), index("project_site_org_idx").on(table.organizationId)]);
+
+export const projectAssets = mysqlTable("projectAssets", {
+  id: int("id").autoincrement().primaryKey(),
+  projectId: int("projectId").notNull(),
+  organizationId: int("organizationId").notNull(),
+  siteId: int("siteId"),
+  assetType: mysqlEnum("assetType", ["building", "team_member", "document", "drawing", "boq", "task", "risk", "cost", "site_record", "inspection", "issue", "delivery", "photo", "approval"]).notNull(),
+  title: varchar("title", { length: 220 }).notNull(),
+  description: text("description"),
+  status: varchar("status", { length: 80 }).default("open").notNull(),
+  assignedToUserId: int("assignedToUserId"),
+  dueDate: timestamp("dueDate"),
+  amountKes: int("amountKes"),
+  linkedRecordId: varchar("linkedRecordId", { length: 120 }),
+  fileId: int("fileId"),
+  metadata: json("metadata"),
+  createdByUserId: int("createdByUserId").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => [index("project_asset_project_idx").on(table.projectId), index("project_asset_org_idx").on(table.organizationId), index("project_asset_type_idx").on(table.assetType), index("project_asset_status_idx").on(table.status)]);
+
+export const projectEventLog = mysqlTable("projectEventLog", {
+  id: int("id").autoincrement().primaryKey(),
+  projectId: int("projectId").notNull(),
+  organizationId: int("organizationId").notNull(),
+  actorUserId: int("actorUserId").notNull(),
+  eventType: varchar("eventType", { length: 100 }).notNull(),
+  entityType: varchar("entityType", { length: 80 }).notNull(),
+  entityId: varchar("entityId", { length: 120 }).notNull(),
+  previousState: json("previousState"),
+  nextState: json("nextState"),
+  evidence: json("evidence"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => [index("project_event_project_idx").on(table.projectId), index("project_event_org_idx").on(table.organizationId), index("project_event_entity_idx").on(table.entityType, table.entityId), index("project_event_created_idx").on(table.createdAt)]);
+
+export type InsertMarketplaceSavedList = typeof marketplaceSavedLists.$inferInsert;
+export type InsertMarketplaceCart = typeof marketplaceCarts.$inferInsert;
+export type InsertMarketplaceRfq = typeof marketplaceRfqRequests.$inferInsert;
+export type InsertMarketplaceQuote = typeof marketplaceQuotes.$inferInsert;
+export type InsertMarketplacePurchaseOrder = typeof marketplacePurchaseOrders.$inferInsert;
+export type InsertSupplierFacility = typeof supplierFacilities.$inferInsert;
+export type InsertProjectOperation = typeof projectOperations.$inferInsert;
+export type InsertProjectSite = typeof projectSites.$inferInsert;
+export type InsertProjectAsset = typeof projectAssets.$inferInsert;
+export type InsertProjectEvent = typeof projectEventLog.$inferInsert;
+
+
+export const marketplaceSearchEvents = mysqlTable("marketplaceSearchEvents", {
+  id: int("id").autoincrement().primaryKey(),
+  ownerUserId: int("ownerUserId"),
+  query: varchar("query", { length: 180 }),
+  filters: json("filters"),
+  resultCount: int("resultCount").default(0).notNull(),
+  selectedProductId: int("selectedProductId"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => [index("search_event_owner_idx").on(table.ownerUserId), index("search_event_created_idx").on(table.createdAt), index("search_event_query_idx").on(table.query)]);
+
+export type InsertMarketplaceSearchEvent = typeof marketplaceSearchEvents.$inferInsert;

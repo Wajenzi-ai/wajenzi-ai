@@ -1,4 +1,5 @@
-import { and, asc, desc, eq, inArray, like, or, sql } from "drizzle-orm";
+import { and, asc, desc, eq, inArray, isNull, like, or, sql } from "drizzle-orm";
+import type { WajenziPermission } from "@shared/permissions";
 import { drizzle } from "drizzle-orm/mysql2";
 import { canonicalProductMatches, canonicalProductRegistry, catalogImports, documentProcessingJobs, erpSyncConnections, erpSyncRuns, fileRecords, InsertCatalogImport, InsertFileRecord, InsertProductCatalogItem, InsertRoleWorkItem, InsertSemanticProductRecord, InsertSemanticSourceDocument, InsertUser, InsertWorkflowAction, organizations, productCatalogItems, projectMemberships, projects, roleWorkItems, semanticProductRecords, semanticSourceDocuments, supplierDocumentLineage, supplierPriceObservations, supplierProductEvents, supplierProducts, supplierStockObservations, supplierVerificationDecisions, supplierVerificationPolicies, supplierProfiles, users, workflowActions, workspaceMemberships } from "../drizzle/schema";
 import { ENV } from "./_core/env";
@@ -65,7 +66,7 @@ export async function getOrganizationMembership(userId: number, organizationId: 
   return (await db.select().from(workspaceMemberships).where(and(eq(workspaceMemberships.userId, userId), eq(workspaceMemberships.organizationId, organizationId), eq(workspaceMemberships.status, "active"))).limit(1))[0];
 }
 
-export function membershipAllows(membership: { workspaceRole: string; permissions: unknown } | undefined, permission: "organization.manage" | "project.manage" | "member.manage" | "supplier.verify" | "erp.manage") {
+export function membershipAllows(membership: { workspaceRole: string; permissions: unknown } | undefined, permission: WajenziPermission) {
   if (!membership) return false;
   const permissions = membership.permissions as Record<string, boolean> | null;
   if (permissions?.[permission] === true) return true;
@@ -441,7 +442,7 @@ export async function upsertCatalogItems(items: InsertProductCatalogItem[]) {
   }
 }
 
-export async function listMarketplaceProducts(filters: { search?: string; category?: string; sort?: "featured" | "price_asc" | "price_desc" | "name_asc"; page?: number; pageSize?: number }) {
+export async function listMarketplaceProducts(filters: { search?: string; category?: string; brand?: string; supplier?: string; location?: string; minPriceKes?: number; maxPriceKes?: number; minLeadTimeDays?: number; maxLeadTimeDays?: number; verification?: "verified" | "review"; inStockOnly?: boolean; sort?: "featured" | "price_asc" | "price_desc" | "name_asc"; page?: number; pageSize?: number }) {
   const db = await getDb();
   const page = Math.max(1, filters.page ?? 1);
   const pageSize = Math.min(60, Math.max(12, filters.pageSize ?? 48));
@@ -452,12 +453,22 @@ export async function listMarketplaceProducts(filters: { search?: string; catego
     const term = `%${filters.search.trim()}%`;
     constraints.push(or(like(productCatalogItems.title, term), like(productCatalogItems.sku, term), like(productCatalogItems.category, term), like(productCatalogItems.supplierName, term))!);
   }
+  if (filters.brand?.trim()) constraints.push(sql`json_unquote(json_extract(${productCatalogItems.attributes}, '$.brand')) like ${`%${filters.brand.trim()}%`}`);
+  if (filters.supplier?.trim()) constraints.push(like(productCatalogItems.supplierName, `%${filters.supplier.trim()}%`));
+  if (filters.location?.trim()) constraints.push(sql`json_unquote(json_extract(${productCatalogItems.attributes}, '$.location')) like ${`%${filters.location.trim()}%`}`);
+  if (filters.verification === "verified") constraints.push(sql`json_unquote(json_extract(${productCatalogItems.attributes}, '$.readiness')) in ('ready','published')`);
+  if (filters.verification === "review") constraints.push(sql`json_unquote(json_extract(${productCatalogItems.attributes}, '$.readiness')) in ('needs_review','review')`);
+  if (filters.inStockOnly) constraints.push(sql`${productCatalogItems.availableQuantity} > 0`);
   const effectivePrice = sql<number>`coalesce(${productCatalogItems.salePriceKes}, ${productCatalogItems.priceKes})`;
+  if (filters.minPriceKes !== undefined) constraints.push(sql`${effectivePrice} >= ${filters.minPriceKes}`);
+  if (filters.maxPriceKes !== undefined) constraints.push(sql`${effectivePrice} <= ${filters.maxPriceKes}`);
+  if (filters.minLeadTimeDays !== undefined) constraints.push(sql`cast(json_unquote(json_extract(${productCatalogItems.attributes}, '$.leadTimeDays')) as unsigned) >= ${filters.minLeadTimeDays}`);
+  if (filters.maxLeadTimeDays !== undefined) constraints.push(sql`cast(json_unquote(json_extract(${productCatalogItems.attributes}, '$.leadTimeDays')) as unsigned) <= ${filters.maxLeadTimeDays}`);
   const sort = filters.sort ?? "featured";
   const order = sort === "price_asc" ? asc(effectivePrice) : sort === "price_desc" ? desc(effectivePrice) : sort === "name_asc" ? asc(productCatalogItems.title) : desc(productCatalogItems.updatedAt);
   const where = and(...constraints);
   const [items, totalResult] = await Promise.all([
-    db.select({ id: productCatalogItems.id, sku: productCatalogItems.sku, title: productCatalogItems.title, category: productCatalogItems.category, priceKes: productCatalogItems.priceKes, salePriceKes: productCatalogItems.salePriceKes, availableQuantity: productCatalogItems.availableQuantity, supplierName: productCatalogItems.supplierName, description: productCatalogItems.description, imageUrl: productCatalogItems.imageUrl, externalUrl: productCatalogItems.externalUrl, buttonText: productCatalogItems.buttonText, status: productCatalogItems.status }).from(productCatalogItems).where(where).orderBy(order).limit(pageSize).offset((page - 1) * pageSize),
+    db.select({ id: productCatalogItems.id, sku: productCatalogItems.sku, title: productCatalogItems.title, category: productCatalogItems.category, priceKes: productCatalogItems.priceKes, salePriceKes: productCatalogItems.salePriceKes, availableQuantity: productCatalogItems.availableQuantity, supplierName: productCatalogItems.supplierName, description: productCatalogItems.description, imageUrl: productCatalogItems.imageUrl, externalUrl: productCatalogItems.externalUrl, buttonText: productCatalogItems.buttonText, attributes: productCatalogItems.attributes, status: productCatalogItems.status }).from(productCatalogItems).where(where).orderBy(order).limit(pageSize).offset((page - 1) * pageSize),
     db.select({ total: sql<number>`count(*)` }).from(productCatalogItems).where(where),
   ]);
   const total = Number(totalResult[0]?.total ?? 0);
