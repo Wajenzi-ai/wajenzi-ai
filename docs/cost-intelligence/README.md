@@ -73,3 +73,8 @@ Tests cover subtotal reconciliation, cement wastage/landed price/escalation, lab
 8. Confirm which Supabase project is the intended Wajenzi environment. Both projects visible to the connector are currently inactive/unavailable.
 
 **Deployment boundary:** migration is prepared on a feature branch only. It has not been applied to Supabase and no production data or deployment was changed.
+
+
+### Pilot Monte Carlo output (mock)
+
+Using 10,000 iterations and seed `20261113`, the current v1 model returns P50 KSh 11,141,642.31, P80 KSh 11,559,696.07 and P90 KSh 11,770,953.55. These are illustrative scenario outputs under independent triangular cost multipliers and Bernoulli risk events; they are not guarantees or live market prices.
