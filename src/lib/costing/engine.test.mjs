@@ -45,7 +45,7 @@ test("commercial price adds margin and service fee outside delivery cost",()=>{
 });
 test("funding requirement is peak cumulative deficit",()=>{
  const r=calculateFundingRequirement({openingCash:100000,cashflows:[{period:"M1",plannedOutflow:300000,plannedInflow:0},{period:"M2",plannedOutflow:200000,plannedInflow:250000}]});
- assert.equal(r.peakFundingGap,400000);assert.equal(r.closingCash,-150000);
+ assert.equal(r.peakFundingGap,200000);assert.equal(r.closingCash,-150000);
 });
 test("seeded Monte Carlo output is reproducible and ordered",()=>{
  const base={technicalConstructionEstimate:8585000,indirectAndProfessionalCosts:1300000,financingCosts:250000,contingencyRate:.05,risks:fixture.risks};
