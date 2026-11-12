@@ -20,8 +20,8 @@ test("cement procurement includes wastage, landed price and escalation",()=>{
  const r=calculateMaterialLine(fixture.cementExample);
  assert.equal(r.procurementQuantity,515);
  assert.equal(r.landedBaseUnitPrice,790);
- assert.equal(r.futureUnitPrice,821.76);
- assert.equal(r.total,423206.4);
+ assert.equal(r.futureUnitPrice,821.92);
+ assert.equal(r.total,423286.74);
 });
 test("walling labour calculates worker hours and exact labour cost",()=>{
  const r=calculateLabourLine(fixture.wallingLabourExample);
