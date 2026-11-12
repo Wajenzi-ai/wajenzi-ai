@@ -1,0 +1,144 @@
+{
+  "registryId": "WJ-COST-FORMULAS",
+  "version": "1.0.0",
+  "status": "draft_for_review",
+  "currencyDefault": "KES",
+  "rounding": "Currency rounded to 2 decimals at line-total boundaries; physical quantities retained to 6 decimal places.",
+  "formulas": [
+    {
+      "key": "QTY.PROCUREMENT",
+      "version": "1.0.0",
+      "expression": "Qproc = Qmeasured × (1 + wastage_rate)",
+      "output": "quantity"
+    },
+    {
+      "key": "PRICE.LANDED",
+      "version": "1.0.0",
+      "expression": "Planded = supplier + transport + handling + insurance − discount",
+      "output": "currency/unit"
+    },
+    {
+      "key": "PRICE.ESCALATED",
+      "version": "1.0.0",
+      "expression": "Pfuture = Planded × (1 + escalation_rate)^periods",
+      "output": "currency/unit"
+    },
+    {
+      "key": "COST.MATERIAL",
+      "version": "1.0.0",
+      "expression": "Cmaterial = Qproc × Pfuture",
+      "output": "currency"
+    },
+    {
+      "key": "LABOUR.HOURS",
+      "version": "1.0.0",
+      "expression": "WorkerHours = quantity / output_per_worker_hour",
+      "output": "worker-hours"
+    },
+    {
+      "key": "LABOUR.DURATION",
+      "version": "1.0.0",
+      "expression": "Duration = WorkerHours / (crew_size × paid_hours_per_day)",
+      "output": "days"
+    },
+    {
+      "key": "COST.LABOUR",
+      "version": "1.0.0",
+      "expression": "Clabour = WorkerHours × daily_wage / paid_hours_per_day",
+      "output": "currency"
+    },
+    {
+      "key": "COST.EQUIPMENT",
+      "version": "1.0.0",
+      "expression": "Cequipment = operating_hours × hourly_rate + mobilization + fuel",
+      "output": "currency"
+    },
+    {
+      "key": "COST.LOGISTICS",
+      "version": "1.0.0",
+      "expression": "Clogistics = trips × rate_per_trip + loading + offloading + waiting",
+      "output": "currency"
+    },
+    {
+      "key": "COST.DIRECT",
+      "version": "1.0.0",
+      "expression": "DPC = materials + labour + equipment + subcontracts + direct_logistics",
+      "output": "currency"
+    },
+    {
+      "key": "COST.INDIRECT",
+      "version": "1.0.0",
+      "expression": "IPC = PM + professional_fees + approvals + surveys + utilities + insurance",
+      "output": "currency"
+    },
+    {
+      "key": "COST.FINANCE",
+      "version": "1.0.0",
+      "expression": "FPC = Σ(balance_month × monthly_rate) + fees",
+      "output": "currency"
+    },
+    {
+      "key": "RISK.EXPECTED",
+      "version": "1.0.0",
+      "expression": "ExpectedRisk = Σ(probability × financial_impact)",
+      "output": "currency"
+    },
+    {
+      "key": "CONTINGENCY.RESIDUAL",
+      "version": "1.0.0",
+      "expression": "Contingency = eligible_cost_base × residual_contingency_rate",
+      "output": "currency"
+    },
+    {
+      "key": "TAX.EXCLUSIVE",
+      "version": "1.0.0",
+      "expression": "Tax = taxable_base × rate; gross = base + tax",
+      "output": "currency"
+    },
+    {
+      "key": "TAX.INCLUSIVE",
+      "version": "1.0.0",
+      "expression": "base = gross / (1 + rate); tax = gross − base",
+      "output": "currency"
+    },
+    {
+      "key": "PROJECT.FORECAST",
+      "version": "1.0.0",
+      "expression": "Forecast = DPC + IPC + FPC + ExpectedRisk + residualContingency + applicableTax",
+      "output": "currency"
+    },
+    {
+      "key": "PROJECT.UNIT_COST",
+      "version": "1.0.0",
+      "expression": "CostPerM2 = Forecast / floor_area",
+      "output": "currency/m²"
+    },
+    {
+      "key": "FUNDING.PEAK_GAP",
+      "version": "1.0.0",
+      "expression": "PeakGap = max(0, −minimum cumulative cash balance)",
+      "output": "currency"
+    },
+    {
+      "key": "COMMERCIAL.CUSTOMER_PRICE",
+      "version": "1.0.0",
+      "expression": "CustomerPrice = Forecast + margin + service_fees + customer_tax",
+      "output": "currency"
+    },
+    {
+      "key": "RISK.MONTE_CARLO",
+      "version": "1.0.0",
+      "expression": "Seeded scenario simulation; empirical P50/P80/P90",
+      "output": "currency percentiles"
+    }
+  ],
+  "nonDoubleCountingRules": [
+    "Each cost line has exactly one primary cost owner/category per run.",
+    "Delivered supplier prices must not receive a second transport charge.",
+    "VAT-inclusive supplier prices are decomposed before calculating any separate customer-side tax.",
+    "Expected risk is identifiable expected loss; contingency covers residual uncertainty only.",
+    "Preliminaries already included in direct construction are excluded from indirect overhead.",
+    "Customer margin and service fees are excluded from forecast delivery cost.",
+    "Land is excluded unless explicitly included as a separate scope component."
+  ]
+}
