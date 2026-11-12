@@ -1,0 +1,184 @@
+{
+  "taxonomyId": "WJ-COST-TAXONOMY",
+  "version": "1.0.0",
+  "status": "draft",
+  "topLevel": [
+    {
+      "code": "01",
+      "name": "Preliminaries and site establishment",
+      "includes": [
+        "site setup",
+        "temporary facilities",
+        "site security",
+        "site management"
+      ]
+    },
+    {
+      "code": "02",
+      "name": "Substructure",
+      "includes": [
+        "setting out",
+        "excavation",
+        "foundations",
+        "ground beams",
+        "foundation walls",
+        "hardcore",
+        "DPM",
+        "ground slab"
+      ]
+    },
+    {
+      "code": "03",
+      "name": "Structural frame",
+      "includes": [
+        "columns",
+        "beams",
+        "reinforcement",
+        "concrete",
+        "structural connections"
+      ]
+    },
+    {
+      "code": "04",
+      "name": "Walls and partitions",
+      "includes": [
+        "external walling",
+        "internal partitions",
+        "mortar",
+        "lintels"
+      ]
+    },
+    {
+      "code": "05",
+      "name": "Roofing",
+      "includes": [
+        "trusses",
+        "battens",
+        "underlay",
+        "roof sheets or tiles",
+        "gutters"
+      ]
+    },
+    {
+      "code": "06",
+      "name": "Doors and windows",
+      "includes": [
+        "frames",
+        "glazing",
+        "ironmongery",
+        "installation"
+      ]
+    },
+    {
+      "code": "07",
+      "name": "Electrical",
+      "includes": [
+        "cables",
+        "conduits",
+        "switches",
+        "sockets",
+        "distribution boards",
+        "testing"
+      ]
+    },
+    {
+      "code": "08",
+      "name": "Plumbing and drainage",
+      "includes": [
+        "water supply",
+        "sanitaryware",
+        "tanks",
+        "waste pipes",
+        "drainage",
+        "testing"
+      ]
+    },
+    {
+      "code": "09",
+      "name": "Finishes",
+      "includes": [
+        "plaster",
+        "screed",
+        "floor finishes",
+        "paint",
+        "ceilings",
+        "joinery"
+      ]
+    },
+    {
+      "code": "10",
+      "name": "External works",
+      "includes": [
+        "driveways",
+        "paving",
+        "landscaping",
+        "boundary walls",
+        "gates",
+        "site drainage"
+      ]
+    },
+    {
+      "code": "11",
+      "name": "Indirect and professional",
+      "includes": [
+        "project administration",
+        "architecture",
+        "engineering",
+        "quantity surveying",
+        "approvals",
+        "surveys",
+        "utilities",
+        "insurance"
+      ]
+    },
+    {
+      "code": "12",
+      "name": "Financing and capital",
+      "includes": [
+        "interest",
+        "arrangement fees",
+        "lender charges"
+      ]
+    },
+    {
+      "code": "13",
+      "name": "Risk and contingency",
+      "includes": [
+        "identified expected risks",
+        "residual contingency"
+      ]
+    },
+    {
+      "code": "14",
+      "name": "Taxes and duties",
+      "includes": [
+        "configured output taxes",
+        "import duties",
+        "other applicable statutory charges"
+      ]
+    },
+    {
+      "code": "15",
+      "name": "Commercial pricing",
+      "includes": [
+        "Wajenzi margin",
+        "service fees",
+        "customer-side charges"
+      ]
+    }
+  ],
+  "resourceTypes": [
+    "material",
+    "labour",
+    "equipment",
+    "subcontract",
+    "logistics",
+    "other"
+  ],
+  "financialViews": [
+    "technical_construction_estimate",
+    "forecast_delivery_cost",
+    "customer_commercial_price",
+    "funding_requirement"
+  ]
+}
