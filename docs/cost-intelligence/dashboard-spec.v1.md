@@ -108,3 +108,15 @@ Recommended server-side endpoints:
 - `POST /api/projects/:projectId/cost-models/:modelId/submit-approval`
 
 Every response includes model version, calculation run ID, currency, data-status, timestamp and source freshness. Mutations require project-role authorization and append-only audit events.
+
+## Pilot scenario values (mock)
+
+For the 10,000-iteration run using seed `20261113` and the v1 independent-risk assumptions:
+
+| Percentile | Modelled total (KSh) |
+|---|---:|
+| P50 | 11,141,642.31 |
+| P80 | 11,559,696.07 |
+| P90 | 11,770,953.55 |
+
+These are mock scenario outputs, not quotations or guaranteed cost ceilings. They change when inputs, seed, iteration count or model version changes.
