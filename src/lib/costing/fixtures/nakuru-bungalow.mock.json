@@ -277,6 +277,20 @@
     "contingencyBase": 9885000,
     "contingency": 494250,
     "preTaxForecastDeliveryCost": 10839250,
-    "costPerM2": 90327.08
+    "costPerM2": 90327.08,
+    "monteCarlo": {
+      "iterations": 10000,
+      "seed": 20261113,
+      "p50": 11141642.31,
+      "p80": 11559696.07,
+      "p90": 11770953.55,
+      "minimum": 10184723.62,
+      "maximum": 12654343.18,
+      "assumptions": [
+        "Independent triangular cost multipliers",
+        "Bernoulli risk-event sampling",
+        "No cross-variable correlation in v1"
+      ]
+    }
   }
 }
