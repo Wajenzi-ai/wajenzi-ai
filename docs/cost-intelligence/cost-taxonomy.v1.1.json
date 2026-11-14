@@ -1,0 +1,315 @@
+{
+  "taxonomyId": "WJ-COST-TAXONOMY",
+  "version": "1.1.0",
+  "status": "draft_for_review",
+  "effectiveFrom": "2026-11-14",
+  "costCodes": [
+    {
+      "code": "01",
+      "name": "Preliminaries and site establishment",
+      "parent": null
+    },
+    {
+      "code": "02",
+      "name": "Substructure",
+      "parent": null
+    },
+    {
+      "code": "03",
+      "name": "Structural frame",
+      "parent": null
+    },
+    {
+      "code": "04",
+      "name": "Walls and partitions",
+      "parent": null
+    },
+    {
+      "code": "05",
+      "name": "Roofing",
+      "parent": null
+    },
+    {
+      "code": "06",
+      "name": "Doors and windows",
+      "parent": null
+    },
+    {
+      "code": "07",
+      "name": "Electrical",
+      "parent": null
+    },
+    {
+      "code": "08",
+      "name": "Plumbing and drainage",
+      "parent": null
+    },
+    {
+      "code": "09",
+      "name": "Finishes",
+      "parent": null
+    },
+    {
+      "code": "10",
+      "name": "External works",
+      "parent": null
+    },
+    {
+      "code": "11",
+      "name": "Indirect and professional",
+      "parent": null
+    },
+    {
+      "code": "12",
+      "name": "Financing and capital",
+      "parent": null
+    },
+    {
+      "code": "13",
+      "name": "Risk and residual contingency",
+      "parent": null
+    },
+    {
+      "code": "14",
+      "name": "Taxes and statutory duties",
+      "parent": null
+    },
+    {
+      "code": "15",
+      "name": "Commercial pricing and service fees",
+      "parent": null
+    }
+  ],
+  "resourceTypes": [
+    "material",
+    "labour",
+    "equipment",
+    "subcontract",
+    "logistics",
+    "other"
+  ],
+  "financialViews": [
+    {
+      "code": "technical_construction_estimate",
+      "includes": "Direct physical works only; net of separately identified input tax."
+    },
+    {
+      "code": "forecast_delivery_cost",
+      "includes": "Technical estimate + indirect + financing + expected residual risk + residual contingency + non-recoverable input taxes and other project taxes."
+    },
+    {
+      "code": "customer_commercial_price",
+      "includes": "Forecast delivery cost + chosen markup or gross margin + service fees + configured customer output tax."
+    },
+    {
+      "code": "funding_requirement",
+      "includes": "Peak cumulative cash deficit from timed inflows/outflows and opening cash."
+    }
+  ],
+  "entityTypes": [
+    {
+      "code": "PRJ",
+      "name": "Project",
+      "idPattern": "WJ-PROJ-*",
+      "symbolNamespace": "PROJECT"
+    },
+    {
+      "code": "LOC",
+      "name": "Location",
+      "idPattern": "WJ-LOC-*",
+      "symbolNamespace": "LOCATION"
+    },
+    {
+      "code": "BLD",
+      "name": "Building",
+      "idPattern": "WJ-BLD-*",
+      "symbolNamespace": "BUILDING"
+    },
+    {
+      "code": "SYS",
+      "name": "Building system",
+      "idPattern": "WJ-SYS-*",
+      "symbolNamespace": "SYSTEM"
+    },
+    {
+      "code": "ASM",
+      "name": "Assembly",
+      "idPattern": "WJ-ASM-*",
+      "symbolNamespace": "ASSEMBLY"
+    },
+    {
+      "code": "MSR",
+      "name": "Quantity measurement",
+      "idPattern": "WJ-MSR-*",
+      "symbolNamespace": "MEASUREMENT"
+    },
+    {
+      "code": "RES",
+      "name": "Resource requirement",
+      "idPattern": "WJ-RES-*",
+      "symbolNamespace": "RESOURCE"
+    },
+    {
+      "code": "MAT",
+      "name": "Material/product",
+      "idPattern": "WJ-MAT-*",
+      "symbolNamespace": "MATERIAL"
+    },
+    {
+      "code": "LAB",
+      "name": "Labour trade/task",
+      "idPattern": "WJ-LAB-*",
+      "symbolNamespace": "LABOUR"
+    },
+    {
+      "code": "EQP",
+      "name": "Equipment",
+      "idPattern": "WJ-EQP-*",
+      "symbolNamespace": "EQUIPMENT"
+    },
+    {
+      "code": "SUP",
+      "name": "Supplier",
+      "idPattern": "WJ-SUP-*",
+      "symbolNamespace": "SUPPLIER"
+    },
+    {
+      "code": "QTE",
+      "name": "Supplier quotation/price snapshot",
+      "idPattern": "WJ-QTE-*",
+      "symbolNamespace": "QUOTE"
+    },
+    {
+      "code": "LOG",
+      "name": "Logistics movement",
+      "idPattern": "WJ-LOG-*",
+      "symbolNamespace": "LOGISTICS"
+    },
+    {
+      "code": "SCH",
+      "name": "Schedule task",
+      "idPattern": "WJ-SCH-*",
+      "symbolNamespace": "SCHEDULE"
+    },
+    {
+      "code": "RSK",
+      "name": "Risk event",
+      "idPattern": "WJ-RSK-*",
+      "symbolNamespace": "RISK"
+    },
+    {
+      "code": "TAX",
+      "name": "Tax policy/tax line",
+      "idPattern": "WJ-TAX-*",
+      "symbolNamespace": "TAX"
+    },
+    {
+      "code": "FIN",
+      "name": "Finance/cashflow item",
+      "idPattern": "WJ-FIN-*",
+      "symbolNamespace": "FINANCE"
+    },
+    {
+      "code": "SCN",
+      "name": "Scenario",
+      "idPattern": "WJ-SCN-*",
+      "symbolNamespace": "SCENARIO"
+    },
+    {
+      "code": "FRM",
+      "name": "Formula definition",
+      "idPattern": "WJ-FRM-*",
+      "symbolNamespace": "FORMULA"
+    },
+    {
+      "code": "RUN",
+      "name": "Calculation run",
+      "idPattern": "WJ-RUN-*",
+      "symbolNamespace": "RUN"
+    },
+    {
+      "code": "DOC",
+      "name": "Source document/evidence",
+      "idPattern": "WJ-DOC-*",
+      "symbolNamespace": "DOCUMENT"
+    },
+    {
+      "code": "APR",
+      "name": "Approval record",
+      "idPattern": "WJ-APR-*",
+      "symbolNamespace": "APPROVAL"
+    },
+    {
+      "code": "CHG",
+      "name": "Change event",
+      "idPattern": "WJ-CHG-*",
+      "symbolNamespace": "CHANGE"
+    }
+  ],
+  "symbolPolicy": {
+    "uniqueness": "symbol_code is globally unique; qualified_symbol is unique within a domain. Use descriptive identifiers, not ambiguous single letters.",
+    "examples": [
+      {
+        "symbol": "QTY_MEASURED",
+        "unit": "unit-specific",
+        "meaning": "Measured quantity from plan/site evidence"
+      },
+      {
+        "symbol": "WASTE_RATE",
+        "unit": "ratio",
+        "meaning": "Waste allowance applied once"
+      },
+      {
+        "symbol": "P_SUPPLIER_NET",
+        "unit": "KES/unit",
+        "meaning": "Supplier net-of-tax price"
+      },
+      {
+        "symbol": "P_LANDED",
+        "unit": "KES/unit",
+        "meaning": "Landed unit price"
+      },
+      {
+        "symbol": "C_DIRECT",
+        "unit": "KES",
+        "meaning": "Technical direct construction estimate"
+      },
+      {
+        "symbol": "C_FORECAST",
+        "unit": "KES",
+        "meaning": "Forecast delivery cost"
+      },
+      {
+        "symbol": "P_CUSTOMER_GROSS",
+        "unit": "KES",
+        "meaning": "Customer commercial price including output tax"
+      },
+      {
+        "symbol": "FUNDING_GAP",
+        "unit": "KES",
+        "meaning": "Peak cumulative cash deficit"
+      }
+    ]
+  },
+  "relationshipTypes": [
+    "CONTAINS",
+    "HAS_SYSTEM",
+    "HAS_ASSEMBLY",
+    "MEASURED_BY",
+    "REQUIRES_RESOURCE",
+    "CALCULATED_BY",
+    "DEPENDS_ON",
+    "PRICED_BY",
+    "SUPPLIED_BY",
+    "DELIVERED_BY",
+    "SCHEDULED_FOR",
+    "PRECEDES",
+    "FUNDED_BY",
+    "TAXED_BY",
+    "MITIGATED_BY",
+    "EVIDENCED_BY",
+    "APPROVED_BY",
+    "SUPERSEDES",
+    "CHANGED_BY"
+  ]
+}
