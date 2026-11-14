@@ -1,10 +1,10 @@
 {
   "registryId": "WJ-COST-FORMULAS",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "status": "draft_for_review",
   "currencyDefault": "KES",
   "effectiveFrom": "2026-11-14",
-  "symbolPolicy": "Symbols are globally unique qualified identifiers. Entity IDs identify records; symbols identify typed properties or formula outputs. No bare single-letter symbols are used.",
+  "symbolPolicy": "Symbols are globally unique qualified identifiers. Entity IDs identify records; symbols identify typed properties or formula outputs. A symbol may be consumed by many formulas but has exactly one producer in a registry version. No bare single-letter symbols are used.",
   "roundingPolicy": {
     "money": "Round to 2 decimal places at persisted line-total and report boundaries; retain full precision internally.",
     "quantity": "Retain 6 decimal places for stored quantities; never round intermediate calculations unless a unit's procurement rule requires whole units.",
@@ -202,12 +202,168 @@
       },
       "base": "KES_per_worker_hr",
       "factor": 1
+    },
+    {
+      "code": "month",
+      "dimension": {
+        "length": 0,
+        "mass": 0,
+        "time": 0,
+        "calendar": 1,
+        "currency": 0,
+        "count": 0
+      },
+      "base": "month",
+      "factor": 1
+    },
+    {
+      "code": "bag_50kg",
+      "dimension": {
+        "length": 0,
+        "mass": 1,
+        "time": 0,
+        "calendar": 0,
+        "currency": 0,
+        "count": 0
+      },
+      "base": "kg",
+      "factor": 50
+    },
+    {
+      "code": "point",
+      "dimension": {
+        "length": 0,
+        "mass": 0,
+        "time": 0,
+        "calendar": 0,
+        "currency": 0,
+        "count": 1
+      },
+      "base": "point",
+      "factor": 1
+    },
+    {
+      "code": "worker",
+      "dimension": {
+        "length": 0,
+        "mass": 0,
+        "time": 0,
+        "calendar": 0,
+        "currency": 0,
+        "count": 1
+      },
+      "base": "worker",
+      "factor": 1
+    },
+    {
+      "code": "KES_per_m",
+      "dimension": {
+        "length": -1,
+        "mass": 0,
+        "time": 0,
+        "calendar": 0,
+        "currency": 1,
+        "count": 0
+      },
+      "base": "KES_per_m",
+      "factor": 1
+    },
+    {
+      "code": "KES_per_m3",
+      "dimension": {
+        "length": -3,
+        "mass": 0,
+        "time": 0,
+        "calendar": 0,
+        "currency": 1,
+        "count": 0
+      },
+      "base": "KES_per_m3",
+      "factor": 1
+    },
+    {
+      "code": "KES_per_kg",
+      "dimension": {
+        "length": 0,
+        "mass": -1,
+        "time": 0,
+        "calendar": 0,
+        "currency": 1,
+        "count": 0
+      },
+      "base": "KES_per_kg",
+      "factor": 1
+    },
+    {
+      "code": "KES_per_trip",
+      "dimension": {
+        "length": 0,
+        "mass": 0,
+        "time": 0,
+        "calendar": 0,
+        "currency": 1,
+        "count": -1
+      },
+      "base": "KES_per_trip",
+      "factor": 1
+    },
+    {
+      "code": "KES_per_hr",
+      "dimension": {
+        "length": 0,
+        "mass": 0,
+        "time": -1,
+        "calendar": 0,
+        "currency": 1,
+        "count": 0
+      },
+      "base": "KES_per_hr",
+      "factor": 1
+    },
+    {
+      "code": "KES_per_bag_50kg",
+      "dimension": {
+        "length": 0,
+        "mass": -1,
+        "time": 0,
+        "calendar": 0,
+        "currency": 1,
+        "count": 0
+      },
+      "base": "KES_per_kg",
+      "factor": 0.02
+    },
+    {
+      "code": "m2_per_worker_hr",
+      "dimension": {
+        "length": 2,
+        "mass": 0,
+        "time": -1,
+        "calendar": 0,
+        "currency": 0,
+        "count": -1
+      },
+      "base": "m2_per_worker_hr",
+      "factor": 1
+    },
+    {
+      "code": "KES_per_day",
+      "dimension": {
+        "length": 0,
+        "mass": 0,
+        "time": -1,
+        "calendar": 0,
+        "currency": 1,
+        "count": 0
+      },
+      "base": "KES_per_hr",
+      "factor": 0.125
     }
   ],
   "formulas": [
     {
       "key": "QTY.ASSEMBLY_GROSS",
-      "version": "1.1.0",
+      "version": "1.1.1",
       "domain": "quantity",
       "expression": "QTY_ASSEMBLY_GROSS = QTY_MEASURED × ASSEMBLY_RESOURCE_COEFFICIENT",
       "inputs": [
@@ -234,7 +390,7 @@
     },
     {
       "key": "QTY.PROCUREMENT",
-      "version": "1.1.0",
+      "version": "1.1.1",
       "domain": "quantity",
       "expression": "QTY_PROCUREMENT = QTY_ASSEMBLY_GROSS × (1 + WASTE_RATE), only when waste is not already embedded in the assembly coefficient",
       "inputs": [
@@ -267,7 +423,7 @@
     },
     {
       "key": "TAX.INPUT_NORMALIZE",
-      "version": "1.1.0",
+      "version": "1.1.1",
       "domain": "tax",
       "expression": "For exclusive: NET=AMOUNT, TAX=NET×RATE, GROSS=NET+TAX. For inclusive: GROSS=AMOUNT, NET=GROSS/(1+RATE), TAX=GROSS−NET. Exempt/zero-rated: TAX=0.",
       "inputs": [
@@ -303,7 +459,7 @@
     },
     {
       "key": "PRICE.LOCATION_ADJUST",
-      "version": "1.1.0",
+      "version": "1.1.1",
       "domain": "price",
       "expression": "P_SUPPLIER_LOCAL = P_SUPPLIER_BASE × LOCATION_INDEX_CURRENT / LOCATION_INDEX_BASE, only for a national/base price",
       "inputs": [
@@ -338,7 +494,7 @@
     },
     {
       "key": "PRICE.LANDED",
-      "version": "1.1.0",
+      "version": "1.1.1",
       "domain": "price",
       "expression": "P_LANDED = TAX_NORMALIZED_SUPPLIER_COST + EXTERNAL_TRANSPORT + HANDLING + INSURANCE − DISCOUNT",
       "inputs": [
@@ -385,7 +541,7 @@
     },
     {
       "key": "PRICE.ESCALATED",
-      "version": "1.1.0",
+      "version": "1.1.1",
       "domain": "price",
       "expression": "P_FUTURE = P_LANDED × (1 + ESCALATION_RATE_PER_PERIOD)^(MONTHS_TO_NEED / ESCALATION_PERIOD_MONTHS)",
       "inputs": [
@@ -422,7 +578,7 @@
     },
     {
       "key": "COST.MATERIAL",
-      "version": "1.1.0",
+      "version": "1.1.1",
       "domain": "cost",
       "expression": "C_MATERIAL = QTY_PROCUREMENT × P_FUTURE",
       "inputs": [
@@ -452,7 +608,7 @@
     },
     {
       "key": "LABOUR.HOURS",
-      "version": "1.1.0",
+      "version": "1.1.1",
       "domain": "labour",
       "expression": "H_WORKER = QTY_WORK / PRODUCTIVITY_PER_WORKER_HOUR",
       "inputs": [
@@ -478,7 +634,7 @@
     },
     {
       "key": "COST.LABOUR",
-      "version": "1.1.0",
+      "version": "1.1.1",
       "domain": "labour",
       "expression": "C_LABOUR = H_WORKER × WAGE_PER_WORKER_HOUR",
       "inputs": [
@@ -506,7 +662,7 @@
     },
     {
       "key": "COST.EQUIPMENT",
-      "version": "1.1.0",
+      "version": "1.1.1",
       "domain": "equipment",
       "expression": "C_EQUIPMENT = OPERATING_HOURS × HOURLY_RATE + MOBILIZATION + FUEL",
       "inputs": [
@@ -540,7 +696,7 @@
     },
     {
       "key": "COST.LOGISTICS",
-      "version": "1.1.0",
+      "version": "1.1.1",
       "domain": "logistics",
       "expression": "C_LOGISTICS = TRIPS × RATE_PER_TRIP + LOADING + OFFLOADING + WAITING",
       "inputs": [
@@ -579,9 +735,9 @@
     },
     {
       "key": "COST.DIRECT",
-      "version": "1.1.0",
+      "version": "1.1.1",
       "domain": "cost",
-      "expression": "C_DIRECT = C_MATERIAL + C_LABOUR + C_EQUIPMENT + C_SUBCONTRACT + C_DIRECT_LOGISTICS",
+      "expression": "C_DIRECT = C_MATERIAL + C_LABOUR + C_EQUIPMENT + C_SUBCONTRACT + C_LOGISTICS",
       "inputs": [
         [
           "C_MATERIAL",
@@ -600,7 +756,7 @@
           "KES"
         ],
         [
-          "C_DIRECT_LOGISTICS",
+          "C_LOGISTICS",
           "KES"
         ]
       ],
@@ -623,7 +779,7 @@
     },
     {
       "key": "COST.INDIRECT",
-      "version": "1.1.0",
+      "version": "1.1.1",
       "domain": "cost",
       "expression": "C_INDIRECT = Σ approved project administration + professional fees + statutory approvals + surveys + utilities + insurance",
       "inputs": [
@@ -645,9 +801,9 @@
     },
     {
       "key": "COST.FINANCE",
-      "version": "1.1.0",
+      "version": "1.1.1",
       "domain": "finance",
-      "expression": "C_FINANCE = Σ(OUTSTANDING_BALANCE_PERIOD × PERIOD_RATE) + ARRANGEMENT_FEES + OTHER_FEES",
+      "expression": "C_FINANCE = Σ(period outstanding drawdown balance × period rate) + fees; drawdown balances are approved external inputs and do not depend on the final funding-gap result",
       "inputs": [
         [
           "OUTSTANDING_BALANCE_PERIOD",
@@ -666,19 +822,18 @@
         "C_FINANCE",
         "KES"
       ],
-      "dependsOn": [
-        "SCHEDULE.CASHFLOW"
-      ],
+      "dependsOn": [],
       "effectiveFrom": "2026-11-14",
       "provenance": "Financing term sheet, drawdown and repayment schedule",
       "validation": [
         "Rate period must match balance period.",
-        "Do not include financing costs already embedded in supplier or contractor rates."
+        "Do not include financing costs already embedded in supplier or contractor rates.",
+        "Do not derive financing balances from a cashflow output that already includes financing cost; avoid circular finance calculations."
       ]
     },
     {
       "key": "RISK.EXPECTED",
-      "version": "1.1.0",
+      "version": "1.1.1",
       "domain": "risk",
       "expression": "C_EXPECTED_RISK = Σ(RESIDUAL_PROBABILITY × RESIDUAL_IMPACT), excluding risk transferred or already priced elsewhere",
       "inputs": [
@@ -710,7 +865,7 @@
     },
     {
       "key": "CONTINGENCY.RESIDUAL",
-      "version": "1.1.0",
+      "version": "1.1.1",
       "domain": "risk",
       "expression": "C_CONTINGENCY = ELIGIBLE_COST_BASE × RESIDUAL_CONTINGENCY_RATE",
       "inputs": [
@@ -739,7 +894,7 @@
     },
     {
       "key": "TAX.INPUT_COST",
-      "version": "1.1.0",
+      "version": "1.1.1",
       "domain": "tax",
       "expression": "C_NONRECOVERABLE_INPUT_TAX = Σ tax amount for input charges whose VAT is not recoverable",
       "inputs": [
@@ -763,7 +918,7 @@
     },
     {
       "key": "PROJECT.FORECAST",
-      "version": "1.1.0",
+      "version": "1.1.1",
       "domain": "project",
       "expression": "C_FORECAST = C_DIRECT + C_INDIRECT + C_FINANCE + C_EXPECTED_RISK + C_CONTINGENCY + C_NONRECOVERABLE_INPUT_TAX + C_OTHER_PROJECT_TAX",
       "inputs": [
@@ -816,49 +971,50 @@
       ]
     },
     {
-      "key": "COMMERCIAL.MARKUP",
-      "version": "1.1.0",
-      "domain": "commercial",
-      "expression": "P_CUSTOMER_PRETAX = C_FORECAST × (1 + MARKUP_RATE) + SERVICE_FEES",
+      "key": "PROJECT.UNIT_COST",
+      "version": "1.1.1",
+      "domain": "project",
+      "expression": "COST_PER_M2 = C_FORECAST / GROSS_FLOOR_AREA_M2",
       "inputs": [
         [
           "C_FORECAST",
           "KES"
         ],
         [
-          "MARKUP_RATE",
-          "ratio"
-        ],
-        [
-          "SERVICE_FEES",
-          "KES"
+          "GROSS_FLOOR_AREA_M2",
+          "m2"
         ]
       ],
       "output": [
-        "P_CUSTOMER_PRETAX",
-        "KES"
+        "COST_PER_M2",
+        "KES_per_m2"
       ],
       "dependsOn": [
         "PROJECT.FORECAST"
       ],
       "effectiveFrom": "2026-11-14",
-      "provenance": "Approved Wajenzi commercial policy",
+      "provenance": "Wajenzi project measurement registry; denominator must be identified as gross floor area",
       "validation": [
-        "Markup is not gross margin."
+        "Floor area must be greater than zero.",
+        "Report the area convention and drawing revision."
       ]
     },
     {
-      "key": "COMMERCIAL.GROSS_MARGIN",
-      "version": "1.1.0",
+      "key": "COMMERCIAL.CUSTOMER_PRICE_BASE",
+      "version": "1.1.1",
       "domain": "commercial",
-      "expression": "P_CUSTOMER_PRETAX = C_FORECAST / (1 − GROSS_MARGIN_RATE) + SERVICE_FEES",
+      "expression": "P_CUSTOMER_PRETAX = (pricing_mode = markup ? C_FORECAST × (1 + rate) : C_FORECAST / (1 − rate)) + SERVICE_FEES",
       "inputs": [
         [
           "C_FORECAST",
           "KES"
         ],
         [
-          "GROSS_MARGIN_RATE",
+          "PRICING_MODE",
+          "enum"
+        ],
+        [
+          "PRICING_RATE",
           "ratio"
         ],
         [
@@ -874,14 +1030,17 @@
         "PROJECT.FORECAST"
       ],
       "effectiveFrom": "2026-11-14",
-      "provenance": "Approved Wajenzi commercial policy",
+      "provenance": "Wajenzi commercial pricing policy; approved markup or gross-margin mode is selected per quote",
       "validation": [
-        "Gross margin rate must be below 1 and is not a markup rate."
+        "Exactly one pricing mode is selected per quote.",
+        "Gross margin must be below 100%.",
+        "Markup and gross margin are not interchangeable.",
+        "Commercial margin and service fees remain outside forecast delivery cost."
       ]
     },
     {
       "key": "TAX.CUSTOMER_OUTPUT",
-      "version": "1.1.0",
+      "version": "1.1.1",
       "domain": "tax",
       "expression": "Apply customer tax to the commercial taxable base; inclusive tax is extracted from the gross price and never added a second time.",
       "inputs": [
@@ -903,8 +1062,7 @@
         "KES"
       ],
       "dependsOn": [
-        "COMMERCIAL.MARKUP",
-        "COMMERCIAL.GROSS_MARGIN"
+        "COMMERCIAL.CUSTOMER_PRICE_BASE"
       ],
       "effectiveFrom": "2026-11-14",
       "provenance": "Configured customer transaction tax policy; qualified review required",
@@ -915,9 +1073,9 @@
     },
     {
       "key": "SCHEDULE.CASHFLOW",
-      "version": "1.1.0",
+      "version": "1.1.1",
       "domain": "schedule",
-      "expression": "CUM_CASH_t = OPENING_CASH + Σ(INFLOW_t − OUTFLOW_t); FUNDING_GAP = max(0, −min(CUM_CASH_t))",
+      "expression": "CUMULATIVE_CASH_BALANCE[t] = OPENING_CASH + Σ(INFLOW[1..t] − OUTFLOW[1..t]); periods must be chronological",
       "inputs": [
         [
           "OPENING_CASH",
@@ -937,20 +1095,46 @@
         ]
       ],
       "output": [
-        "FUNDING_GAP",
-        "KES"
+        "CUMULATIVE_CASH_BALANCE",
+        "KES[]"
       ],
       "dependsOn": [],
       "effectiveFrom": "2026-11-14",
       "provenance": "Approved project schedule, payment milestones and cashflow assumptions",
       "validation": [
         "Cashflow periods are ordered and non-overlapping.",
-        "Funding requirement is peak deficit, not total project cost."
+        "Funding requirement is peak deficit, not total project cost.",
+        "Cashflow is a funding schedule output and does not feed financing interest unless an independently approved drawdown schedule is supplied."
+      ]
+    },
+    {
+      "key": "FUNDING.PEAK_GAP",
+      "version": "1.1.1",
+      "domain": "finance",
+      "expression": "FUNDING_REQUIREMENT = max(0, −min_t(CUMULATIVE_CASH_BALANCE[t]))",
+      "inputs": [
+        [
+          "CUMULATIVE_CASH_BALANCE",
+          "KES[]"
+        ]
+      ],
+      "output": [
+        "FUNDING_REQUIREMENT",
+        "KES"
+      ],
+      "dependsOn": [
+        "SCHEDULE.CASHFLOW"
+      ],
+      "effectiveFrom": "2026-11-14",
+      "provenance": "Wajenzi cashflow model; chronological project inflows and outflows",
+      "validation": [
+        "Funding requirement is peak cash deficit, not total forecast cost.",
+        "Opening cash and all inflows must be explicit."
       ]
     },
     {
       "key": "RISK.MONTE_CARLO",
-      "version": "1.1.0",
+      "version": "1.1.1",
       "domain": "scenario",
       "expression": "Seeded simulation of cost drivers and residual risk events; report empirical P50/P80/P90",
       "inputs": [
@@ -1036,10 +1220,6 @@
       "COST.DIRECT"
     ],
     [
-      "SCHEDULE.CASHFLOW",
-      "COST.FINANCE"
-    ],
-    [
       "COST.DIRECT",
       "CONTINGENCY.RESIDUAL"
     ],
@@ -1077,19 +1257,19 @@
     ],
     [
       "PROJECT.FORECAST",
-      "COMMERCIAL.MARKUP"
+      "PROJECT.UNIT_COST"
     ],
     [
       "PROJECT.FORECAST",
-      "COMMERCIAL.GROSS_MARGIN"
+      "COMMERCIAL.CUSTOMER_PRICE_BASE"
     ],
     [
-      "COMMERCIAL.MARKUP",
+      "COMMERCIAL.CUSTOMER_PRICE_BASE",
       "TAX.CUSTOMER_OUTPUT"
     ],
     [
-      "COMMERCIAL.GROSS_MARGIN",
-      "TAX.CUSTOMER_OUTPUT"
+      "SCHEDULE.CASHFLOW",
+      "FUNDING.PEAK_GAP"
     ],
     [
       "PROJECT.FORECAST",
@@ -1109,5 +1289,12 @@
     "Customer margin, service fees and output tax are excluded from forecast delivery cost.",
     "Funding requirement is peak cumulative cash deficit, not total forecast cost.",
     "Approved calculation runs are immutable; corrections create a new run."
-  ]
+  ],
+  "unitTemplates": {
+    "unit-specific": "Inherits the dimension and unit code of the associated measurement/resource; never treated as a universal unit.",
+    "KES/unit": "Currency per the exact resource unit, e.g. KES_per_m3, KES_per_kg, KES_per_bag_50kg or KES_per_item.",
+    "unit/worker_hr": "Resource output per worker-hour; dimension is resolved from the resource unit divided by worker_hr.",
+    "KES[]": "An ordered vector of Kenyan-shilling amounts; each element is KES.",
+    "enum|boolean|integer|date[]|distribution[]|risk[]|tax-line[]": "Typed non-dimensional input; not eligible for physical unit conversion."
+  }
 }
