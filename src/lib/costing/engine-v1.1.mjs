@@ -80,7 +80,7 @@ export function calculateLandedPrice({
   escalationRatePerPeriod = 0,
   escalationPeriodMonths = 1,
   priceLocked = false,
-  isPriceExposed = true
+  isPriceExposed = !priceLocked
 }) {
   if (!supplierQuote || typeof supplierQuote !== "object") throw new Error("supplier quote is required");
   nonNegative("supplier quote amount", supplierQuote.amount);
@@ -99,8 +99,8 @@ export function calculateLandedPrice({
   const factor = locationIndex
     ? calculateLocationFactor({ priceBasis: supplierQuote.priceBasis, ...locationIndex })
     : calculateLocationFactor({ priceBasis: supplierQuote.priceBasis ?? "local_quote" });
-  const quoteAmountAfterDiscount = supplierQuote.amount * factor - discount;
-  if (quoteAmountAfterDiscount < 0) throw new Error("discount exceeds supplier quote");
+  if (discount > supplierQuote.amount) throw new Error("discount exceeds supplier quote");
+  const quoteAmountAfterDiscount = (supplierQuote.amount - discount) * factor;
   const supplier = normalizeTaxAmount({
     amount: quoteAmountAfterDiscount,
     rate: supplierQuote.taxRate ?? 0,
@@ -260,18 +260,25 @@ export function calculateCustomerCommercialPrice({
     ? forecastDeliveryCost * (1 + pricingRate)
     : forecastDeliveryCost / (1 - pricingRate);
   const commercialAmount = preServicePrice + serviceFees;
+  if (!["exclusive", "inclusive", "exempt", "zero_rated"].includes(customerTaxStatus)) {
+    throw new Error("unknown customer tax status blocks a firm quote");
+  }
   const tax = normalizeTaxAmount({
     amount: commercialAmount, rate: customerTaxRate,
-    taxStatus: customerTaxStatus, inputVatRecoverable: false
+    taxStatus: "exclusive", inputVatRecoverable: false
   });
+  const grossPayable = tax.grossAmount;
   return {
     forecastDeliveryCost: roundMoney(forecastDeliveryCost),
     pricingMode,
     commercialMargin: roundMoney(preServicePrice - forecastDeliveryCost),
     serviceFees: roundMoney(serviceFees),
-    customerTaxableBase: tax.netAmount,
-    customerOutputTax: tax.taxAmount,
-    customerCommercialPrice: tax.grossAmount
+    customerTaxPresentation: customerTaxStatus,
+    customerTaxableBase: roundMoney(commercialAmount),
+    customerOutputTax: customerTaxStatus === "exempt" || customerTaxStatus === "zero_rated" ? 0 : tax.taxAmount,
+    customerDisplayedPrice: customerTaxStatus === "inclusive" ? grossPayable : roundMoney(commercialAmount),
+    customerGrossPayable: customerTaxStatus === "exempt" || customerTaxStatus === "zero_rated" ? roundMoney(commercialAmount) : grossPayable,
+    customerCommercialPrice: customerTaxStatus === "inclusive" ? grossPayable : roundMoney(commercialAmount)
   };
 }
 export function calculateFundingRequirement({ cashflows = [], openingCash = 0 }) {
@@ -407,6 +414,27 @@ export function executeDependencyGraph({ nodes, initialValues = {}, existingValu
     executed.push(id);
   }
   return { values, executed, order };
+}
+export function calculateSensitivityScenarios({ nodes, baselineValues, scenarios, resultNodeId }) {
+  const baseline = baselineValues[resultNodeId];
+  if (!Number.isFinite(baseline)) throw new Error("baseline result is missing or non-numeric");
+  return scenarios.map(scenario => {
+    const result = executeDependencyGraph({
+      nodes, initialValues: scenario.changedValues ?? {},
+      existingValues: baselineValues, changedIds: scenario.changedIds ?? []
+    });
+    const value = result.values[resultNodeId];
+    if (!Number.isFinite(value)) throw new Error("scenario result is missing or non-numeric: " + scenario.id);
+    return {
+      scenarioId: scenario.id,
+      label: scenario.label ?? scenario.id,
+      baselineValue: roundMoney(baseline),
+      scenarioValue: roundMoney(value),
+      delta: roundMoney(value - baseline),
+      deltaPercent: baseline === 0 ? null : roundMoney((value - baseline) / baseline * 100),
+      recalculatedNodes: result.executed
+    };
+  });
 }
 export function validateFormulaRegistry(registry) {
   const keys = new Set(), outputSymbols = new Set();
