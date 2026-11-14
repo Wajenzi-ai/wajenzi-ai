@@ -158,14 +158,14 @@ test("cashflow periods are ordered and funding is the peak cumulative deficit", 
 
 test("dependency graph is ordered, selective and cycle-safe", () => {
   const nodes = [
-    { id: "material", dependsOn: [], compute: () => 10 },
-    { id: "labour", dependsOn: [], compute: () => 5 },
+    { id: "material", kind: "input", dependsOn: [] },
+    { id: "labour", kind: "input", dependsOn: [] },
     { id: "direct", dependsOn: ["material", "labour"], compute: d => d.material + d.labour },
     { id: "forecast", dependsOn: ["direct"], compute: d => d.direct + 20 }
   ];
   assert.deepEqual(topologicalSort(nodes), ["material", "labour", "direct", "forecast"]);
   assert.deepEqual(affectedDependencyClosure(nodes, ["material"]), ["material", "direct", "forecast"]);
-  const full = executeDependencyGraph({ nodes });
+  const full = executeDependencyGraph({ nodes, initialValues: { material: 10, labour: 5 } });
   assert.equal(full.values.forecast, 35);
   const selective = executeDependencyGraph({
     nodes, initialValues: { material: 10 }, existingValues: { labour: 5, direct: 15, forecast: 35 },
