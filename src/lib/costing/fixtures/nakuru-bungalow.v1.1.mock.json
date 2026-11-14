@@ -1,0 +1,303 @@
+{
+  "dataStatus": "mock",
+  "project": {
+    "code": "WJ-PROJ-000078",
+    "name": "Illustrative 3-bedroom bungalow",
+    "location": "Nakuru, Kenya",
+    "floorAreaM2": 120,
+    "constructionMonths": 8
+  },
+  "currency": "KES",
+  "floorAreaM2": 120,
+  "systems": [
+    {
+      "code": "PRELIM",
+      "name": "Preliminaries",
+      "cost": 450000
+    },
+    {
+      "code": "SUB",
+      "name": "Substructure",
+      "cost": 1350000
+    },
+    {
+      "code": "STR",
+      "name": "Structural frame",
+      "cost": 1250000
+    },
+    {
+      "code": "WALL",
+      "name": "Walls and partitions",
+      "cost": 780000
+    },
+    {
+      "code": "ROOF",
+      "name": "Roofing",
+      "cost": 950000
+    },
+    {
+      "code": "OPEN",
+      "name": "Doors and windows",
+      "cost": 650000
+    },
+    {
+      "code": "ELEC",
+      "name": "Electrical",
+      "cost": 550000
+    },
+    {
+      "code": "PLUMB",
+      "name": "Plumbing and drainage",
+      "cost": 600000
+    },
+    {
+      "code": "FIN",
+      "name": "Finishes",
+      "cost": 1455000
+    },
+    {
+      "code": "EXT",
+      "name": "External works",
+      "cost": 550000
+    }
+  ],
+  "quantities": [
+    {
+      "code": "EXCAVATION",
+      "quantity": 85,
+      "unit": "m3"
+    },
+    {
+      "code": "CONCRETE",
+      "quantity": 48,
+      "unit": "m3"
+    },
+    {
+      "code": "REINFORCEMENT",
+      "quantity": 5800,
+      "unit": "kg"
+    },
+    {
+      "code": "WALLING",
+      "quantity": 235,
+      "unit": "m2"
+    },
+    {
+      "code": "ROOFING",
+      "quantity": 165,
+      "unit": "m2"
+    },
+    {
+      "code": "FLOOR_FINISH",
+      "quantity": 120,
+      "unit": "m2"
+    },
+    {
+      "code": "CEILING",
+      "quantity": 120,
+      "unit": "m2"
+    },
+    {
+      "code": "ELECTRICAL_POINTS",
+      "quantity": 65,
+      "unit": "points"
+    },
+    {
+      "code": "PLUMBING_POINTS",
+      "quantity": 22,
+      "unit": "points"
+    },
+    {
+      "code": "DOORS",
+      "quantity": 12,
+      "unit": "units"
+    },
+    {
+      "code": "WINDOWS",
+      "quantity": 14,
+      "unit": "units"
+    }
+  ],
+  "cementExample": {
+    "baseQuantity": 500,
+    "wastageRate": 0.03,
+    "supplierPrice": 750,
+    "transport": 35,
+    "handling": 10,
+    "discount": 5,
+    "escalationRate": 0.02,
+    "periods": 2
+  },
+  "wallingLabourExample": {
+    "quantity": 235,
+    "productivityPerWorkerHour": 0.8,
+    "crewSize": 2,
+    "dailyWage": 1500,
+    "paidHoursPerDay": 8
+  },
+  "indirectCosts": [
+    {
+      "code": "PROJECT_ADMIN",
+      "amount": 420000
+    },
+    {
+      "code": "PROFESSIONAL_FEES",
+      "amount": 700000
+    },
+    {
+      "code": "APPROVALS",
+      "amount": 180000
+    }
+  ],
+  "finance": {
+    "monthlyBalances": [
+      {
+        "month": 1,
+        "outstandingBalance": 500000,
+        "monthlyRate": 0.012
+      },
+      {
+        "month": 2,
+        "outstandingBalance": 1000000,
+        "monthlyRate": 0.012
+      },
+      {
+        "month": 3,
+        "outstandingBalance": 1500000,
+        "monthlyRate": 0.012
+      },
+      {
+        "month": 4,
+        "outstandingBalance": 2000000,
+        "monthlyRate": 0.012
+      },
+      {
+        "month": 5,
+        "outstandingBalance": 2500000,
+        "monthlyRate": 0.012
+      },
+      {
+        "month": 6,
+        "outstandingBalance": 3000000,
+        "monthlyRate": 0.012
+      },
+      {
+        "month": 7,
+        "outstandingBalance": 2500000,
+        "monthlyRate": 0.012
+      },
+      {
+        "month": 8,
+        "outstandingBalance": 1500000,
+        "monthlyRate": 0.012
+      }
+    ],
+    "arrangementFees": 50000,
+    "otherFees": 26000
+  },
+  "risks": [
+    {
+      "code": "CEMENT",
+      "probability": 0.3,
+      "impact": 150000
+    },
+    {
+      "code": "STEEL",
+      "probability": 0.25,
+      "impact": 300000
+    },
+    {
+      "code": "WEATHER",
+      "probability": 0.2,
+      "impact": 200000
+    },
+    {
+      "code": "GROUND",
+      "probability": 0.1,
+      "impact": 300000
+    },
+    {
+      "code": "TRANSPORT",
+      "probability": 0.2,
+      "impact": 100000
+    }
+  ],
+  "contingencyRate": 0.05,
+  "taxableBase": 0,
+  "taxRate": 0,
+  "taxStatus": "exclusive",
+  "cashflows": [
+    {
+      "period": "M1",
+      "plannedOutflow": 700000,
+      "plannedInflow": 0
+    },
+    {
+      "period": "M2",
+      "plannedOutflow": 1200000,
+      "plannedInflow": 0
+    },
+    {
+      "period": "M3",
+      "plannedOutflow": 1800000,
+      "plannedInflow": 0
+    },
+    {
+      "period": "M4",
+      "plannedOutflow": 2100000,
+      "plannedInflow": 0
+    },
+    {
+      "period": "M5",
+      "plannedOutflow": 1800000,
+      "plannedInflow": 0
+    },
+    {
+      "period": "M6",
+      "plannedOutflow": 1400000,
+      "plannedInflow": 0
+    },
+    {
+      "period": "M7",
+      "plannedOutflow": 1000000,
+      "plannedInflow": 0
+    },
+    {
+      "period": "M8",
+      "plannedOutflow": 839250,
+      "plannedInflow": 0
+    }
+  ],
+  "openingCash": 0,
+  "expected": {
+    "directConstruction": 8585000,
+    "indirect": 1300000,
+    "financing": 250000,
+    "expectedRisk": 210000,
+    "contingencyBase": 9885000,
+    "contingency": 494250,
+    "preTaxForecastDeliveryCost": 10839250,
+    "costPerM2": 90327.08,
+    "monteCarlo": {
+      "iterations": 10000,
+      "seed": 20261113,
+      "p50": 11141642.31,
+      "p80": 11559696.07,
+      "p90": 11770953.55,
+      "minimum": 10184723.62,
+      "maximum": 12654343.18,
+      "assumptions": [
+        "Independent triangular cost multipliers",
+        "Bernoulli risk-event sampling",
+        "No cross-variable correlation in v1"
+      ]
+    },
+    "fundingRequirement": 10839250,
+    "taxNote": "Zero tax lines are used only to reconcile the pre-tax mock baseline; this is not a tax exemption determination."
+  },
+  "schemaVersion": "1.1.0",
+  "contingencyEligibleCostBase": 9885000,
+  "inputTaxLines": [],
+  "otherProjectTaxes": [],
+  "landExcluded": true
+}
