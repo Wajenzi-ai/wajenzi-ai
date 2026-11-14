@@ -7,8 +7,9 @@ import {
   calculateLabourLine, normalizeTaxAmount, calculateLogisticsCost,
   calculatePriceExposure, calculateProjectViews, calculateCustomerCommercialPrice,
   calculateFundingRequirement, calculateExpectedRisk, calculateContingency,
-  calculateLocationFactor, topologicalSort, affectedDependencyClosure,
-  executeDependencyGraph, validateFormulaRegistry, createCalculationSnapshot,
+  calculateLocationFactor, calculateEquipmentCost, convertQuantity,
+  topologicalSort, affectedDependencyClosure, executeDependencyGraph,
+  calculateSensitivityScenarios, validateFormulaRegistry, createCalculationSnapshot,
   runMonteCarlo
 } from "./engine-v1.1.mjs";
 
@@ -168,7 +169,7 @@ test("dependency graph is ordered, selective and cycle-safe", () => {
   const full = executeDependencyGraph({ nodes, initialValues: { material: 10, labour: 5 } });
   assert.equal(full.values.forecast, 35);
   const selective = executeDependencyGraph({
-    nodes, initialValues: { material: 10 }, existingValues: { labour: 5, direct: 15, forecast: 35 },
+    nodes, initialValues: { material: 10 }, existingValues: { material: 1, labour: 5, direct: 15, forecast: 35 },
     changedIds: ["material"]
   });
   assert.deepEqual(selective.executed, ["direct", "forecast"]);
@@ -178,6 +179,7 @@ test("dependency graph is ordered, selective and cycle-safe", () => {
   assert.throws(() => topologicalSort([
     { id: "a", dependsOn: ["missing"] }
   ]), /missing dependency/);
+  assert.throws(() => affectedDependencyClosure(nodes, ["not-a-node"]), /unknown changed dependency/);
 });
 
 test("formula registry dependencies validate without cycles or duplicate keys", () => {
@@ -208,4 +210,101 @@ test("seeded P50/P80/P90 outputs are reproducible and ordered", () => {
   assert.deepEqual(a, b);
   assert.ok(a.p50 <= a.p80 && a.p80 <= a.p90);
   assert.ok(a.minimum <= a.p50 && a.p90 <= a.maximum);
+  assert.equal(a.p50, fixture.expected.monteCarlo.p50);
+  assert.equal(a.p80, fixture.expected.monteCarlo.p80);
+  assert.equal(a.p90, fixture.expected.monteCarlo.p90);
+});
+
+
+test("inclusive supplier discount is applied before VAT decomposition", () => {
+  const landed = calculateLandedPrice({
+    supplierQuote: {
+      amount: 116000, taxStatus: "inclusive", taxRate: 0.16,
+      inputVatRecoverable: false, priceBasis: "local_quote"
+    },
+    discount: 1160,
+    deliveryBasis: "ex_works"
+  });
+  assert.equal(landed.landedNetUnitPrice, 99000);
+  assert.equal(landed.nonRecoverableInputVatPerUnit, 15840);
+});
+
+test("supplier quote delivery basis is authoritative and conflicting overrides fail", () => {
+  assert.throws(() => calculateLandedPrice({
+    supplierQuote: { amount: 1000, taxStatus: "exclusive", deliveryBasis: "delivered_to_site" },
+    additionalCharges: [{ kind: "transport", amount: 100, taxStatus: "exclusive" }]
+  }), /already included/);
+  assert.throws(() => calculateLandedPrice({
+    supplierQuote: { amount: 1000, taxStatus: "exclusive", deliveryBasis: "delivered_to_site" },
+    deliveryBasis: "ex_works"
+  }), /conflicts with supplier quote/);
+});
+
+test("fuel cannot be charged twice when included in equipment hire rate", () => {
+  assert.throws(() => calculateEquipmentCost({
+    operatingHours: 10, hourlyRate: 1500, fuel: 5000, hourlyRateIncludesFuel: true
+  }), /already included/);
+});
+
+test("committed quantity cannot exceed requirement without explicit reclassification", () => {
+  assert.throws(() => calculatePriceExposure({
+    requiredQuantity: 10, committedQuantity: 11,
+    fixedContractUnitPrice: 700, marketUnitPrice: 800
+  }), /exceeds required quantity/);
+  const exposedCommitment = calculatePriceExposure({
+    requiredQuantity: 10, committedQuantity: 5, marketUnitPrice: 900,
+    committedPriceExposed: true
+  });
+  assert.equal(exposedCommitment.committedCost, 4500);
+  assert.equal(exposedCommitment.exposedCost, 4500);
+});
+
+test("customer tax-inclusive presentation adds tax to pre-tax commercial target", () => {
+  const result = calculateCustomerCommercialPrice({
+    forecastDeliveryCost: 1000000, pricingMode: "markup", rate: 0.1,
+    serviceFees: 0, customerTaxRate: 0.16, customerTaxStatus: "inclusive"
+  });
+  assert.equal(result.customerTaxableBase, 1100000);
+  assert.equal(result.customerOutputTax, 176000);
+  assert.equal(result.customerDisplayedPrice, 1276000);
+  assert.equal(result.customerGrossPayable, 1276000);
+});
+
+test("unit conversion checks dimensions and compatible base units", () => {
+  const units = {
+    kg: { dimension: { mass: 1 }, base: "kg", factor: 1 },
+    t: { dimension: { mass: 1 }, base: "kg", factor: 1000 },
+    hr: { dimension: { time: 1 }, base: "hr", factor: 1 },
+    month: { dimension: { calendar: 1 }, base: "month", factor: 1 }
+  };
+  assert.equal(convertQuantity(2, "t", "kg", units), 2000);
+  assert.throws(() => convertQuantity(1, "t", "hr", units), /dimensional mismatch/);
+  assert.throws(() => convertQuantity(1, "month", "hr", units), /dimensional mismatch/);
+});
+
+test("formula registry rejects duplicate producers and version drift", () => {
+  const duplicate = structuredClone(registry);
+  duplicate.formulas[1].output = duplicate.formulas[0].output;
+  assert.throws(() => validateFormulaRegistry(duplicate), /duplicate.*output symbol/);
+  const drift = structuredClone(registry);
+  drift.formulas[0].version = "1.0.0";
+  assert.throws(() => validateFormulaRegistry(drift), /version mismatch/);
+});
+
+test("sensitivity analysis recalculates only downstream formula nodes", () => {
+  const nodes = [
+    { id: "cementPrice", dependsOn: [] },
+    { id: "steelPrice", dependsOn: [] },
+    { id: "materials", dependsOn: ["cementPrice", "steelPrice"], compute: d => d.cementPrice + d.steelPrice },
+    { id: "forecast", dependsOn: ["materials"], compute: d => d.materials + 100 }
+  ];
+  const baselineValues = { cementPrice: 50, steelPrice: 30, materials: 80, forecast: 180 };
+  const result = calculateSensitivityScenarios({
+    nodes, baselineValues, resultNodeId: "forecast",
+    scenarios: [{ id: "cement_up_10", label: "Cement +10%", changedIds: ["cementPrice"], changedValues: { cementPrice: 55 } }]
+  });
+  assert.deepEqual(result[0].recalculatedNodes, ["materials", "forecast"]);
+  assert.equal(result[0].scenarioValue, 185);
+  assert.equal(result[0].delta, 5);
+  assert.equal(result[0].deltaPercent, 2.78);
 });
