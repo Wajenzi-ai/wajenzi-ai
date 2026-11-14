@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
 
-export const ENGINE_VERSION = "1.1.0";
-export const FORMULA_REGISTRY_VERSION = "WJ-COST-FORMULAS-1.1.0";
+export const ENGINE_VERSION = "1.1.1";
+export const FORMULA_REGISTRY_VERSION = "WJ-COST-FORMULAS-1.1.1";
 const TAX_STATUSES = new Set(["exclusive", "inclusive", "exempt", "zero_rated"]);
 
 function finite(name, value) {
@@ -74,7 +74,7 @@ export function calculateLandedPrice({
   supplierQuote,
   additionalCharges = [],
   discount = 0,
-  deliveryBasis = "ex_works",
+  deliveryBasis = null,
   locationIndex = null,
   monthsToNeed = 0,
   escalationRatePerPeriod = 0,
@@ -86,6 +86,11 @@ export function calculateLandedPrice({
   nonNegative("supplier quote amount", supplierQuote.amount);
   nonNegative("discount", discount);
   nonNegative("months to need", monthsToNeed);
+  const quotedDeliveryBasis = supplierQuote.deliveryBasis ?? null;
+  const effectiveDeliveryBasis = deliveryBasis ?? quotedDeliveryBasis ?? "ex_works";
+  if (quotedDeliveryBasis && deliveryBasis && quotedDeliveryBasis !== deliveryBasis) {
+    throw new Error("delivery basis conflicts with supplier quote evidence");
+  }
   nonNegative("escalation period months", escalationPeriodMonths);
   if (escalationPeriodMonths === 0) throw new Error("escalation period must be positive");
   finite("escalation rate", escalationRatePerPeriod);
@@ -94,21 +99,23 @@ export function calculateLandedPrice({
   const factor = locationIndex
     ? calculateLocationFactor({ priceBasis: supplierQuote.priceBasis, ...locationIndex })
     : calculateLocationFactor({ priceBasis: supplierQuote.priceBasis ?? "local_quote" });
+  const quoteAmountAfterDiscount = supplierQuote.amount * factor - discount;
+  if (quoteAmountAfterDiscount < 0) throw new Error("discount exceeds supplier quote");
   const supplier = normalizeTaxAmount({
-    amount: supplierQuote.amount * factor,
+    amount: quoteAmountAfterDiscount,
     rate: supplierQuote.taxRate ?? 0,
     taxStatus: supplierQuote.taxStatus,
     inputVatRecoverable: supplierQuote.inputVatRecoverable ?? false
   });
-  if (!["ex_works", "delivered_to_depot", "delivered_to_site"].includes(deliveryBasis)) {
+  if (!["ex_works", "delivered_to_depot", "delivered_to_site"].includes(effectiveDeliveryBasis)) {
     throw new Error("invalid delivery basis");
   }
   let netCharges = 0, nonRecoverableTax = supplier.nonRecoverableInputVat;
   let recoverableTax = supplier.recoverableInputVat;
   for (const charge of additionalCharges) {
     nonNegative("charge amount", charge.amount);
-    if (deliveryBasis === "delivered_to_site" && charge.kind === "transport") {
-      throw new Error("site transport is already included in delivered-to-site quote");
+    if ((effectiveDeliveryBasis === "delivered_to_site" || supplierQuote.transportIncluded === true) && charge.kind === "transport") {
+      throw new Error("site transport is already included in supplier quote");
     }
     const normalized = normalizeTaxAmount({
       amount: charge.amount,
@@ -120,7 +127,7 @@ export function calculateLandedPrice({
     nonRecoverableTax += normalized.nonRecoverableInputVat;
     recoverableTax += normalized.recoverableInputVat;
   }
-  const landedNet = supplier.netAmount + netCharges - discount;
+  const landedNet = supplier.netAmount + netCharges;
   if (landedNet < 0) throw new Error("discount exceeds landed net cost");
   const periods = monthsToNeed / escalationPeriodMonths;
   const escalationFactor = isPriceExposed && !priceLocked
@@ -136,28 +143,34 @@ export function calculateLandedPrice({
     escalationFactor,
     futureNetUnitPrice: landedNet * escalationFactor,
     futureNonRecoverableInputVatPerUnit: nonRecoverableTax * escalationFactor,
-    deliveryBasis,
+    futureRecoverableInputVatPerUnit: recoverableTax * escalationFactor,
+    deliveryBasis: effectiveDeliveryBasis,
     priceLocked
   };
 }
 export function calculatePriceExposure({
-  requiredQuantity, committedQuantity = 0, fixedContractUnitPrice = null, marketUnitPrice
+  requiredQuantity, committedQuantity = 0, fixedContractUnitPrice = null,
+  marketUnitPrice, committedPriceExposed = false
 }) {
   nonNegative("required quantity", requiredQuantity);
   nonNegative("committed quantity", committedQuantity);
   nonNegative("market unit price", marketUnitPrice);
-  const lockedQuantity = Math.min(requiredQuantity, committedQuantity);
-  if (lockedQuantity > 0 && fixedContractUnitPrice === null) {
-    throw new Error("committed quantity requires a contractual unit price");
+  if (committedQuantity > requiredQuantity) throw new Error("committed quantity exceeds required quantity");
+  if (committedQuantity > 0 && fixedContractUnitPrice === null && !committedPriceExposed) {
+    throw new Error("fixed committed quantity requires a contractual unit price");
   }
   if (fixedContractUnitPrice !== null) nonNegative("contract unit price", fixedContractUnitPrice);
-  const exposedQuantity = Math.max(0, requiredQuantity - lockedQuantity);
+  const lockedQuantity = committedQuantity;
+  const exposedQuantity = requiredQuantity - lockedQuantity;
+  const committedRate = committedPriceExposed ? marketUnitPrice : (fixedContractUnitPrice ?? 0);
   return {
     committedQuantity: lockedQuantity,
     exposedQuantity,
-    committedCost: roundMoney(lockedQuantity * (fixedContractUnitPrice ?? 0)),
+    committedUnitPrice: committedRate,
+    committedPriceExposed,
+    committedCost: roundMoney(lockedQuantity * committedRate),
     exposedCost: roundMoney(exposedQuantity * marketUnitPrice),
-    totalCost: roundMoney(lockedQuantity * (fixedContractUnitPrice ?? 0) + exposedQuantity * marketUnitPrice)
+    totalCost: roundMoney(lockedQuantity * committedRate + exposedQuantity * marketUnitPrice)
   };
 }
 export function calculateMaterialLine({
@@ -172,7 +185,7 @@ export function calculateMaterialLine({
     ...q,
     netMaterialCost: roundMoney(q.procurementQuantity * landedPrice.futureNetUnitPrice),
     nonRecoverableInputTax: roundMoney(q.procurementQuantity * landedPrice.futureNonRecoverableInputVatPerUnit),
-    recoverableInputVat: roundMoney(q.procurementQuantity * landedPrice.recoverableInputVatPerUnit),
+    recoverableInputVat: roundMoney(q.procurementQuantity * (landedPrice.futureRecoverableInputVatPerUnit ?? landedPrice.recoverableInputVatPerUnit)),
     currency: "KES"
   };
 }
@@ -194,8 +207,9 @@ export function calculateLabourLine({
     cost: roundMoney(workerHours * dailyWage / paidHoursPerDay)
   };
 }
-export function calculateEquipmentCost({ operatingHours, hourlyRate, mobilization = 0, fuel = 0 }) {
+export function calculateEquipmentCost({ operatingHours, hourlyRate, mobilization = 0, fuel = 0, hourlyRateIncludesFuel = false }) {
   for (const [name, value] of Object.entries({ operatingHours, hourlyRate, mobilization, fuel })) nonNegative(name, value);
+  if (hourlyRateIncludesFuel && fuel > 0) throw new Error("fuel is already included in equipment hourly rate");
   return roundMoney(operatingHours * hourlyRate + mobilization + fuel);
 }
 export function calculateLogisticsCost({
@@ -280,6 +294,10 @@ export function calculateFundingRequirement({ cashflows = [], openingCash = 0 })
   return { peakFundingGap: roundMoney(peakGap), closingCash: roundMoney(balance), periods };
 }
 export function calculateProjectViews(fixture) {
+  nonNegative("floor area", fixture.floorAreaM2);
+  if (fixture.floorAreaM2 === 0) throw new Error("floor area must be positive");
+  for (const row of fixture.systems) nonNegative("system cost " + row.code, row.cost);
+  for (const row of fixture.indirectCosts) nonNegative("indirect cost " + row.code, row.amount);
   const direct = roundMoney(fixture.systems.reduce((sum, row) => sum + row.cost, 0));
   const indirect = roundMoney(fixture.indirectCosts.reduce((sum, row) => sum + row.amount, 0));
   const finance = calculateFinanceCost(fixture.finance);
@@ -319,7 +337,9 @@ export function convertQuantity(quantity, fromUnit, toUnit, unitRegistry) {
   nonNegative("quantity", quantity);
   const from = unitRegistry[fromUnit], to = unitRegistry[toUnit];
   if (!from || !to) throw new Error("unknown unit");
-  const axes = ["length", "mass", "time", "currency", "count"];\n  if (axes.some(axis => (from.dimension?.[axis] ?? 0) !== (to.dimension?.[axis] ?? 0))) throw new Error("dimensional mismatch");
+  const axes = ["length", "mass", "time", "calendar", "currency", "count"];
+  if (axes.some(axis => (from.dimension?.[axis] ?? 0) !== (to.dimension?.[axis] ?? 0))) throw new Error("dimensional mismatch");
+  if (from.base !== to.base) throw new Error("units have incompatible base units");
   return quantity * from.factor / to.factor;
 }
 export function topologicalSort(nodes) {
@@ -339,8 +359,9 @@ export function topologicalSort(nodes) {
   }
   const queue = nodes.filter(node => indegree.get(node.id) === 0).map(node => node.id);
   const order = [];
-  while (queue.length) {
-    const id = queue.shift();
+  let queueIndex = 0;
+  while (queueIndex < queue.length) {
+    const id = queue[queueIndex++];
     order.push(id);
     for (const next of dependents.get(id)) {
       indegree.set(next, indegree.get(next) - 1);
@@ -351,6 +372,8 @@ export function topologicalSort(nodes) {
   return order;
 }
 export function affectedDependencyClosure(nodes, changedIds) {
+  const nodeIds = new Set(nodes.map(node => node.id));
+  for (const id of changedIds) if (!nodeIds.has(id)) throw new Error("unknown changed dependency node: " + id);
   const affected = new Set(changedIds);
   let changed = true;
   while (changed) {
@@ -368,22 +391,34 @@ export function affectedDependencyClosure(nodes, changedIds) {
 export function executeDependencyGraph({ nodes, initialValues = {}, existingValues = {}, changedIds = null }) {
   const order = topologicalSort(nodes);
   const selected = changedIds ? new Set(affectedDependencyClosure(nodes, changedIds)) : new Set(order);
-  const values = { ...initialValues, ...existingValues };
+  const values = { ...existingValues, ...initialValues };
   const executed = [];
+  const byId = new Map(nodes.map(node => [node.id, node]));
   for (const id of order) {
     if (!selected.has(id)) continue;
-    const node = nodes.find(item => item.id === id);
+    const node = byId.get(id);
     const dependencies = Object.fromEntries((node.dependsOn ?? []).map(dep => [dep, values[dep]]));
     if ((node.dependsOn ?? []).some(dep => values[dep] === undefined)) throw new Error("missing value for dependency of " + id);
+    if (typeof node.compute !== "function") {
+      if (values[id] === undefined) throw new Error("missing value for graph input " + id);
+      continue;
+    }
     values[id] = node.compute(dependencies, values);
     executed.push(id);
   }
   return { values, executed, order };
 }
 export function validateFormulaRegistry(registry) {
-  const keys = new Set();
+  const keys = new Set(), outputSymbols = new Set();
   for (const formula of registry.formulas) {
     if (keys.has(formula.key)) throw new Error("duplicate formula key: " + formula.key);
+    if (formula.version !== registry.version) throw new Error("formula version mismatch: " + formula.key);
+    if (!formula.effectiveFrom || !formula.provenance || !Array.isArray(formula.inputs) || !Array.isArray(formula.output)) {
+      throw new Error("formula metadata incomplete: " + formula.key);
+    }
+    const outputSymbol = formula.output[0];
+    if (!outputSymbol || outputSymbols.has(outputSymbol)) throw new Error("duplicate or missing formula output symbol: " + outputSymbol);
+    outputSymbols.add(outputSymbol);
     keys.add(formula.key);
   }
   const nodes = registry.formulas.map(formula => ({ id: formula.key, dependsOn: formula.dependsOn ?? [] }));
@@ -431,7 +466,12 @@ export function runMonteCarlo(base, { iterations = 10000, seed = 20261113 } = {}
     const direct = base.technicalConstructionEstimate * triangular(random, 0.95, 1, 1.15);
     const indirect = base.indirectAndProfessionalCosts * triangular(random, 0.98, 1, 1.08);
     const finance = base.financingCosts * triangular(random, 0.9, 1, 1.25);
-    const risk = (base.risks ?? []).reduce((sum, item) => sum + (random() < item.probability ? item.impact : 0), 0);
+    const risk = (base.risks ?? []).reduce((sum, item) => {
+      if (item.includedElsewhere) return sum;
+      const probability = item.residualProbability ?? item.probability;
+      const impact = item.residualImpact ?? item.impact;
+      return sum + (random() < probability ? impact : 0);
+    }, 0);
     const contingency = (direct + indirect) * (base.contingencyRate ?? 0);
     results.push(direct + indirect + finance + risk + contingency + (base.nonRecoverableInputTax ?? 0));
   }
