@@ -36,12 +36,12 @@ export function normalizeTaxAmount({ amount, rate: taxRate = 0, taxStatus, input
   const recoverableTax = inputVatRecoverable ? taxAmount : 0;
   const nonRecoverableTax = inputVatRecoverable ? 0 : taxAmount;
   return {
-    netAmount: roundMoney(netAmount),
-    taxAmount: roundMoney(taxAmount),
-    grossAmount: roundMoney(grossAmount),
-    recoverableInputVat: roundMoney(recoverableTax),
-    nonRecoverableInputVat: roundMoney(nonRecoverableTax),
-    costBasis: roundMoney(inputVatRecoverable ? netAmount : grossAmount)
+    netAmount,
+    taxAmount,
+    grossAmount,
+    recoverableInputVat: recoverableTax,
+    nonRecoverableInputVat: nonRecoverableTax,
+    costBasis: inputVatRecoverable ? netAmount : grossAmount
   };
 }
 export function calculateProcurementQuantity({
@@ -130,12 +130,12 @@ export function calculateLandedPrice({
     supplierNetUnitPrice: supplier.netAmount,
     supplierTaxPerUnit: supplier.taxAmount,
     locationFactor: factor,
-    landedNetUnitPrice: roundMoney(landedNet),
-    nonRecoverableInputVatPerUnit: roundMoney(nonRecoverableTax),
-    recoverableInputVatPerUnit: roundMoney(recoverableTax),
+    landedNetUnitPrice: landedNet,
+    nonRecoverableInputVatPerUnit: nonRecoverableTax,
+    recoverableInputVatPerUnit: recoverableTax,
     escalationFactor,
-    futureNetUnitPrice: roundMoney(landedNet * escalationFactor),
-    futureNonRecoverableInputVatPerUnit: roundMoney(nonRecoverableTax * escalationFactor),
+    futureNetUnitPrice: landedNet * escalationFactor,
+    futureNonRecoverableInputVatPerUnit: nonRecoverableTax * escalationFactor,
     deliveryBasis,
     priceLocked
   };
@@ -319,7 +319,7 @@ export function convertQuantity(quantity, fromUnit, toUnit, unitRegistry) {
   nonNegative("quantity", quantity);
   const from = unitRegistry[fromUnit], to = unitRegistry[toUnit];
   if (!from || !to) throw new Error("unknown unit");
-  if (JSON.stringify(from.dimension) !== JSON.stringify(to.dimension)) throw new Error("dimensional mismatch");
+  const axes = ["length", "mass", "time", "currency", "count"];\n  if (axes.some(axis => (from.dimension?.[axis] ?? 0) !== (to.dimension?.[axis] ?? 0))) throw new Error("dimensional mismatch");
   return quantity * from.factor / to.factor;
 }
 export function topologicalSort(nodes) {
